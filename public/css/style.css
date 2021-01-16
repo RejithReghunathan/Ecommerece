@@ -4185,7 +4185,7 @@ label {
     padding: 17px 0;
 }
 
-.product-qty {
+.hello {
     border: 1px solid #ccc;
     cursor: pointer;
     display: inline-block;
@@ -4193,15 +4193,23 @@ label {
     position: relative;
     width: 100px;
 }
+.hello {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    position: relative;
+    width: 30px;
+}
 
-.product-qty input {
+.hello input {
     border: medium none;
     height: 100%;
     padding: 0 20px;
     width: 100%;
 }
 
-.product-qty span {
+.hello span {
     height: 20px;
     line-height: 20px;
     position: absolute;
@@ -4209,14 +4217,14 @@ label {
     width: 20px;
 }
 
-.product-qty span.dec {
+.hello span.dec {
     border-left: 1px solid #ccc;
     bottom: 0;
     padding-top: 2px;
     right: 0;
 }
 
-.product-qty span.inc {
+.hello span.inc {
     border-bottom: 1px solid #ccc;
     border-left: 1px solid #ccc;
     right: 0;

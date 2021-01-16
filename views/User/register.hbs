@@ -1,0 +1,144 @@
+<!-- breadcrumb area start -->
+<div class="breadcrumb-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Register</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb area end -->
+
+<!-- Start of Login Wrapper -->
+<div class="login-wrapper pb-70">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <main id="primary" class="site-main">
+                    <div class="user-login">
+                        <div style="display: none; !important" id="home">
+                            <p class="text-center d-flex justify-content-center pt-5">Account has been created
+                                succesfully!!!<a href="/">Home Page</a></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12">
+                                <div class="section-title text-center">
+                                    <h3>Create an Account</h3>
+                                </div>
+                            </div>
+                        </div> <!-- end of row -->
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-8 offset-xl-2">
+                                <div class="registration-form login-form">
+                                    <form action="/register" method="post" id="rform">
+                                        <div class="login-info mb-20">
+                                            <p class="text-center">Already have an account? <a href="/login">Log in
+                                                    instead!</p></a>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="f-name" class="col-12 col-sm-12 col-md-4 col-form-label">First
+                                                Name</label>
+                                            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                <input type="text" class="form-control" id="f-name" name="fname">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="l-name" class="col-12 col-sm-12 col-md-4 col-form-label">Last
+                                                Name</label>
+                                            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                <input type="text" class="form-control" id="l-name" name="lname">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="email" class="col-12 col-sm-12 col-md-4 col-form-label">Email
+                                                Address</label>
+                                            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                <input type="text" class="form-control" id="email" name="email">
+                                            </div>
+                                        </div>
+                                        <div style="display: none; !important" id="error">
+                                            <p class="text-center d-flex justify-content-center  text-danger pb-3">Email
+                                                Already Taken!!! Try another</p>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="newpassword"
+                                                class="col-12 col-sm-12 col-md-4 col-form-label">Password</label>
+                                            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                <input type="password" class="form-control" name="password"
+                                                    id="newpassword">
+                                                {{!-- <button class="pass-show-btn" type="button">Show</button> --}}
+                                            </div>
+                                        </div>
+
+                                        <div class="register-box d-flex justify-content-end mt-20">
+                                            <button type="submit" class="btn btn-secondary">Register</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- end of user-login -->
+                </main> <!-- end of #primary -->
+            </div>
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div>
+<!-- End of Login Wrapper -->
+
+<!-- scroll to top -->
+<div class="scroll-top not-visible">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script>
+    $('#rform').validate({
+        rules: {
+            fname: {
+                required: true,
+                minlength: 4
+            },
+            lname: {
+                required: true,
+                minlength: 1
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 8
+            }
+        },
+        submitHandler: function (rform) {
+            $.ajax({
+                url: rform.action,
+                type: rform.method,
+                data: $(rform).serialize(),
+                success: (response) => {
+                    if (response.User != true) {
+                        $('#error').show()
+                    }
+                    else {
+                        $('#home').show();
+                        $('#error').hide()
+                        $("#f-name").val('');
+                        $("#l-name").val('');
+                        $("#email").val('');
+                        $("#newpassword").val('');
+                        window.location.href="login"
+                        
+                    }
+                }
+            });
+        }
+    })
+</script>

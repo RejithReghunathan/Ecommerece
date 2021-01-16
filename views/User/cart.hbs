@@ -1,0 +1,168 @@
+<!-- breadcrumb area start -->
+
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<div class="breadcrumb-area">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb area end -->
+
+<!-- Start cart Wrapper -->
+<div class="shopping-cart-wrapper pb-70">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                <main id="primary" class="site-main">
+                    <div class="shopping-cart">
+                        {{#if cart}}
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="section-title">
+                                    <h3>Shopping Cart</h3>
+                                </div>
+
+                                <form action="#">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td>Image</td>
+                                                    <td>Product Name</td>
+                                                    <td>Quantity</td>
+                                                    <td>Remove</td>
+                                                    <td>Unit Price</td>
+                                                    <td>Total</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each cartPro}}
+                                                <tr>
+
+                                                    <td>
+                                                        <a href="product-details.html"><img
+                                                                src="../product-images/{{this.product._id}}.jpg"
+                                                                alt="Cart Product Image" title="Compete Track Tote"
+                                                                class="img-thumbnail"></a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="product-details.html">{{this.product.name}}</a>
+                                                        <span>Delivery Date: 2019-09-22</span>
+                                                        <span>Color: Brown</span>
+                                                        <span>Reward Points: 300</span>
+                                                    </td>
+
+                                                    <td>
+
+                                                        <div class="row d-flex justify-content-center">
+
+                                                            <button class="btn btn-danger mr-3  hello"
+                                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1,{{this.quantity}})">-</button>
+                                                            <span class="d-flex justify-content-center mt-2 mr-3"
+                                                                id="{{this.product._id}}">{{this.quantity}}</span>
+                                                            <button class="btn btn-success mr-3 hello"
+                                                                onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1,{{this.quantity}})">+</button>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group btn-block"> <button
+                                                                onclick="deleteProduct('{{this.product._id}}')"
+                                                                type="button" class="btn btn-danger pull-right"><i
+                                                                    class="fa fa-times-circle"></i></button>
+                                                    </td>
+                                                    <td><i class="fas fa-rupee-sign"></i>{{this.product.price}}</td>
+                                                    <td>$200.00</td>
+
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </form>
+                                <div class="cart-amount-wrapper">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-4 offset-md-8">
+                                            <table class="table table-bordered">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>Sub-Total:</strong></td>
+                                                        <td>$860.00</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Total:</strong></td>
+                                                        <td><span class="color-primary">$860.00</span></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="cart-button-wrapper d-flex justify-content-between mt-4">
+                                    <a href="/home" class="btn btn-secondary">Continue
+                                        Shopping</a>
+                                    <a href="/checkout" class="btn btn-secondary dark align-self-end">Checkout</a>
+                                </div>
+                                {{else}}
+                                <h2>Your Cart is Empty</h2>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div> <!-- end of shopping-cart -->
+                </main> <!-- end of #primary -->
+            </div>
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</div>
+
+<!-- End cart Wrapper -->
+
+<!-- scroll to top -->
+<div class="scroll-top not-visible">
+    <i class="fa fa-angle-up"></i>
+</div> <!-- /End Scroll to Top -->
+<script>
+    function changeQuantity(cartId, proId, count) {
+        let quantity = parseInt(document.getElementById(proId).innerHTML)
+        $.ajax({
+            url: '/change-product-quanity',
+            data: {
+                cart: cartId,
+                product: proId,
+                count: count,
+                quantity: quantity
+            },
+            method: 'post',
+            success: (response) => {
+                if (response.removeProduct) {
+                    alert("Product Removed from the cart")
+                    location.reload()
+                } else {
+                    document.getElementById(proId).innerHTML = quantity + count
+                }
+            }
+        })
+    }
+    function deleteProduct(proId) {
+        console.log("CLICKED")
+        $.ajax({
+            url: '/deleteCartProduct/' + proId,
+            method: 'get',
+            success:(response)=>{
+                
+            }
+        })
+    }
+</script>
