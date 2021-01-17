@@ -78,7 +78,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="input-group btn-block"> <button
-                                                                onclick="deleteProduct('{{this.product._id}}')"
+                                                                onclick="deleteProduct('{{this._id}}','{{this.product._id}}')"
                                                                 type="button" class="btn btn-danger pull-right"><i
                                                                     class="fa fa-times-circle"></i></button>
                                                     </td>
@@ -155,13 +155,20 @@
             }
         })
     }
-    function deleteProduct(proId) {
-        console.log("CLICKED")
+    function deleteProduct(cartId,proId) {
         $.ajax({
-            url: '/deleteCartProduct/' + proId,
-            method: 'get',
+            url: '/deleteCartProduct',
+            method: 'post',
+            data:{
+                cartId,proId
+            },
             success:(response)=>{
-                
+                if (response.removeProduct) {
+                    alert("Product Removed from the cart")
+                    location.reload()
+                } else {
+                    location.reload()
+                }
             }
         })
     }

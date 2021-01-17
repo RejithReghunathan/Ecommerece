@@ -70,5 +70,46 @@ module.exports = {
                 resolve()
             })
         })
+    },
+    getCategoryById:(catId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection('category').findOne({_id:objectId(catId)}).then((data)=>{
+                resolve(data)
+            })
+        })
+    },
+    UpdateCatById:(data,catId)=>{
+        return new Promise(async(resolve,reject)=>{
+           await db.get().collection('category').updateOne({_id:objectId(catId)},{
+                $set:{
+                    name:data.name
+                }
+            }).then((response)=>{
+                resolve()
+            })
+        })
+    },
+    deleteProdById:(prodId)=>{
+        return new Promise(async(resolve,reject)=>{
+            await db.get().collection('product').removeOne({_id:objectId(prodId)}).then(()=>{
+                resolve()
+            })
+        })
+    },
+    updateProdById:(data,proId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection('product').updateOne({_id:objectId(proId)},
+                {$set:{
+                    name:data.name,
+                    brand:data.brand,
+                    description:data.description,
+                    price:data.price,
+                    quanity:data.quanity,
+                    category:data.category
+                }}).then((response)=>{
+                    resolve(response)
+                })
+        })
     }
+
 }

@@ -8,6 +8,7 @@ module.exports = {
       let response = {};
       userData.password = await bcrypt.hash(userData.password, 10);
       userData.role = 1;
+      userData.action=true;
       db.get()
         .collection("user")
         .insertOne(userData)
@@ -176,11 +177,11 @@ module.exports = {
     }
     })
   },
-  deleteCartProduct:(userId,prodId)=>{
+  deleteCartProduct:(cartId,prodId)=>{
    return new Promise((resolve,reject)=>{
-    db.get().collection('cart').updateOne({_id:objectId(cart)},
+    db.get().collection('cart').updateOne({_id:objectId(cartId)},
     {
-      $pull:{products:{item:objectId(product)}}
+      $pull:{products:{item:objectId(prodId)}}
     }
     ).then((response)=>{
       resolve({removeProduct:true})
