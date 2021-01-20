@@ -4,6 +4,10 @@ var router = express.Router();
 var user = require("../helpers/user-helpers");
 var productHelper = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
+var axios = require("axios");
+var FormData = require("form-data");
+var otpid
+var phone
 
 /* GET users listing. */
 const isSignedIn = (req, res, next) => {
@@ -77,20 +81,20 @@ router.get("/login", isSignedIn, (req, res) => {
   }
 });
 router.post("/loginuser", (req, res) => {
-  user
+  userHelpers
     .userLogin(req.body)
     .then((response) => {
       req.session.isLoggedIn = true;
       req.session.role = response.user.role;
       req.session.user = response.user;
       if (req.session.role == 0) {
-        res.send({ user: true, role: true }); //admin
+        res.json({ user: true, role: true }); //admin
       } else {
-        res.send({ user: true, role: false }); //user
+        res.json({ block: 2, role: false }); //user
       }
     })
     .catch((response) => {
-      res.send({ user: false });
+      res.json(response);
     });
 });
 router.post("/register", (req, res) => {
@@ -236,5 +240,83 @@ router.post("/deleteCartProduct", (req, res) => {
   user.deleteCartProduct(req.body.cartId, req.body.proId).then((response) => {
     res.json(response);
   });
+});
+router.post("/requestotp", (req, res) => {
+  userHelpers.numValidate(req.body)
+    .then((data) => {
+      phone = parseInt(data.phonenum);
+      var data = new FormData();
+      data.append("mobile", "+91" + phone);
+      data.append("sender_id", "SMSINFO");
+      data.append("message", "Your otp code for login is {code}");
+      data.append("expiry", "900");
+
+      var config = {
+        method: "post",
+        url: "https://d7networks.com/api/verifier/send",
+        headers: {
+          Authorization: "Token ffeaeab023b4bbd5c8348a74e33d2d788eeb3a52",
+          ...data.getHeaders(),
+        },
+        data: data,
+      };
+
+      axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+          otpid=response.data.otp_id
+          
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      res.json({ num: true });
+    })
+    .catch(() => {
+      res.json({
+        num: false,
+      });
+    });
+});
+router.post("/verifyotp", (req, res) => {
+  console.log('Verify otp here',req.body);
+  var axios = require("axios");
+  var FormData = require("form-data");
+  var data = new FormData();
+  data.append("otp_id", otpid);
+  data.append("otp_code", req.body.otp);
+
+  var config = {
+    method: "post",
+    url: "https://d7networks.com/api/verifier/verify",
+    headers: {
+      Authorization: "Token ffeaeab023b4bbd5c8348a74e33d2d788eeb3a52",
+      ...data.getHeaders(),
+    },
+    data: data,
+  };
+
+  axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      userHelpers
+    .OtpLog(phone)
+    .then((response) => {
+      req.session.isLoggedIn = true;
+      req.session.role = response.user.role;
+      req.session.user = response.user;
+      if (req.session.role == 0) {
+        res.json({ user: true }); //admin
+      } else {
+        res.json({ user: true }); //user
+      }
+    })
+    }).catch(()=>{
+      res.send({user:false})
+    })
+    .catch(function (error) {
+      res.send({user:false})
+    });
+    
 });
 module.exports = router;

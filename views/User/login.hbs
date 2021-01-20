@@ -35,7 +35,7 @@
                         </div> <!-- end of row -->
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6 offset-lg-2 offset-xl-3">
-                                <div class="login-form">
+                                <div class="login-form" id="formlogin">
                                     <form id="logform" action="/loginuser" method="POST">
                                         <div class="form-group row align-items-center mb-4">
                                             <label for="email" class="col-12 col-sm-12 col-md-4 col-form-label">Email
@@ -58,11 +58,55 @@
                                             <p class="text-center d-flex justify-content-center text-danger"><b>Invalid
                                                     credentails</b></p>
                                         </div>
-                                        <div class="login-box mt-2 text-center">
-                                            <button type="submit" class="btn btn-secondary mb-4 ">Sign In</button>
+                                        <div id="block" style="display: none !important;">
+                                            <p class="text-center d-flex justify-content-center text-danger"><b>User Blocked!!!</b></p>
                                         </div>
-                                        <div class="text-center pt-20 top-bordered">
-                                            <p>No account? <a href="/signup">Create one here</a>.</p>
+                                        <div class="login-box mt-2 text-center">
+                                            <button type="submit" class="btn btn-secondary mb-2 ">Sign In</button>
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <form id="formotp" action="/requestotp" method="POST">
+                                        <div class="">
+                                            <div class="form-group row align-items-center mb-4 ">
+                                                <label for="email"
+                                                    class="col-12 col-sm-12 col-md-4 col-form-label">Request OTP</label>
+                                                <div class="col-12 col-sm-12 col-md-8">
+                                                    <input type="number" class="form-control" id="phonenum"
+                                                        name="phonenum" placeholder="Phone Number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="phone" style="display: none !important;">
+                                            <p class="text-center d-flex justify-content-center text-danger"><b>Phone
+                                                    Number is not registered</b></p>
+                                        </div>
+                                        <div class="login-box mt-2 text-center">
+                                            <button type="submit" class="btn btn-secondary mb-2 ">Request OTP</button>
+                                        </div>
+                                    </form>
+                                    <div class="text-center pt-20 top-bordered">
+                                        <p>No account? <a href="/signup">Create one here</a>.</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <form id="verifyotp" action="/verifyotp" method="POST" style="display: none;">
+                                        <div class="">
+                                            <div class="form-group row align-items-center mb-4 ">
+                                                <label for="email"
+                                                    class="col-12 col-sm-12 col-md-4 col-form-label">Verify OTP</label>
+                                                <div class="col-12 col-sm-12 col-md-8">
+                                                    <input type="number" class="form-control" id="otp" name="otp"
+                                                        placeholder="Phone Number">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="invalidotp" style="display: none !important;">
+                                            <p class="text-center d-flex justify-content-center text-danger"><b>Invalid
+                                                    OTP</b></p>
+                                        </div>
+                                        <div class="login-box mt-2 text-center">
+                                            <button type="submit" class="btn btn-secondary mb-2 ">verify OTP</button>
                                         </div>
                                     </form>
                                 </div>
@@ -82,17 +126,59 @@
 </div> <!-- /End Scroll to Top -->
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 <script>
+    $('#verifyotp').validate({
+        submitHandler: function (verifyotp) {
+            $.ajax({
+                url: verifyotp.action,
+                type: verifyotp.method,
+                data: $(verifyotp).serialize(),
+                success: (response) => {
+                    if (response.user == true) {
+                        $('#invalidotp').hide()
+                        window.location.href = "home"
+                    }
+                    else {
+                        $('#invalidotp').show()
+
+                    }
+                }
+            });
+        }
+    })
+    $('#formotp').validate({
+        rules: {
+            phonenum: {
+                required: true,
+                minlength: 10,
+                maxlength: 10
+            }
+        },
+        submitHandler: function (formotp) {
+            $.ajax({
+                url: formotp.action,
+                type: formotp.method,
+                data: $(formotp).serialize(),
+                success: (response) => {
+                    if (response.num != true) {
+                        $('#phone').show()
+                    }
+                    else {
+                        $('#phone').hide()
+                        $('#formlogin').hide()
+                        $('#verifyotp').show()
+                    }
+                }
+            });
+        }
+    })
+
+</script>
+<script>
     $('#logform').validate({
         rules: {
             email: {
                 required: true,
                 email: true
-            }
-        },
-        messages: {
-            email: {
-                required: "Please enter the email",
-                email: "Enter a valid email "
             }
         },
         submitHandler: function (logform) {
@@ -101,15 +187,15 @@
                 type: logform.method,
                 data: $(logform).serialize(),
                 success: (response) => {
-                    if (response.user != true) {
+                    if (response.block ==1) {
+                        $('#block').hide()
                         $('#error').show()
                     }
-                    else {
-                        if (response.role != true) {
-                            window.location.href = "test"
-                        } else {
-                            $('#error').show()
-                        }
+                    else if(response.block ==0){
+                        $('#block').show()
+                    }
+                    else{
+                        window.location.href = "test"
                     }
                 }
             });

@@ -2,7 +2,7 @@
 var express = require("express");
 var router = express.Router();
 var product = require("../helpers/product-helpers");
-const user = require("../helpers/user-helpers")
+const userHelper = require("../helpers/user-helpers")
 
 
 router.get("/admin",(req, res) => {
@@ -35,7 +35,6 @@ router.get("/addProduct",(req, res) => {
 router.post("/addNewProduct", (req, res) => {
   product.addProduct(req.body,(id)=>{
     let image = req.files.Image
-    console.log(image);
     image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
       if(!err){
         res.redirect('./addProduct')
@@ -61,7 +60,7 @@ router.post("/newCategory", (req, res) => {
     })
 });
 router.post("/loginadmin", (req, res) => {
-  user
+  userHelper
     .userLogin(req.body)
     .then((response) => {
       req.session.isLoggedIn=true;
@@ -159,6 +158,10 @@ router.post('/updateProduct/:id',(req,res)=>{
     if(role===0){
       product.updateProdById(req.body,req.params.id).then((data)=>{
         res.redirect('/products')
+        if(req.files.Image){
+          let image = req.files.Image
+          image.mv('./public/product-images/'+req.params.id+'.jpg')
+        }
       })
   }
 }else{
@@ -172,6 +175,33 @@ router.get('/deleteProd/:id',(req,res)=>{
     if(role==0){
       product.deleteProdById(req.params.id).then(()=>{
         res.redirect('/products')
+      })
+  }
+}else{
+    res.render("Admin/adminLogin");
+  }
+})
+router.get('/block/:id',(req,res)=>{
+  userHelper.blockUser(req.params.id).then(()=>{
+    userHelper.getAllUser().then((data)=>{
+      res.render('Admin/users',{admin:true,data})
+    })
+  })
+})
+router.get('/unBlock/:id',(req,res)=>{
+  userHelper.unBlockUser(req.params.id).then(()=>{
+    userHelper.getAllUser().then((data)=>{
+      res.render('Admin/users',{admin:true,data})
+    })
+  })
+})
+router.get('/users',(req,res)=>{
+  let user=req.session.user
+  let role=req.session.role
+  if(user){
+    if(role==0){
+      userHelper.getAllUser().then((data)=>{
+        res.render('Admin/users',{admin:true,data})
       })
   }
 }else{

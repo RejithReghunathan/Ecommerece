@@ -69,6 +69,12 @@
                                                 Already Taken!!! Try another</p>
                                         </div>
                                         <div class="form-group row">
+                                            <label for="email" class="col-12 col-sm-12 col-md-4 col-form-label">Phone Number</label>
+                                            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                                                <input type="number" class="form-control" id="phonenum" name="phonenum">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <label for="newpassword"
                                                 class="col-12 col-sm-12 col-md-4 col-form-label">Password</label>
                                             <div class="col-12 col-sm-12 col-md-8 col-lg-8">
@@ -116,6 +122,11 @@
             password: {
                 required: true,
                 minlength: 8
+            },
+            phonenum:{
+                required:true,
+                minlength:10,
+                maxlength:10,
             }
         },
         submitHandler: function (rform) {
@@ -134,8 +145,8 @@
                         $("#l-name").val('');
                         $("#email").val('');
                         $("#newpassword").val('');
-                        window.location.href="login"
-                        
+                        window.location.href = "login"
+
                     }
                 }
             });
