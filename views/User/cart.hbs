@@ -82,8 +82,8 @@
                                                                 type="button" class="btn btn-danger pull-right"><i
                                                                     class="fa fa-times-circle"></i></button>
                                                     </td>
-                                                    <td><i class="fas fa-rupee-sign"></i>{{this.product.price}}</td>
-                                                    <td>$200.00</td>
+                                                    <td>Rs. {{this.product.price}}</td>
+                                                    <td>Rs. 200.00</td>
 
                                                 </tr>
                                                 {{/each}}
@@ -151,6 +151,7 @@
                     location.reload()
                 } else {
                     document.getElementById(proId).innerHTML = quantity + count
+
                 }
             }
         })

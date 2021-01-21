@@ -201,7 +201,6 @@ router.get("/cart", isSignedIn, categories, async (req, res) => {
     cartCount = await userHelpers.getCartCount(users._id);
     await user.getCart(req.session.user._id).then((data) => {
       let cartPro = data;
-      // console.log("CART",cartPro[0]);
       if (cartPro[0]) {
         res.render("User/cart", {
           user: true,

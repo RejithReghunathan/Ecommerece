@@ -33,17 +33,26 @@ router.get("/addProduct",(req, res) => {
   });
 });
 router.post("/addNewProduct", (req, res) => {
-  product.addProduct(req.body,(id)=>{
-    let image = req.files.Image
-    image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
-      if(!err){
-        res.redirect('./addProduct')
-      }
-      else{
-        console.log("Error in adding Image");
-      }
-    })
-  })
+  let user=req.session.user
+  let role=req.session.role
+  if(user){
+    if(role==0){
+      product.addProduct(req.body,(id)=>{
+        let image = req.files.Image
+        image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
+          if(!err){
+            res.redirect('./addProduct')
+          }
+          else{
+            console.log("Error in adding Image");
+          }
+        })
+      })
+  }
+}else{
+    res.render("Admin/adminLogin");
+  }
+  
 });
 router.get("/addCategory", (req, res) => {
   product.getAllCategory().then((category) => {

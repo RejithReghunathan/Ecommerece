@@ -181,7 +181,6 @@ module.exports = {
             resolve({ removeProduct: true });
           });
       } else {
-        console.log("REACHED");
         db.get()
           .collection("cart")
           .updateOne(
