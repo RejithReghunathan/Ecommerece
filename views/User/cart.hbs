@@ -82,9 +82,9 @@
                                                                 type="button" class="btn btn-danger pull-right"><i
                                                                     class="fa fa-times-circle"></i></button>
                                                     </td>
-                                                    <td>Rs. {{this.product.price}}</td>
-                                                    <td>Rs. 200.00</td>
-
+                                                    <td>Rs.{{this.product.price}}</td>
+                                                    <td >Rs. <span class="{{this.product._id}}">{{this.SingleProTotal}}</span></td>
+                                                    
                                                 </tr>
                                                 {{/each}}
                                             </tbody>
@@ -98,11 +98,11 @@
                                                 <tbody>
                                                     <tr>
                                                         <td><strong>Sub-Total:</strong></td>
-                                                        <td>$860.00</td>
+                                                        <td >Rs.<span id="subtotal">{{totals}}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>Total:</strong></td>
-                                                        <td><span class="color-primary">$860.00</span></td>
+                                                        <td><span class="color-primary" ><span>Rs. <p id="subtotal1">{{totals}}</p></span></span></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -150,7 +150,12 @@
                     alert("Product Removed from the cart")
                     location.reload()
                 } else {
+                    console.log('TOTAL',response.total)
                     document.getElementById(proId).innerHTML = quantity + count
+                    document.getElementById('subtotal').innerHTML = response.total
+                    document.getElementById('subtotal1').innerHTML = response.total
+                    document.getElementsByClassName(proId).innerHTML=response.SingleProTotal
+                    
 
                 }
             }

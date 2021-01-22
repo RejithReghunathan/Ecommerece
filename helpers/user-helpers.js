@@ -142,6 +142,7 @@ module.exports = {
               product: {
                 $arrayElemAt: ["$product", 0],
               },
+              SingleProTotal: {$multiply:[{$arrayElemAt:["$product.price",0]},"$quantity"]},
             },
           },
         ])
@@ -292,4 +293,105 @@ module.exports = {
         });
     });
   },
+  getTotalAmount: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      let total = await db
+        .get()
+        .collection("cart")
+        .aggregate([
+          {
+            $match: { user: objectId(userId) },
+          },
+          {
+            $unwind: "$products",
+          },
+          {
+            $project: {
+              item: "$products.item",
+              quantity: "$products.quantity",
+            },
+          },
+          {
+            $lookup: {
+              from: "product",
+              localField: "item",
+              foreignField: "_id",
+              as: "product",
+            },
+          },
+          {
+            $project: {
+              item: 1,
+              quantity: 1,
+              product: {
+                $arrayElemAt: ["$product", 0],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              total: {
+                $sum: {
+                  $multiply: [
+                    "$quantity","$product.price"
+                  ],
+                },
+              },
+            },
+          },
+        ])
+        .toArray();
+        console.log(total[0].total);
+      resolve(total[0].total);
+    });
+  },
+  // getPrice:(userId,proId)=>{
+  //   return new Promise(async (resolve, reject) => {
+  //     let SingTotal = await db
+  //       .get()
+  //       .collection("cart")
+  //       .aggregate([
+  //         {
+  //           $match: { user: objectId(userId) },
+  //         },
+  //         {
+  //           $unwind: "$products",
+  //         },
+  //         {
+  //           $project: {
+  //             item: "$products.item",
+  //             quantity: "$products.quantity",
+  //           },
+  //         },
+        
+  //         {
+  //           $lookup: {
+  //             from: "product",
+  //             localField: "item",
+  //             foreignField: "_id",
+  //             as: "product",
+  //           },
+  //         },
+  //         {
+  //           $match:{
+  //             item:objectId(proId)
+  //           }
+  //         },
+  //         {
+  //           $project: {
+  //             item: 1,
+  //             quantity: 1,
+  //             product: {
+  //               $arrayElemAt: ["$product", 0],
+  //             },
+  //             SingleProTotal: {$multiply:[{$arrayElemAt:["$product.price",0]},"$quantity"]},
+  //           },
+  //         },
+  //       ])
+  //       .toArray();
+
+  //     resolve(SingTotal[0].SingleProTotal);
+  //   });
+  // }
 };

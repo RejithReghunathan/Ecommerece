@@ -195,12 +195,17 @@ router.get("/myaccount", categories, async (req, res) => {
 router.get("/cart", isSignedIn, categories, async (req, res) => {
   let users = req.session.user;
   let category = req.session.category;
+  let total
   if (req.session.role == 0) {
     res.render("Admin/index", { admin: true });
   } else {
     cartCount = await userHelpers.getCartCount(users._id);
+     await user.getTotalAmount(req.session.user._id).then((result)=>{
+        total=result
+      })
     await user.getCart(req.session.user._id).then((data) => {
       let cartPro = data;
+      console.log("DATA",cartPro);
       if (cartPro[0]) {
         res.render("User/cart", {
           user: true,
@@ -208,12 +213,14 @@ router.get("/cart", isSignedIn, categories, async (req, res) => {
           category,
           cartPro,
           cartCount,
+          totals:total,
           cart: true,
         });
       } else {
         res.render("User/cart", { user: true, users, category });
       }
     });
+ 
   }
 });
 router.get("/addToCart/:id", async (req, res) => {
@@ -229,10 +236,17 @@ router.get("/addToCart/:id", async (req, res) => {
     res.redirect("/login");
   }
 });
-router.post("/change-product-quanity", (req, res) => {
+router.post("/change-product-quanity", async(req, res) => {
+ let response={}
   console.log(req.body);
-  userHelpers.changeProductQuantity(req.body).then((response) => {
-    res.json(response);
+  await userHelpers.changeProductQuantity(req.body).then((response) => {
+    userHelpers.getTotalAmount(req.session.user._id).then((result)=>{
+      response.total=result
+      console.log("CPQ",response);
+      res.json(response);
+    })
+    
+    
   });
 });
 router.post("/deleteCartProduct", (req, res) => {
