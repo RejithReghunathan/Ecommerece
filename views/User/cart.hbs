@@ -58,7 +58,7 @@
                                                                 class="img-thumbnail"></a>
                                                     </td>
                                                     <td>
-                                                        <a href="product-details.html">{{this.product.name}}</a>
+                                                        <a href="/productDetails/{{this.product._id}}">{{this.product.name}}</a>
                                                         <span>Delivery Date: 2019-09-22</span>
                                                         <span>Color: Brown</span>
                                                         <span>Reward Points: 300</span>
@@ -83,7 +83,7 @@
                                                                     class="fa fa-times-circle"></i></button>
                                                     </td>
                                                     <td>Rs.{{this.product.price}}</td>
-                                                    <td >Rs. <span class="{{this.product._id}}">{{this.SingleProTotal}}</span></td>
+                                                    <td >Rs. <span id="{{this.product._id}}1">{{this.SingleProTotal}}</span></td>
                                                     
                                                 </tr>
                                                 {{/each}}
@@ -153,14 +153,14 @@
                     location.reload()
                 }else if(response.total==0){
                     document.getElementById('empty').innerHTML = "Your Cart is Empty"
-
                 }
                  else {
-                    console.log('TOTAL',response.total)
+                     console.log(response)
                     document.getElementById(proId).innerHTML = quantity + count
                     document.getElementById('subtotal').innerHTML = response.total
                     document.getElementById('subtotal1').innerHTML = response.total
-                    document.getElementsByClassName(proId).innerHTML=response.SingleProTotal
+                    document.getElementById(proId+1).innerHTML = response.singleProTotal
+                   
                 }
             }
         })

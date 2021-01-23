@@ -164,38 +164,7 @@ module.exports = {
       resolve(count);
     });
   },
-  // changeProductQuantity: ({ cart, product, count, quantity }) => {
-  //   count = parseInt(count);
-  //   quantity = parseInt(quantity);
-  //   console.log("COUNT", count);
-  //   return new Promise((resolve, reject) => {
-  //     if (count == -1 && quantity == 1) {
-  //       db.get()
-  //         .collection("cart")
-  //         .updateOne(
-  //           { _id: objectId(cart) },
-  //           {
-  //             $pull: { products: { item: objectId(product) } },
-  //           }
-  //         )
-  //         .then((response) => {
-  //           resolve({ removeProduct: true });
-  //         });
-  //     } else {
-  //       db.get()
-  //         .collection("cart")
-  //         .updateOne(
-  //           { _id: objectId(cart), "products.item": objectId(product) },
-  //           {
-  //             $inc: { "products.$.quantity": count },
-  //           }
-  //         )
-  //         .then(() => {
-  //           resolve({ removeProduct: false });
-  //         });
-  //     }
-  //   });
-  // },
+ 
   changeProductQuantity: ({ cart, product, count, quantity }) => {
     count = parseInt(count);
     quantity = parseInt(quantity);
@@ -221,6 +190,7 @@ module.exports = {
             {
               $inc: { "products.$.quantity": count },
             }
+            
           )
           .then(() => {
             resolve({ removeProduct: false });
@@ -377,52 +347,53 @@ module.exports = {
       resolve(total[0].total);
     });
   },
-  // getPrice:(userId,proId)=>{
-  //   return new Promise(async (resolve, reject) => {
-  //     let SingTotal = await db
-  //       .get()
-  //       .collection("cart")
-  //       .aggregate([
-  //         {
-  //           $match: { user: objectId(userId) },
-  //         },
-  //         {
-  //           $unwind: "$products",
-  //         },
-  //         {
-  //           $project: {
-  //             item: "$products.item",
-  //             quantity: "$products.quantity",
-  //           },
-  //         },
-        
-  //         {
-  //           $lookup: {
-  //             from: "product",
-  //             localField: "item",
-  //             foreignField: "_id",
-  //             as: "product",
-  //           },
-  //         },
-  //         {
-  //           $match:{
-  //             item:objectId(proId)
-  //           }
-  //         },
-  //         {
-  //           $project: {
-  //             item: 1,
-  //             quantity: 1,
-  //             product: {
-  //               $arrayElemAt: ["$product", 0],
-  //             },
-  //             SingleProTotal: {$multiply:[{$arrayElemAt:["$product.price",0]},"$quantity"]},
-  //           },
-  //         },
-  //       ])
-  //       .toArray();
-
-  //     resolve(SingTotal[0].SingleProTotal);
-  //   });
-  // }
+  getPrice:(userId,proId)=>{
+    console.log("USER",userId,"PRO",proId);
+    return new Promise(async(resolve,reject)=>{
+     let SingleTotal= await db
+     .get()
+     .collection("cart")
+     .aggregate([
+        {
+            $match:
+                {
+                user:objectId(userId)
+                }    
+               
+        },
+        {
+             $unwind:"$products"
+        },
+        {
+            $project:{
+                item:"$products.item",
+                quantity:"$products.quantity"
+            }
+        },
+        {
+                    $lookup: {
+                      from: "product",
+                      localField: "item",
+                      foreignField: "_id",
+                      as: "product",
+                    },
+        },
+        {
+            $match:{
+                item:objectId(proId)
+            }
+        },
+        {
+          $project:{
+            item:1,
+               SingleProTotal: {$multiply:[{$arrayElemAt:["$product.price",0]},"$quantity"]}
+              
+          }
+          }
+        ]).toArray().then((data)=>{
+          
+          resolve(data[0].SingleProTotal)
+        })          
+    })
+  }
 };
