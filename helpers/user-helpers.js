@@ -164,6 +164,38 @@ module.exports = {
       resolve(count);
     });
   },
+  // changeProductQuantity: ({ cart, product, count, quantity }) => {
+  //   count = parseInt(count);
+  //   quantity = parseInt(quantity);
+  //   console.log("COUNT", count);
+  //   return new Promise((resolve, reject) => {
+  //     if (count == -1 && quantity == 1) {
+  //       db.get()
+  //         .collection("cart")
+  //         .updateOne(
+  //           { _id: objectId(cart) },
+  //           {
+  //             $pull: { products: { item: objectId(product) } },
+  //           }
+  //         )
+  //         .then((response) => {
+  //           resolve({ removeProduct: true });
+  //         });
+  //     } else {
+  //       db.get()
+  //         .collection("cart")
+  //         .updateOne(
+  //           { _id: objectId(cart), "products.item": objectId(product) },
+  //           {
+  //             $inc: { "products.$.quantity": count },
+  //           }
+  //         )
+  //         .then(() => {
+  //           resolve({ removeProduct: false });
+  //         });
+  //     }
+  //   });
+  // },
   changeProductQuantity: ({ cart, product, count, quantity }) => {
     count = parseInt(count);
     quantity = parseInt(quantity);
@@ -342,7 +374,6 @@ module.exports = {
           },
         ])
         .toArray();
-        console.log(total[0].total);
       resolve(total[0].total);
     });
   },

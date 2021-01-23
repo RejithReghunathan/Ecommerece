@@ -879,9 +879,10 @@
             method:'get',
             success:(response)=>{
                 if(response.status){
-                    $('#cart-count').html(response.count).show()
+                    document.getElementById('cart-count').innerHTML=response.count
+                    {{!-- $('#cart-count').html(response.count).show() --}}
                 }
             }
         })
-    }
+    } 
 </script>

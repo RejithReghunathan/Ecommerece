@@ -6,8 +6,8 @@ var productHelper = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 var axios = require("axios");
 var FormData = require("form-data");
-var otpid
-var phone
+var otpid;
+var phone;
 
 /* GET users listing. */
 const isSignedIn = (req, res, next) => {
@@ -195,35 +195,37 @@ router.get("/myaccount", categories, async (req, res) => {
 router.get("/cart", isSignedIn, categories, async (req, res) => {
   let users = req.session.user;
   let category = req.session.category;
-  let total
+  let total;
   if (req.session.role == 0) {
     res.render("Admin/index", { admin: true });
   } else {
     cartCount = await userHelpers.getCartCount(users._id);
-     await user.getTotalAmount(req.session.user._id).then((result)=>{
-        total=result
-      })
-    await user.getCart(req.session.user._id).then((data) => {
+
+    await user.getCart(req.session.user._id).then(async (data) => {
       let cartPro = data;
-      console.log("DATA",cartPro);
+      console.log("DATA", cartPro);
       if (cartPro[0]) {
-        res.render("User/cart", {
-          user: true,
-          users,
-          category,
-          cartPro,
-          cartCount,
-          totals:total,
-          cart: true,
+        await user.getTotalAmount(req.session.user._id).then((result) => {
+          total = result;
         });
+        if (total) {
+          res.render("User/cart", {
+            user: true,
+            users,
+            category,
+            cartPro,
+            cartCount,
+            totals: total,
+            cart: true,
+          });
+        }
       } else {
         res.render("User/cart", { user: true, users, category });
       }
     });
- 
   }
 });
-router.get("/addToCart/:id", async (req, res) => {
+router.get("/addToCart/:id", async (req,res) => {
   let users = req.session.user;
   if (users) {
     await userHelpers.getCartCount(users._id).then((countNum) => {
@@ -236,17 +238,15 @@ router.get("/addToCart/:id", async (req, res) => {
     res.redirect("/login");
   }
 });
-router.post("/change-product-quanity", async(req, res) => {
- let response={}
+router.post("/change-product-quanity", async (req, res) => {
+  let response = {};
   console.log(req.body);
   await userHelpers.changeProductQuantity(req.body).then((response) => {
-    userHelpers.getTotalAmount(req.session.user._id).then((result)=>{
-      response.total=result
-      console.log("CPQ",response);
+    userHelpers.getTotalAmount(req.session.user._id).then((result) => {
+      response.total = result;
+      console.log("CPQ", response);
       res.json(response);
-    })
-    
-    
+    });
   });
 });
 router.post("/deleteCartProduct", (req, res) => {
@@ -255,7 +255,8 @@ router.post("/deleteCartProduct", (req, res) => {
   });
 });
 router.post("/requestotp", (req, res) => {
-  userHelpers.numValidate(req.body)
+  userHelpers
+    .numValidate(req.body)
     .then((data) => {
       phone = parseInt(data.phonenum);
       var data = new FormData();
@@ -277,8 +278,7 @@ router.post("/requestotp", (req, res) => {
       axios(config)
         .then(function (response) {
           console.log(JSON.stringify(response.data));
-          otpid=response.data.otp_id
-          
+          otpid = response.data.otp_id;
         })
         .catch(function (error) {
           console.log(error);
@@ -292,7 +292,7 @@ router.post("/requestotp", (req, res) => {
     });
 });
 router.post("/verifyotp", (req, res) => {
-  console.log('Verify otp here',req.body);
+  console.log("Verify otp here", req.body);
   var axios = require("axios");
   var FormData = require("form-data");
   var data = new FormData();
@@ -312,24 +312,32 @@ router.post("/verifyotp", (req, res) => {
   axios(config)
     .then(function (response) {
       console.log(JSON.stringify(response.data));
-      userHelpers
-    .OtpLog(phone)
-    .then((response) => {
-      req.session.isLoggedIn = true;
-      req.session.role = response.user.role;
-      req.session.user = response.user;
-      if (req.session.role == 0) {
-        res.json({ user: true }); //admin
-      } else {
-        res.json({ user: true }); //user
-      }
+      userHelpers.OtpLog(phone).then((response) => {
+        req.session.isLoggedIn = true;
+        req.session.role = response.user.role;
+        req.session.user = response.user;
+        if (req.session.role == 0) {
+          res.json({ user: true }); //admin
+        } else {
+          res.json({ user: true }); //user
+        }
+      });
     })
-    }).catch(()=>{
-      res.send({user:false})
+    .catch(() => {
+      res.send({ user: false });
     })
     .catch(function (error) {
-      res.send({user:false})
+      res.send({ user: false });
     });
-    
 });
+router.get('/checkout',async(req,res)=>{
+  let users = req.session.user;
+  let category = req.session.category;
+  if (req.session.role == 0) {
+    res.render("Admin/index", { admin: true });
+  } else {
+    cartCount = await userHelpers.getCartCount(users._id);
+    res.render("User/checkout", { user: true, users, category, cartCount });
+  }
+})
 module.exports = router;

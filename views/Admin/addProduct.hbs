@@ -56,10 +56,17 @@
                                     <input type="Number" class="form-control" name="quantity" id="exampleInputPassword1"
                                         placeholder="Quantity" required>
                                 </div>
-                                <div class="form-group">
+                               <div class="form-group">
+                                    <img src="../product-images/{{product._id}}.jpg" alt="" id="imgView" style="height: 100px; width:100px;">
+                                </div>
+                                {{!-- <div class="form-group">
                                     <img id="menu_image" class="preview_img" />
                                     <label for="exampleInputFile">Image</label>
                                     <input type="file" name="Image" id="exampleInputFile" id="menu_images" accept="image/x-png,image/jpg,image/jpeg" required>
+                                </div> --}}
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Image</label>
+                                    <input type="file" name="Image" id="exampleInputFile" accept="image/x-png,image/jpg,image/jpeg" required onchange="viewImage(event)">
                                 </div>
                                 <button type="submit" class="btn btn-success">Submit</button>
                             </form>
@@ -71,31 +78,7 @@
     </div>
 </div>
 <script>
-    document.getElementById("menu_images").onchange = function () {
-        var reader = new FileReader();
-        if(this.files[0].size>528385){
-            alert("Image Size should not be greater than 500Kb");
-            $("#menu_image").attr("src","blank");
-            $("#menu_image").hide();  
-            $('#menu_images').wrap('<form>').closest('form').get(0).reset();
-            $('#menu_images').unwrap();     
-            return false;
-        }
-        if(this.files[0].type.indexOf("image")==-1){
-            alert("Invalid Type");
-            $("#menu_image").attr("src","blank");
-            $("#menu_image").hide();  
-            $('#menu_images').wrap('<form>').closest('form').get(0).reset();
-            $('#menu_images').unwrap();         
-            return false;
-        }   
-        reader.onload = function (e) {
-            // get loaded data and render thumbnail.
-            document.getElementById("menu_image").src = e.target.result;
-            $("#menu_image").show(); 
-        };
-
-        // read the image file as a data URL.
-        reader.readAsDataURL(this.files[0]);
-    };
+     function viewImage(event){
+        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    }
 </script>

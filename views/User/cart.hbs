@@ -116,7 +116,9 @@
                                     <a href="/checkout" class="btn btn-secondary dark align-self-end">Checkout</a>
                                 </div>
                                 {{else}}
-                                <h2>Your Cart is Empty</h2>
+                                <h2 class="text-center mt-5">Your Cart is Empty</h2>
+                                <h5 class="text-center mt-3"><a href="/home">
+                                    Continue Shopping</a></h5>
                                 {{/if}}
                             </div>
                         </div>
@@ -149,14 +151,16 @@
                 if (response.removeProduct) {
                     alert("Product Removed from the cart")
                     location.reload()
-                } else {
+                }else if(response.total==0){
+                    document.getElementById('empty').innerHTML = "Your Cart is Empty"
+
+                }
+                 else {
                     console.log('TOTAL',response.total)
                     document.getElementById(proId).innerHTML = quantity + count
                     document.getElementById('subtotal').innerHTML = response.total
                     document.getElementById('subtotal1').innerHTML = response.total
                     document.getElementsByClassName(proId).innerHTML=response.SingleProTotal
-                    
-
                 }
             }
         })
