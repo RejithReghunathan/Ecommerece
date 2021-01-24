@@ -215,8 +215,7 @@ router.get("/cart", isSignedIn, categories, async (req, res) => {
             cartPro,
             cartCount,
             totals: total,
-            cart: true,
-            // SPT
+            cart: true
           });
         }
       } else {
@@ -361,7 +360,27 @@ router.get("/checkout", isSignedIn, categories,async (req, res) => {
     });
   }
 });
-router.post("/place-order", (req, res) => {
-  console.log(req.body);
+router.post("/place-order", async (req, res) => {
+  
+  let products = await  userHelpers.getCartProductList(req.body.userId)
+  userHelpers.placeOrder(req.body,products).then((data)=>{
+    console.log(data);
+    res.json({
+      status:true
+    })
+  })
+
+  // console.log(req.body);
 });
+router.get('/order',isSignedIn, categories,async(req,res)=>{
+  let users = req.session.user;
+  let category = req.session.category;
+  cartCount = await userHelpers.getCartCount(users._id);
+  res.render('User/order',{
+    user: true,
+    users,
+    category,
+    cartCount
+  })
+})
 module.exports = router;

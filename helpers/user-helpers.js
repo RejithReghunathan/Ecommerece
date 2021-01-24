@@ -1,6 +1,7 @@
 const db = require("../confiq/connection");
 const bcrypt = require("bcrypt");
 var objectId = require("mongodb").ObjectID;
+const { response } = require("express");
 
 module.exports = {
   userSignup: (userData) => {
@@ -394,6 +395,43 @@ module.exports = {
           
           resolve(data[0].SingleProTotal)
         })          
+    })
+  },
+  placeOrder:(order,products)=>{
+    let status
+    return new Promise(async(resolve,reject)=>{
+      if(order.payment=='cash'){
+        status='placed'
+      }else{
+        status='pending'
+      }
+      let orderObj={
+        deliveryAdrress:{
+          fname:order.fname,
+          lname:order.lname,
+          mobile:order.phone,
+          address:order.address,
+          city:order.city,
+          state:order.state,
+          pincode:order.pincode,
+          AlternativeNum:order.alphone
+        },
+        userId:objectId(order.userId),
+        paymentMethod:order.payment,
+        status:status,
+        products:products,
+        date:new Date()
+      }
+     await db.get().collection('order').insertOne(orderObj).then((response)=>{
+        db.get().collection('cart').removeOne({user:objectId(order.userId)})
+        resolve(response)
+      }) 
+    })
+  },
+  getCartProductList:(userId)=>{
+    return new Promise(async(resolve,reject)=>{
+      let cart = await db.get().collection('cart').findOne({user:objectId(userId)})
+      resolve(cart.products)
     })
   }
 };

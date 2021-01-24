@@ -75,15 +75,12 @@
                     <div class="col-lg-4 col-md-8 col-12 col-sm-8 order-lg-last">
                         <div class="mini-cart-option">
                             <ul>
-                                <li class="wishlist">
-                                    <a class="ha-toggle" href="wishlist.html"><span class="lnr lnr-heart"></span><span
-                                            class="count">1</span>wishlist</a>
-                                </li>
                                 <li class="my-cart">
-                                    <a class="ha-toggle" href="/cart"><span class="lnr lnr-cart"></span><span
+                                    <a class="ha-toggle" href="/cart"><span class="lnr lnr-cart"></span>{{#if users}}<span
                                             class="count" id="cart-count">
                                             {{cartCount}}
-                                            </span>my cart</a>
+                                            </span>
+                                            {{/if}}my cart</a>
                                     {{!-- <ul class="mini-cart-drop-down ha-dropdown">
                                         <li class="mb-30">
                                             <div class="cart-img">
@@ -151,13 +148,11 @@
                                                 {{/each}}
                                             </ul>
                                         </li>
-                                        <li><a href="">My Orders</a>
+                                        <li><a href="/order">My Orders</a>
                                         </li>
                                         </li>
                                         <li><a href="/cart">My Cart</a>
                                         </li>
-                                        </li>
-                                        <li><a href="">Wishlist</a>
                                         </li>
                                     </ul>
                                 </nav>

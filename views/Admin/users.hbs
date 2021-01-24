@@ -21,7 +21,7 @@
                                 <tbody>
                                     {{#each data}}
                                     <tr>
-                                        <td scope="row" class="class=" create_index"">{{@index}}</td>
+                                        <td scope="row" class="class=" create_index"">{{math @index "+" 1}}</td>
                                         <td>{{this.fname}}</td>
                                         <td>{{this.lname}}</td>
                                         <td>{{this.email}}</td>

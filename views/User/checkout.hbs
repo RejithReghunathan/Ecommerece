@@ -33,7 +33,7 @@
                                         <h3>Billing Details</h3>
                                     </div>
 
-                                    <form action="/place-order" method="post">
+                                    <form action="/place-order" id="placeOrder" method="post">
                                         <div class="form-row mb-3">
                                             <div class="form-group col-12 col-sm-12 col-md-6">
                                                 <label for="first_name">First Name <span
@@ -86,7 +86,7 @@
                                                 <input type="tel" name="alphone" class="form-control" id="tel_number">
                                             </div>
                                         </div>
-                                        <div class="form-row">
+                                        {{!-- <div class="form-row">
                                                 <div class="form-group col-12 col-sm-12 col-md-12">
                                                     <div class="form-check mb-3">
                                                         <div class="custom-checkbox">
@@ -149,7 +149,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                     
                                 </div> <!-- end of checkout-form -->
                             </div>
@@ -211,7 +211,7 @@
                                                 </div>
                                                 <div class="custom-radio">
                                                     <input class="form-check-input" type="radio" name="payment"
-                                                        id="paypal_payment" value="paypal">
+                                     `                   id="paypal_payment" value="paypal" required>
                                                     <span class="checkmark"></span>
                                                     <label class="form-check-label" for="paypal_payment">PayPal Express
                                                         Checkout</label>
@@ -225,7 +225,7 @@
                                                     <input class="form-check-input" type="radio" name="payment"
                                                         id="paypal_payment" value="paypal">
                                                     <span class="checkmark"></span>
-                                                    <label class="form-check-label" for="paypal_payment">RazorPay
+                                                    <label class="form-check-label" for="razor_payment">RazorPay
                                                         Checkout</label>
 
                                                     <div class="payment-info" id="paypal_pay">
@@ -256,3 +256,21 @@
 <div class="scroll-top not-visible">
     <i class="fa fa-angle-up"></i>
 </div> <!-- /End Scroll to Top -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
+<script>
+    $('#placeOrder').submit((e)=>{
+        e.preventDefault();
+        console.log('Clicked')
+        $.ajax({
+            url:'/place-order',
+            method:"post",
+            data:$('#placeOrder').serialize(),
+            success:(response)=>{
+                if(response.status){
+                    alert('Order Placed Successfullly')
+                }
+            }
+        })
+    })
+</script>

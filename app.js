@@ -26,8 +26,25 @@ app.use(function(req, res, next) {
 })
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+
+app.engine('hbs',hbs())
+app.engine('hbs',hbs({
+  helpers:{
+    math: function(lvalue, operator, rvalue) {
+        lvalue = parseFloat(lvalue);
+        rvalue = parseFloat(rvalue);
+        return {
+            "+": lvalue + rvalue,
+            "-": lvalue - rvalue,
+            "*": lvalue * rvalue,
+            "/": lvalue / rvalue,
+            "%": lvalue % rvalue
+        }[operator];
+    }
+},extname:'hbs',defaultLayout:'layout',layoutDir:__dirname+'/views/layouts/',partialsDir:__dirname+'/views/partials'
+}))
 app.set('view engine', 'hbs');
-app.engine('hbs',hbs({extname:'hbs',defaultLayout:'layout',layoutDir:__dirname+'/views/layouts/',partialsDir:__dirname+'/views/partials'}))
+
 
 app.use(fileUpload())
 app.use(logger('dev'));
@@ -63,10 +80,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-var Handlebars = require('handlebars');
 
-Handlebars.registerHelper("inc", function(value, options)
-{
-    return parseInt(value) + 1;
-});
 module.exports = app;

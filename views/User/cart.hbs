@@ -58,7 +58,8 @@
                                                                 class="img-thumbnail"></a>
                                                     </td>
                                                     <td>
-                                                        <a href="/productDetails/{{this.product._id}}">{{this.product.name}}</a>
+                                                        <a
+                                                            href="/productDetails/{{this.product._id}}">{{this.product.name}}</a>
                                                         <span>Delivery Date: 2019-09-22</span>
                                                         <span>Color: Brown</span>
                                                         <span>Reward Points: 300</span>
@@ -77,14 +78,16 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <div class="input-group btn-block"> <button
-                                                                onclick="deleteProduct('{{this._id}}','{{this.product._id}}')"
-                                                                type="button" class="btn btn-danger pull-right"><i
-                                                                    class="fa fa-times-circle"></i></button>
+
+                                                        <a href="#"
+                                                            onclick="deleteProduct('{{this._id}}','{{this.product._id}}')"
+                                                            class="btn btn-danger"><i class="fa fa-times"></i></a>
                                                     </td>
                                                     <td>Rs.{{this.product.price}}</td>
-                                                    <td >Rs. <span id="{{this.product._id}}1">{{this.SingleProTotal}}</span></td>
-                                                    
+                                                    <td>Rs. <span
+                                                            id="{{this.product._id}}1">{{this.SingleProTotal}}</span>
+                                                    </td>
+
                                                 </tr>
                                                 {{/each}}
                                             </tbody>
@@ -98,11 +101,12 @@
                                                 <tbody>
                                                     <tr>
                                                         <td><strong>Sub-Total:</strong></td>
-                                                        <td >Rs.<span id="subtotal">{{totals}}</span></td>
+                                                        <td>Rs.<span id="subtotal">{{totals}}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><strong>Total:</strong></td>
-                                                        <td><span class="color-primary" ><span>Rs. <p id="subtotal1">{{totals}}</p></span></span></td>
+                                                        <td><span class="color-primary"><span>Rs. <p id="subtotal1">
+                                                                        {{totals}}</p></span></span></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -118,7 +122,7 @@
                                 {{else}}
                                 <h2 class="text-center mt-5">Your Cart is Empty</h2>
                                 <h5 class="text-center mt-3"><a href="/home">
-                                    Continue Shopping</a></h5>
+                                        Continue Shopping</a></h5>
                                 {{/if}}
                             </div>
                         </div>
@@ -151,28 +155,28 @@
                 if (response.removeProduct) {
                     alert("Product Removed from the cart")
                     location.reload()
-                }else if(response.total==0){
+                } else if (response.total == 0) {
                     document.getElementById('empty').innerHTML = "Your Cart is Empty"
                 }
-                 else {
-                     console.log(response)
+                else {
+                    console.log(response)
                     document.getElementById(proId).innerHTML = quantity + count
                     document.getElementById('subtotal').innerHTML = response.total
                     document.getElementById('subtotal1').innerHTML = response.total
-                    document.getElementById(proId+1).innerHTML = response.singleProTotal
-                   
+                    document.getElementById(proId + 1).innerHTML = response.singleProTotal
+
                 }
             }
         })
     }
-    function deleteProduct(cartId,proId) {
+    function deleteProduct(cartId, proId) {
         $.ajax({
             url: '/deleteCartProduct',
             method: 'post',
-            data:{
-                cartId,proId
+            data: {
+                cartId, proId
             },
-            success:(response)=>{
+            success: (response) => {
                 if (response.removeProduct) {
                     alert("Product Removed from the cart")
                     location.reload()
