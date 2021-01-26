@@ -279,7 +279,6 @@ router.post("/requestotp", (req, res) => {
         },
         data: data,
       };
-
       axios(config)
         .then(function (response) {
           console.log(JSON.stringify(response.data));
@@ -363,11 +362,16 @@ router.get("/checkout", isSignedIn, categories,async (req, res) => {
 router.post("/place-order", async (req, res) => {
   
   let products = await  userHelpers.getCartProductList(req.body.userId)
-  userHelpers.placeOrder(req.body,products).then((data)=>{
-    console.log(data);
+  userHelpers.placeOrder(req.body,products).then((orderId)=>{
+    if(req.body.paymentMethod=="cash"){
     res.json({
       status:true
-    })
+    })}
+    else{
+      userHelpers.generateRazorpay(orderId,req.body.total).then((response)=>{
+      res.json(response)
+      })
+    }
   })
 
   // console.log(req.body);
@@ -376,11 +380,15 @@ router.get('/order',isSignedIn, categories,async(req,res)=>{
   let users = req.session.user;
   let category = req.session.category;
   cartCount = await userHelpers.getCartCount(users._id);
-  res.render('User/order',{
-    user: true,
-    users,
-    category,
-    cartCount
+  userHelpers.getOrderDetails(req.session.user._id).then((orders)=>{
+    res.render('User/order',{
+      user: true,
+      users,
+      category,
+      cartCount,
+      orders
+    })
   })
+ 
 })
 module.exports = router;

@@ -33,84 +33,48 @@
                                     <div class="table-responsive text-center wishlist-style">
                                         <table class="table table-bordered">
                                             <thead>
+                                             
                                                 <tr>
-                                                    <td>Image</td>
+                                                    <td>#</td>
                                                     <td>Product Name</td>
-                                                    <td>Model</td>
-                                                    <td>Stock</td>
-                                                    <td>Unit Price</td>
-                                                    <td>Action</td>
+                                                    <td>Delivery Address</td>
+                                                    <td>Date</td>
+                                                    <td>Quantity</td>
+                                                    <td>Total Amount</td>
+                                                    <td>Status</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                {{#each orders}}
                                                 <tr>
                                                     <td>
-                                                        <a href="product-details.html"><img
-                                                                src="public/img/product/pro-layout-img6.jpg"
-                                                                alt="Wishlist Product Image"
-                                                                title="Compete Track Tote"></a>
+                                                        {{math @index "+" 1}}
                                                     </td>
                                                     <td>
-                                                        <a href="product-details.html">Compete Track Tote</a>
+                                                        {{this.quantity}}
                                                     </td>
-                                                    <td>3</td>
-                                                    <td>In Stock</td>
                                                     <td>
-                                                        <div class="price"><small><del>$430.00</del></small>
-                                                            <strong>$100.00</strong></div>
+                                                        {{this.address.address}}<br>
+                                                        {{this.address.city}},
+                                                        {{this.address.state}}<br>
+                                                        Pincode:{{this.address.pincode}}
                                                     </td>
+                                                    
+                                                    <td>{{this.date}}</td>
+                                                    
                                                     <td>
                                                         <button type="button" class="btn btn-primary"><i
                                                                 class="fa fa-shopping-cart"></i></button>
                                                         <a href="#" class="btn btn-danger"><i
                                                                 class="fa fa-times"></i></a>
                                                     </td>
+                                                    <td>
+                                                        <div class="price"><small><del></del></small>
+                                                            <strong>RS.{{this.total}}</strong></div>
+                                                    </td>
+                                                    <td>{{this.status}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="product-details.html"><img
-                                                                src="public/img/product/pro-layout-img5.jpg"
-                                                                alt="Wishlist Product Image"
-                                                                title="Rival Field Messenger 6"></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="product-details.html">Rival Field Messenger 6</a>
-                                                    </td>
-                                                    <td>3</td>
-                                                    <td>In Stock</td>
-                                                    <td>
-                                                        <div class="price"><small><del>$440.00</del></small>
-                                                            <strong>$180.00</strong></div>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary"><i
-                                                                class="fa fa-shopping-cart"></i></button>
-                                                        <a href="#" class="btn btn-danger"><i
-                                                                class="fa fa-times"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="product-details.html"><img
-                                                                src="public/img/product/pro-layout-img1.jpg"
-                                                                alt="Wishlist Product Image"
-                                                                title="Fusion Backpack"></a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="product-details.html">Fusion Backpack</a>
-                                                    </td>
-                                                    <td>3</td>
-                                                    <td>In Stock</td>
-                                                    <td>
-                                                        <div class="price">$200.00</div>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary"><i
-                                                                class="fa fa-shopping-cart"></i></button>
-                                                        <a href="#" class="btn btn-danger"><i
-                                                                class="fa fa-times"></i></a>
-                                                    </td>
-                                                </tr>
+                                               {{/each}}
                                             </tbody>
                                         </table>
                                     </div>

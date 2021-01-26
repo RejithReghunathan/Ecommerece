@@ -223,7 +223,7 @@
                                                 </div>
                                                 <div class="custom-radio">
                                                     <input class="form-check-input" type="radio" name="payment"
-                                                        id="paypal_payment" value="paypal">
+                                                        id="paypal_payment" value="razorpay">
                                                     <span class="checkmark"></span>
                                                     <label class="form-check-label" for="razor_payment">RazorPay
                                                         Checkout</label>
@@ -234,6 +234,7 @@
                                                     </div>
                                                 </div>
                                                 <input type="text" name="userId" id="" value="{{users._id}}" hidden >
+                                                <input type="text" name="total" id="" value="{{total}}" hidden >
                                             </div>
                                             <div class="form-row justify-content-end">
                                                 <input type="submit" class="btn btn-secondary dark"
@@ -269,6 +270,7 @@
             success:(response)=>{
                 if(response.status){
                     alert('Order Placed Successfullly')
+                    window.location.href ='/order'
                 }
             }
         })
