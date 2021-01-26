@@ -403,6 +403,7 @@ router.get('/order',isSignedIn, categories,async(req,res)=>{
   let category = req.session.category;
   cartCount = await userHelpers.getCartCount(users._id);
   userHelpers.getOrderDetails(req.session.user._id).then((orders)=>{
+    console.log();
     res.render('User/order',{
       user: true,
       users,
