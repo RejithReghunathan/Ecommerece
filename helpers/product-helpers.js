@@ -36,6 +36,7 @@ module.exports = {
         })
     },
     addProduct:((product,data)=>{
+        product.price=parseInt(product.price)
         db.get().collection('product').insertOne(product).then((result)=>{
             data(result.ops[0]._id)
         })
@@ -97,6 +98,7 @@ module.exports = {
         })
     },
     updateProdById:(data,proId)=>{
+        data.price=parseInt(data.price)
         return new Promise((resolve,reject)=>{
             db.get().collection('product').updateOne({_id:objectId(proId)},
                 {$set:{

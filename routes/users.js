@@ -9,6 +9,10 @@ var FormData = require("form-data");
 var otpid;
 var phone;
 
+const moment = require('moment') 
+
+moment().format(); 
+
 /* GET users listing. */
 const isSignedIn = (req, res, next) => {
   if (req.session.isLoggedIn) {
@@ -337,13 +341,13 @@ router.post("/verifyotp", (req, res) => {
 router.get("/checkout", isSignedIn, categories,async (req, res) => {
   let users = req.session.user;
   let category = req.session.category;
-  let total;
+  let total=0;
   if (req.session.role == 0) {
     res.render("Admin/index", { admin: true });
   } else {
     await user.getTotalAmount(req.session.user._id).then((result) => {
       total = result;
-    });
+    });if(total){
     userHelpers.getCart(req.session.user._id).then(async (data) => {
       let cartPro = data;
       console.log("CART", cartPro);
@@ -357,18 +361,36 @@ router.get("/checkout", isSignedIn, categories,async (req, res) => {
         total,
       });
     });
+  }else{
+    productHelper.getAllCategory().then((category) => {
+      productHelper
+        .getAllProduct()
+        .then((product) => {
+          res.render("User/home", { user: true, product, category });
+        })
+        .catch(() => {
+          console.log("No Products found");
+        });
+    });
+  }
   }
 });
 router.post("/place-order", async (req, res) => {
   
   let products = await  userHelpers.getCartProductList(req.body.userId)
+
+  await user.getTotalAmount(req.session.user._id).then((result) => {
+    console.log('req.body.total'),result;
+    req.body.total=result
+  })
   userHelpers.placeOrder(req.body,products).then((orderId)=>{
     if(req.body.paymentMethod=="cash"){
     res.json({
-      status:true
+      codSuccess:true
     })}
     else{
       userHelpers.generateRazorpay(orderId,req.body.total).then((response)=>{
+        console.log("TOTAL RES",response);
       res.json(response)
       })
     }
@@ -390,5 +412,14 @@ router.get('/order',isSignedIn, categories,async(req,res)=>{
     })
   })
  
+})
+router.post('/verify-payment',(req,res)=>{
+  userHelpers.verifyPaymentDetails(req.body).then(()=>{
+      userHelpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+        res.json({status:true})
+      })
+  }).catch((err)=>{
+     res.json({status:'payment failed'})
+  })
 })
 module.exports = router;
