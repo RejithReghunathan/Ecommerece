@@ -407,10 +407,10 @@ module.exports = {
   },
   placeOrder:(order,products)=>{
     let status
-    console.log("ORDER TOTAL",order.total);
+    console.log("ORDER TOTAL",order);
     order.total=parseInt(order.total)
     return new Promise(async(resolve,reject)=>{
-      if(order.payment=='cash'){
+      if(order.payment==='cash'){
         status='placed'
       }else{
         status='pending'
@@ -428,15 +428,16 @@ module.exports = {
         },
         total:parseInt(order.total),
         userId:objectId(order.userId),
-        paymentMethod:order.payment,
+        paymentMethod:'COD',
         status:status,
         products:products,
         date:moment(new Date()).format('LL')
       }
      await db.get().collection('order').insertOne(orderObj).then((response)=>{
-       console.log("TEOAL ON RESOMSE",response);
         db.get().collection('cart').removeOne({user:objectId(order.userId)})
+        console.log('response on manga2',response.ops[0]);
         resolve(response.ops[0]._id)
+        
       }) 
     })
   },
@@ -462,7 +463,8 @@ module.exports = {
               address:'$deliveryAdrress',
               status:'$status',
               total:'$total',
-              date:'$date'
+              date:'$date',
+              paymentMethod:'$paymentMethod'
           }
       },
       {
@@ -481,6 +483,7 @@ module.exports = {
             status:1,
             date:1,
             total:1,
+            paymentMethod:1,
             product: {
               $arrayElemAt: ["$product", 0],
             },
@@ -522,6 +525,7 @@ module.exports = {
       db.get().collection('order').updateOne({_id:objectId(orderId)},
       {
         $set:{
+          paymentMethod: 'Online Payment',
           status:'placed'
         }
       }

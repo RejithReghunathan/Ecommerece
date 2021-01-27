@@ -57,7 +57,7 @@
                                         placeholder="Quantity" required>
                                 </div>
                                <div class="form-group">
-                                    <img src="../product-images/{{product._id}}.jpg" alt="" id="imgView" style="height: 100px; width:100px;">
+                                    <img src="../product-images/{{product._id}}.jpg" alt="" id="imgView" style="height: 100px; width:100px; display:none;" >
                                 </div>
                                 {{!-- <div class="form-group">
                                     <img id="menu_image" class="preview_img" />
@@ -80,5 +80,6 @@
 <script>
      function viewImage(event){
         document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+        $('#imgView').show()
     }
 </script>

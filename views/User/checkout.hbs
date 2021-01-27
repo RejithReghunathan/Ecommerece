@@ -192,6 +192,8 @@
                                                         <img src="../product-images/{{this.product._id}}.jpg"
                                                             alt="Compete Track Tote" title="Compete Track Tote">
                                                     </a>
+                                            {{!-- <input type="text" name="proId" id="" value="{{this.product_id}}" hidden> --}}
+
                                                 </div>
                                                 <div class="media-body">
                                                     <h5>{{this.product.name}}</h5>
@@ -287,7 +289,6 @@
 <script>
     $('#placeOrder').submit((e) => {
         e.preventDefault();
-        console.log('Clicked')
         $.ajax({
             url: '/place-order',
             method: "post",
@@ -304,7 +305,6 @@
         })
     })
     function razorpayPayment(order) {
-        console.log('ORDER',order)
         var options = {
             "key": "rzp_test_VQhP9t51w4WZYW", // Enter the Key ID generated from the Dashboard
             "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
