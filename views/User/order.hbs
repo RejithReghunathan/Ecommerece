@@ -39,9 +39,10 @@
                                                     <td>Product Name</td>
                                                     <td>Delivery Address</td>
                                                     <td>Date</td>
-                                                    <td>Quantity</td>
+                                                    <td>Payment Method</td>
                                                     <td>Total Amount</td>
                                                     <td>Status</td>
+                                                    <td>Action</td>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -66,10 +67,11 @@
                                                         {{this.paymentMethod}}
                                                     </td>
                                                     <td>
-                                                        <div class="price"><small><del></del></small>
+                                                        <div ><small><del></del></small>
                                                             <strong>RS.{{this.total}}</strong></div>
                                                     </td>
                                                     <td>{{this.status}}</td>
+                                                    <td><a href="" class="text-white btn btn-secondary dark align-self-end">Cancel</a></td>
                                                 </tr>
                                                {{/each}}
                                             </tbody>

@@ -1,6 +1,6 @@
 <!-- slider area start -->
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-<div class="slider-area">
+ <div class="slider-area">
     <div class="hero-slider-active slick-dot-style slider-arrow-style">
         <div class="single-slider d-flex align-items-center"
             style="background-image: url(/img/slider/slider1-home1.jpg);">
@@ -35,7 +35,7 @@
 <!-- slider area end -->
 
 <!-- feature area start -->
-<div class="feature-style-one pt-70 pb-15">
+{{!-- <div class="feature-style-one pt-70 pb-15">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
@@ -99,12 +99,12 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- feature area end -->
 
 <!-- product wrapper area start -->
 <div class="product-wrapper fix pb-70">
-    <div class="container-fluid">
+    <div >
         <div class="section-title product-spacing hm-11">
             <h3><span>our</span> product</h3>
             <div class="boxx-tab">
@@ -112,21 +112,24 @@
                     <li>
                         <a class="active" data-toggle="tab" href="#one">Camera, Photo & Video</a>
                     </li>
-                    <li>
+                    {{!-- <li>
                         <a data-toggle="tab" href="#two">Audio & Home Theater</a>
                     </li>
                     <li>
                         <a data-toggle="tab" href="#three">Cellphones & Accessories</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>
         <div class="tab-content">
             <div class="tab-pane fade show active" id="one">
-                <div class="product-gallary-wrapper">
-                    <div class="product-gallary-active owl-carousel owl-arrow-style product-spacing">
+                {{!-- <div class="product-gallary-wrapper"> --}}
+                    {{!-- <div class="product-gallary-active owl-carousel owl-arrow-style product-spacing"> --}}
+                        <div class="row d-flex justify-content-center">
+                       
                         {{#each product}}
-                        <div class="product-item ">
+                        <div class="product-item col-md-2 mr-3 mb-3 col-12" >
+                            
                             <div class="product-thumb d-flex justify-content-center mt-2">
                                 <a href="/productDetails/{{this._id}}">
                                     <img src="./product-images/{{this._id}}.jpg" style="height: 250px;" class="pri-img d-flex justify-content-center" alt="">
@@ -164,7 +167,7 @@
                         {{/each}}
                     </div>
                 </div>
-            </div>
+            {{!-- </div> --}}
             {{!-- <div class="tab-pane fade" id="two">
                 <div class="product-gallary-wrapper">
                     <div class="product-gallary-active owl-carousel owl-arrow-style product-spacing">
