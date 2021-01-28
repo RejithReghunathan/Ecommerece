@@ -91,6 +91,7 @@ router.post("/loginuser", (req, res) => {
       req.session.isLoggedIn = true;
       req.session.role = response.user.role;
       req.session.user = response.user;
+      // req.session.=true
       if (req.session.role == 0) {
         res.json({ user: true, role: true }); //admin
       } else {
