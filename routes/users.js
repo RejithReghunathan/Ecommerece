@@ -6,6 +6,7 @@ var productHelper = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 var axios = require("axios");
 var FormData = require("form-data");
+var paypal = require('paypal-rest-sdk')
 var otpid;
 var phone;
 
@@ -385,16 +386,18 @@ router.post("/place-order", async (req, res) => {
     req.body.total = result;
   });
   userHelpers.placeOrder(req.body, products).then((orderId) => {
-    if (req.body.payment == "cash ") {
+    if (req.body.payment == "cash") {
       res.json({
         codSuccess: true,
       });
-    } else {
+    } else if(req.body.payment==='razorpay') {
       userHelpers.generateRazorpay(orderId, req.body.total).then((response) => {
         console.log("TOTAL RES", response);
         response.codSuccess = false;
         res.json(response);
       });
+    }else if(req.body.payment==='paypal'){
+      // userHelpers.
     }
   });
 
@@ -426,5 +429,10 @@ router.post("/verify-payment", (req, res) => {
     .catch((err) => {
       res.json({ status: "payment failed" });
     });
+});
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AZeT8PU69pAs5JxZ2Lc-ejNdzBdV9rXm6FJvhwckeLiYRgH0BaU4hWVGx4y1CU5unlnLgD7TqaKHRkUa',
+  'client_secret': 'EOAytA7Ig8F4gtSrRb0NUuWWc562MCVysbaxtXd9R4iIJCLsg3RhWNSdblH5FrsJzHGwxGsSAKzYImg7'
 });
 module.exports = router;
