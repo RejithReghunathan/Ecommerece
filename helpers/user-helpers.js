@@ -428,7 +428,7 @@ module.exports = {
         },
         total:parseInt(order.total),
         userId:objectId(order.userId),
-        paymentMethod:'COD',
+        paymentMethod:order.payment,
         status:status,
         products:products,
         date:moment(new Date()).format('LL')
