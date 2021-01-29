@@ -453,9 +453,7 @@ module.exports = {
         {
           $match:{userId:objectId(userId)}
         },
-        {
-          $unwind:"$products"
-     },
+  
         {
           $project:{
               item:'$products.item',
@@ -484,6 +482,9 @@ module.exports = {
             date:1,
             total:1,
             paymentMethod:1,
+            sum: { 
+              $sum: { $sum: "$quantity" } 
+          },
             product: {
               $arrayElemAt: ["$product", 0],
             },

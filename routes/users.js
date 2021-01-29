@@ -408,7 +408,7 @@ router.get("/order", isSignedIn, categories, async (req, res) => {
   let category = req.session.category;
   cartCount = await userHelpers.getCartCount(users._id);
   userHelpers.getOrderDetails(req.session.user._id).then((orders) => {
-    console.log();
+    
     res.render("User/order", {
       user: true,
       users,
@@ -435,4 +435,15 @@ paypal.configure({
   'client_id': 'AZeT8PU69pAs5JxZ2Lc-ejNdzBdV9rXm6FJvhwckeLiYRgH0BaU4hWVGx4y1CU5unlnLgD7TqaKHRkUa',
   'client_secret': 'EOAytA7Ig8F4gtSrRb0NUuWWc562MCVysbaxtXd9R4iIJCLsg3RhWNSdblH5FrsJzHGwxGsSAKzYImg7'
 });
+router.get('/orderSuccess', isSignedIn, categories,async(req,res)=>{
+  let users = req.session.user;
+  let category = req.session.category;
+  cartCount = await userHelpers.getCartCount(users._id);
+  res.render("User/orderSuccess", {
+    user: true,
+    users,
+    category,
+    cartCount
+  });
+})
 module.exports = router;

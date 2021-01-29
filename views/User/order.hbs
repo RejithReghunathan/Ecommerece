@@ -36,11 +36,12 @@
                                              
                                                 <tr>
                                                     <td>#</td>
-                                                    <td>Product Name</td>
+                                                    
                                                     <td>Delivery Address</td>
                                                     <td>Date</td>
                                                     <td>Payment Method</td>
                                                     <td>Total Amount</td>
+                                                    <td>Total Items</td>
                                                     <td>Status</td>
                                                     <td>Action</td>
                                                 </tr>
@@ -51,9 +52,7 @@
                                                     <td>
                                                         {{math @index "+" 1}}
                                                     </td>
-                                                    <td>
-                                                        {{this.quantity}}
-                                                    </td>
+                                                    
                                                     <td>
                                                         {{this.address.address}}<br>
                                                         {{this.address.city}},
@@ -69,6 +68,9 @@
                                                     <td>
                                                         <div ><small><del></del></small>
                                                             <strong>RS.{{this.total}}</strong></div>
+                                                    </td>
+                                                    <td>
+                                                        {{this.sum}}
                                                     </td>
                                                     <td>{{this.status}}</td>
                                                     <td><a href="" class="text-white btn btn-secondary dark align-self-end">Cancel</a></td>

@@ -33,7 +33,7 @@
                                         <h3>Billing Details</h3>
                                     </div>
 
-                                    <form  id="placeOrder" method="post">
+                                    <form id="placeOrder" method="post">
                                         <div class="form-row mb-3">
                                             <div class="form-group col-12 col-sm-12 col-md-6">
                                                 <label for="first_name">First Name <span
@@ -192,7 +192,8 @@
                                                         <img src="../product-images/{{this.product._id}}.jpg"
                                                             alt="Compete Track Tote" title="Compete Track Tote">
                                                     </a>
-                                            {{!-- <input type="text" name="proId" id="" value="{{this.product_id}}" hidden> --}}
+                                                    {{!-- <input type="text" name="proId" id=""
+                                                        value="{{this.product_id}}" hidden> --}}
 
                                                 </div>
                                                 <div class="media-body">
@@ -295,10 +296,10 @@
             data: $('#placeOrder').serialize(),
             success: (response) => {
                 if (response.codSuccess) {
-                    alert('Order Placed Successfullly')
-                    window.location.href = '/order'
+
+                    window.location.href = '/orderSuccess'
                 } else {
-                    console.log("amount",response)
+                    console.log("amount", response)
                     razorpayPayment(response)
                 }
             }
@@ -314,9 +315,13 @@
             "image": "https://example.com/your_logo",
             "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             "handler": function (response) {
-                {{!-- alert(response.razorpay_payment_id);
-                alert(response.razorpay_order_id);
-                alert(response.razorpay_signature) --}}
+                {
+                    {
+                        !--alert(response.razorpay_payment_id);
+                        alert(response.razorpay_order_id);
+                        alert(response.razorpay_signature)--
+                    }
+                }
                 verifyPayment(response, order)
             },
             "prefill": {
@@ -336,11 +341,7 @@
         var rzp1 = new Razorpay(options);
         rzp1.open();
     }
-
-
-      function verifyPayment(payment, order) {
-        console.log('HAs')
-
+    function verifyPayment(payment, order) {
         $.ajax({
             url: '/verify-payment',
             method: 'post',
@@ -348,19 +349,18 @@
                 payment,
                 order
             },
-            success:(response)=>{
-                if(response.status){
-                    alert('payment Success')
-                    window.location.href='/order'
-                }else{
+            success: (response) => {
+                if (response.status) {
+                    window.location.href = '/orderSuccess'
+                } else {
                     alert('payment failed')
                 }
             }
         })
-    } 
-    
+    }
+
 </script>
 <script>
-   
-   
+
+
 </script>
