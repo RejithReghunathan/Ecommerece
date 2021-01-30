@@ -238,4 +238,7 @@ router.get("/users", (req, res) => {
     res.render("Admin/adminLogin");
   }
 });
+router.get('/viewOrders',(req,res)=>{
+  
+})
 module.exports = router;

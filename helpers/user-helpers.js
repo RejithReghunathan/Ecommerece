@@ -5,10 +5,18 @@ const { response } = require("express");
 const Razorpay = require('razorpay');
 const { resolve } = require("path");
 const moment = require('moment') 
+const paypal = require('paypal-rest-sdk');
 
 var instance = new Razorpay({
   key_id: 'rzp_test_VQhP9t51w4WZYW',
   key_secret: 'Vc7ocS2CYtfgTGayZs8Hatdk',
+});
+
+
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AZeT8PU69pAs5JxZ2Lc-ejNdzBdV9rXm6FJvhwckeLiYRgH0BaU4hWVGx4y1CU5unlnLgD7TqaKHRkUa',
+  'client_secret': 'EOAytA7Ig8F4gtSrRb0NUuWWc562MCVysbaxtXd9R4iIJCLsg3RhWNSdblH5FrsJzHGwxGsSAKzYImg7'
 });
 
 module.exports = {
@@ -534,5 +542,6 @@ module.exports = {
         resolve()
       })
     })
-  }
+  },
+  
 };

@@ -6,17 +6,14 @@ var productHelper = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 var axios = require("axios");
 var FormData = require("form-data");
-var paypal = require("paypal-rest-sdk");
+const paypal = require('paypal-rest-sdk');
 var otpid;
 var phone;
 paypal.configure({
-  mode: "sandbox", //sandbox or live
-  client_id:
-    "AZeT8PU69pAs5JxZ2Lc-ejNdzBdV9rXm6FJvhwckeLiYRgH0BaU4hWVGx4y1CU5unlnLgD7TqaKHRkUa",
-  client_secret:
-    "EOAytA7Ig8F4gtSrRb0NUuWWc562MCVysbaxtXd9R4iIJCLsg3RhWNSdblH5FrsJzHGwxGsSAKzYImg7",
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AZeT8PU69pAs5JxZ2Lc-ejNdzBdV9rXm6FJvhwckeLiYRgH0BaU4hWVGx4y1CU5unlnLgD7TqaKHRkUa',
+  'client_secret': 'EOAytA7Ig8F4gtSrRb0NUuWWc562MCVysbaxtXd9R4iIJCLsg3RhWNSdblH5FrsJzHGwxGsSAKzYImg7'
 });
-
 const moment = require("moment");
 
 moment().format();
@@ -351,17 +348,17 @@ router.get("/checkout", isSignedIn, categories, async (req, res) => {
   let users = req.session.user;
   let category = req.session.category;
   let total = 0;
- let cartCount = await userHelpers.getCartCount(users._id);
-
-   
-    if (cartCount>0) {
-      await user.getTotalAmount(req.session.user._id).then((result) => {
-        total = result;
-      });
+  if (req.session.role == 0) {
+    res.render("Admin/index", { admin: true });
+  } else {
+    await user.getTotalAmount(req.session.user._id).then((result) => {
+      total = result;
+    });
+    if (total) {
       userHelpers.getCart(req.session.user._id).then(async (data) => {
         let cartPro = data;
         console.log("CART", cartPro);
-        
+        cartCount = await userHelpers.getCartCount(users._id);
         res.render("User/checkout", {
           user: true,
           users,
@@ -376,111 +373,51 @@ router.get("/checkout", isSignedIn, categories, async (req, res) => {
         productHelper
           .getAllProduct()
           .then((product) => {
-            res.render("User/Checkout", { user: true, cartCount,users, category });
+            res.render("User/home", { user: true, product, category });
           })
           .catch(() => {
             console.log("No Products found");
           });
       });
     }
-  
+  }
 });
 router.post("/place-order", async (req, res) => {
   let products = await userHelpers.getCartProductList(req.body.userId);
   console.log("placeorder datga", req.body);
   await user.getTotalAmount(req.session.user._id, products).then((result) => {
+    console.log("req.body.total"), result;
     req.body.total = result;
   });
   userHelpers.placeOrder(req.body, products).then((orderId) => {
+    req.session.orderId=orderId
+    req.session.total=req.body.total
     if (req.body.payment == "cash") {
       res.json({
-        codSuccess: "COD",
+        codSuccess: 'COD',
       });
-    } else if (req.body.payment === "razorpay") {
+    } else if(req.body.payment==='razorpay') {
       userHelpers.generateRazorpay(orderId, req.body.total).then((response) => {
-        response.codSuccess = "razorpay";
+        
+        response.codSuccess = 'razorpay';
         res.json(response);
       });
-    } else if (req.body.payment === "paypal") {
-      const create_payment_json = {
-        intent: "sale",
-        payer: {
-          payment_method: "paypal",
-        },
-        redirect_urls: {
-          return_url: "http://localhost:3000/paypalSuccess",
-          cancel_url: "http://localhost:3000/cancel",
-        },
-        transactions: [
-          {
-            item_list: {
-              items: [
-                {
-                  name: "Red Sox Hat",
-                  sku: "001",
-                  price: "25.00",
-                  currency: "USD",
-                  quantity: 1,
-                },
-              ],
-            },
-            amount: {
-              currency: "USD",
-              total: "25.00",
-            },
-            description: "Hat for the best team ever",
-          },
-        ],
-      };
-
-      paypal.payment.create(create_payment_json, function (error, payment) {
-        if (error) {
-          throw error;
-        } else {
-          for (let i = 0; i < payment.links.length; i++) {
-            if (payment.links[i].rel === "approval_url") {
-              res.redirect(payment.links[i].href);
-            }
-          }
-        }
-      });
+    }else if(req.body.payment==='paypal'){
+    
+     
+        response.codSuccess='paypal'
+        res.json(response)
+  
     }
   });
-router.get("/cancel", (req, res) => res.send("Cancelled"));
-router.get("/paypalSuccess", (req, res) => {
-    const payerId = req.query.PayerID;
-    const paymentId = req.query.paymentID;
-    const execute_payment_json = {
-      payer_id: payerId,
-      transactions: [
-        {
-          amount: {
-            currency: "USD",
-            total: "25.0",
-          },
-        },
-      ],
-    };
-
-    paypal.payment.execute(paymentId, execute_payment_json, function (
-      error,
-      payment
-    ) {
-      if (error) {
-        console.log(error.response);
-        throw error;
-      } else {
-        console.log(JSON.stringify(payment));
-        res.send("Success");
-      }
-    });
-  });
 });
+
 router.get("/order", isSignedIn, categories, async (req, res) => {
   let users = req.session.user;
   let category = req.session.category;
   cartCount = await userHelpers.getCartCount(users._id);
   userHelpers.getOrderDetails(req.session.user._id).then((orders) => {
+    
     res.render("User/order", {
       user: true,
       users,
@@ -502,7 +439,8 @@ router.post("/verify-payment", (req, res) => {
       res.json({ status: "payment failed" });
     });
 });
-router.get("/orderSuccess", isSignedIn, categories, async (req, res) => {
+
+router.get('/orderSuccess', isSignedIn, categories,async(req,res)=>{
   let users = req.session.user;
   let category = req.session.category;
   cartCount = await userHelpers.getCartCount(users._id);
@@ -510,7 +448,74 @@ router.get("/orderSuccess", isSignedIn, categories, async (req, res) => {
     user: true,
     users,
     category,
-    cartCount,
+    cartCount
   });
+})
+router.get('/cancel', (req, res) => res.send('Cancelled'));
+router.get('/paypalOrder',(req,res)=>{
+  {
+    const create_payment_json = {
+      "intent": "sale",
+      "payer": {
+          "payment_method": "paypal"
+      },
+      "redirect_urls": {
+          "return_url": "http://localhost:3000/success",
+          "cancel_url": "http://localhost:3000/cancel"
+      },
+      "transactions": [{
+          "item_list": {
+              "items": [{
+                  "name": "Red Sox Hat",
+                  "sku": "001",
+                  "price": req.session.total,
+                  "currency": "INR",
+                  "quantity": 1
+              }]
+          },
+          "amount": {
+              "currency": "INR",
+              "total": req.session.total
+          },
+          "description": "Hat for the best team ever"
+      }]
+  };
+  
+  paypal.payment.create(create_payment_json, function (error, payment) {
+    if (error) {
+        throw error;
+    } else {
+        for(let i = 0;i < payment.links.length;i++){
+          if(payment.links[i].rel === 'approval_url'){
+            console.log("LINK",);
+            res.redirect(payment.links[i].href)
+          }
+        }
+    }
+  });
+  }
+})
+router.get('/success', (req, res) => {
+  const payerId = req.query.PayerID;
+  const paymentId = req.query.paymentId;
+
+  const execute_payment_json = {
+    "payer_id": payerId,
+    "transactions": [{
+        "amount": {
+            "currency": "INR",
+            "total": req.session.total
+        }
+    }]
+  };
+
+  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+    if (error) {
+        console.log(error.response);
+        throw error;
+    } else {
+        res.render('/orderSuccess')
+    }
+});
 });
 module.exports = router;
