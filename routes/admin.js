@@ -3,6 +3,7 @@ var router = express.Router();
 var product = require("../helpers/product-helpers");
 const orderHelper = require('../helpers/order-helpers')
 const userHelper = require("../helpers/user-helpers");
+const { json } = require("express");
 
 router.get("/admin", (req, res) => {
   let user = req.session.user;
@@ -25,8 +26,12 @@ router.get("/dashboard", async(req, res) => {
   if (user) {
     if (role == 0) {
      await orderHelper.getDashboardDetails().then((data)=>{
-      console.log('DATA ',data);
-        res.render("Admin/index", { admin: true,data});
+        orderHelper.graphSalesData().then((response)=>{
+          console.log("Kundan Ajmal",response);
+          // response.date=response.date.toString()
+        //  var array =json
+          res.render("Admin/index", { admin: true,data,response});
+       })
       })
      
     }

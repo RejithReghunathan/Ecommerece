@@ -439,7 +439,7 @@ module.exports = {
         paymentMethod:order.payment,
         status:status,
         products:products,
-        date:moment(new Date()).format('LL')
+        date:moment(new Date()).format('L')
       }
      await db.get().collection('order').insertOne(orderObj).then((response)=>{
         db.get().collection('cart').removeOne({user:objectId(order.userId)})
