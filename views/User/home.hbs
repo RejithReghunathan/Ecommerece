@@ -161,7 +161,7 @@
                                 {{!-- <a href="/addToCart/{{this._id}}"> --}}
                                 <button class="btn-cart tetx-center" type="button" onclick="addToCart('{{this._id}}')">add to cart</button>
                                 {{!-- </a> --}}
-                                
+                                {{!-- <div class="text-center text-primary" id="{{this.id}}" >Item added to cart</div> --}}
                             </div>
                         </div><!-- </div> end single item -->
                         {{/each}}
@@ -883,7 +883,7 @@
             success:(response)=>{
                 if(response.status){
                     document.getElementById('cart-count').innerHTML=response.count
-                    {{!-- $('#cart-count').html(response.count).show() --}}
+                    alert('Item added to cart')
                 }
             }
         })

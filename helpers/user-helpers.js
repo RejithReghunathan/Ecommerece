@@ -534,7 +534,7 @@ module.exports = {
       db.get().collection('order').updateOne({_id:objectId(orderId)},
       {
         $set:{
-          paymentMethod: 'Online Payment',
+          paymentMethod: 'Razorpay',
           status:'placed'
         }
       }

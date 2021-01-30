@@ -234,7 +234,7 @@ router.get("/cart", isSignedIn, categories, async (req, res) => {
     });
   }
 });
-router.get("/addToCart/:id", async (req, res) => {
+router.get("/addToCart/:id",isSignedIn, async (req, res) => {
   let users = req.session.user;
   if (users) {
     await userHelpers.getCartCount(users._id).then((countNum) => {
@@ -451,7 +451,7 @@ router.get('/orderSuccess', isSignedIn, categories,async(req,res)=>{
     cartCount
   });
 })
-router.get('/cancel', (req, res) => res.send('Cancelled'));
+router.get('/cancel', (req, res) => res.send('Payment Failed'));
 router.get('/paypalOrder',(req,res)=>{
   {
     const create_payment_json = {
