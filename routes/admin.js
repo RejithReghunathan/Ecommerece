@@ -1,6 +1,7 @@
-var express = require("express");
+const express = require("express");
 var router = express.Router();
 var product = require("../helpers/product-helpers");
+const orderHelper = require('../helpers/order-helpers')
 const userHelper = require("../helpers/user-helpers");
 
 router.get("/admin", (req, res) => {
@@ -8,18 +9,26 @@ router.get("/admin", (req, res) => {
   let role = req.session.role;
   if (user) {
     if (role == 0) {
-      res.render("Admin/index", { admin: true });
+    orderHelper.getDashboardDetails().then((data)=>{
+      
+        res.render("Admin/index", { admin: true,data});
+      })
+     
     }
   } else {
     res.render("Admin/adminLogin");
   }
 });
-router.get("/dashboard", (req, res) => {
+router.get("/dashboard", async(req, res) => {
   let user = req.session.user;
   let role = req.session.role;
   if (user) {
     if (role == 0) {
-      res.render("Admin/index", { admin: true });
+     await orderHelper.getDashboardDetails().then((data)=>{
+      console.log('DATA ',data);
+        res.render("Admin/index", { admin: true,data});
+      })
+     
     }
   } else {
     res.render("Admin/adminLogin");
@@ -239,6 +248,16 @@ router.get("/users", (req, res) => {
   }
 });
 router.get('/viewOrders',(req,res)=>{
-  
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      orderHelper.getAllOrders().then((orders) => {
+        res.render("Admin/orders", { admin: true, orders });
+      });
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
 })
 module.exports = router;
