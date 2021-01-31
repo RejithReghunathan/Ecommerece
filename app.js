@@ -6,9 +6,10 @@ var logger = require("morgan");
 const session = require("express-session");
 const Handlebars = require("handlebars");
 const H = require("just-handlebars-helpers");
-
-const hbs = require("express-handlebars");
 const fileUpload = require("express-fileupload");
+const hbs = require("express-handlebars");
+
+H.registerHelpers(Handlebars);
 
 var adminRouter = require("./routes/admin");
 var usersRouter = require("./routes/users");
@@ -32,8 +33,9 @@ app.use(function (req, res, next) {
   next();
 });
 // view engine setup
-H.registerHelpers(Handlebars);
+
 app.set("views", path.join(__dirname, "views"));
+
 
 // app.engine('hbs',hbs())
 app.engine(
@@ -51,6 +53,9 @@ app.engine(
           "%": lvalue % rvalue,
         }[operator];
       },
+      ifEquals: function(arg1, arg2, options) {
+        return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+      }
     },
     extname: "hbs",
     defaultLayout: "layout",

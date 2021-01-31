@@ -1,7 +1,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-   <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <div class="content-wrapper">
     <div class="content">
         <div class="info-box">
@@ -21,23 +21,48 @@
                                         <th scope="col">Price</th>
                                         <th scope="col">Order Status</th>
                                         <th scope="col">Action</th>
-                                        
+
                                     </tr>
                                 </thead>
-                                <tbody >
+                                <tbody>
                                     {{#each orders}}
-                                    <tr >
+                                    <tr>
                                         <td scope="row" id="count">{{math @index "+" 1}}</td>
                                         <td>{{deliveryAdrress.fname}}</td>
                                         <td>{{deliveryAdrress.address}}<br>
-                                                        {{deliveryAdrress.city}},
-                                                        {{deliveryAdrress.state}}<br>
-                                                        Pincode:{{deliveryAdrress.pincode}}</td>
+                                            {{deliveryAdrress.city}},
+                                            {{deliveryAdrress.state}}<br>
+                                            Pincode:{{deliveryAdrress.pincode}}</td>
                                         <td>{{date}}</td>
                                         <td>{{total}}</td>
-                                        <td>{{status}}</td>
-                                        
+
+                                        <td>{{status}}
+                                            {{!-- {{#if (eqw status 'placed')}}
+                                            hello
+                                            {{/if}} --}}
+                                            {{#ifEquals status "placed"}}
+                                            Your HTML here
+                                            {{/ifEquals}}
+                                        </td>
+
                                         <td>
+
+                                            <div class="input-group">
+                                                <select class="custom-select" id="inputGroupSelect04"
+                                                    aria-label="Example select with button addon">
+                                                    <option selected>{{status}}</option>
+                                                    {{!-- {{#equals status 'placed'}} --}}
+                                                    <option value="confirm">Confirm</option>
+                                                    <option value="ship">Ship</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    {{!-- {{/equals}} --}}
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary"
+                                                        type="button">Button</button>
+                                                </div>
+                                            </div>
+                                            {{!-- <button class="btn btn-success">Submit</button> --}}
                                         </td>
                                     </tr>
                                     {{/each}}
@@ -53,9 +78,9 @@
 
 
 <script>
-   $(document).ready( function () {
-    $('#pro').DataTable({
-        paging:true
+    $(document).ready(function () {
+        $('#pro').DataTable({
+            paging: true
+        });
     });
-} );
 </script>

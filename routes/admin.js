@@ -5,14 +5,18 @@ const orderHelper = require('../helpers/order-helpers')
 const userHelper = require("../helpers/user-helpers");
 const { json } = require("express");
 
-router.get("/admin", (req, res) => {
+router.get("/admin", async(req, res) => {
   let user = req.session.user;
   let role = req.session.role;
   if (user) {
     if (role == 0) {
-    orderHelper.getDashboardDetails().then((data)=>{
-      
-        res.render("Admin/index", { admin: true,data});
+      await orderHelper.getDashboardDetails().then((data)=>{
+        orderHelper.graphSalesData().then((response)=>{
+          console.log("Kundan Ajmal",response);
+          // response.date=response.date.toString()
+        //  var array =json
+          res.render("Admin/index", { admin: true,data,response});
+       })
       })
      
     }
