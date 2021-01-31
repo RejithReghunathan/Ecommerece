@@ -269,4 +269,9 @@ router.get('/viewOrders',(req,res)=>{
     res.render("Admin/adminLogin");
   }
 })
+router.post('/changeStatus',(req,res)=>{
+  orderHelper.changeOrderStatus(req.body).then((response)=>{
+    res.json({reponse})
+  })
+})
 module.exports = router;

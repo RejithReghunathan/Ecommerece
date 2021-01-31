@@ -37,12 +37,8 @@
                                         <td>{{total}}</td>
 
                                         <td>{{status}}
-                                            {{!-- {{#if (eqw status 'placed')}}
-                                            hello
-                                            {{/if}} --}}
-                                            {{#ifEquals status "placed"}}
-                                            Your HTML here
-                                            {{/ifEquals}}
+
+
                                         </td>
 
                                         <td>
@@ -51,15 +47,34 @@
                                                 <select class="custom-select" id="inputGroupSelect04"
                                                     aria-label="Example select with button addon">
                                                     <option selected>{{status}}</option>
-                                                    {{!-- {{#equals status 'placed'}} --}}
+                                                    {{#ifEquals status "placed"}}
                                                     <option value="confirm">Confirm</option>
                                                     <option value="ship">Ship</option>
                                                     <option value="delivered">Delivered</option>
-                                                    {{!-- {{/equals}} --}}
+                                                    {{/ifEquals}}
+                                                    {{#ifEquals status "confirm"}}
+                                                    {{!-- <option value="confirm">Confirm</option> --}}
+                                                    <option value="ship">Ship</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    {{/ifEquals}}
+                                                    {{#ifEquals status "Ship"}}
+                                                    {{!-- <option value="confirm">Confirm</option>
+                                                    <option value="ship">Ship</option> --}}
+                                                    <option value="delivered">Delivered</option>
+                                                    {{/ifEquals}}
+                                                     {{#ifEquals status "delivered"}}
+                                                    <option value="confirm">Confirm</option>
+                                                    <option value="ship">Ship</option>
+                                                    <option value="delivered">Delivered</option>
+                                                    {{/ifEquals}}
+                                                    
+
+
+
                                                 </select>
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-outline-secondary"
-                                                        type="button">Button</button>
+                                                     <button class="btn btn-outline-secondary"
+                                                        type="button" onclick="status('{{_id}}')">Button</button>
                                                 </div>
                                             </div>
                                             {{!-- <button class="btn btn-success">Submit</button> --}}
@@ -83,4 +98,17 @@
             paging: true
         });
     });
+    function status(id){
+ var e = document.getElementById('inputGroupSelect04')
+ var status = e.options[e.selectedIndex].text;
+ $.ajax({
+     method:'post',
+     url:'changeStatus',
+     data:{status,id},
+     success:(response)=>{
+         alert(response)
+     }
+ })
+    }
+   
 </script>
