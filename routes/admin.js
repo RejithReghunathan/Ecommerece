@@ -271,7 +271,8 @@ router.get('/viewOrders',(req,res)=>{
 })
 router.post('/changeStatus',(req,res)=>{
   orderHelper.changeOrderStatus(req.body).then((response)=>{
-    res.json({reponse})
+    console.log(response);
+    res.json({response})
   })
 })
 module.exports = router;

@@ -37,8 +37,21 @@
                                         <td>{{total}}</td>
 
                                         <td>{{status}}
-
-
+                                            {{#ifEquals status "placed"}}
+                                            Order Placed
+                                            {{/ifEquals}}
+                                           {{#ifEquals status "Confirm"}}
+                                            Order Ready to be shipped
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "Deliver"}}
+                                            Your order has been delivered
+                                            {{/ifEquals}}
+                                            {{!-- {{#ifEquals status "placed"}}
+                                            Order Placed
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "placed"}}
+                                            Order Placed
+                                            {{/ifEquals}} --}}
                                         </td>
 
                                         <td>
@@ -46,26 +59,25 @@
                                             <div class="input-group">
                                                 <select class="custom-select" id="inputGroupSelect04"
                                                     aria-label="Example select with button addon">
-                                                    <option selected>{{status}}</option>
+                                                    {{!-- <option selected>{{status}}</option> --}}
                                                     {{#ifEquals status "placed"}}
                                                     <option value="confirm">Confirm</option>
                                                     <option value="ship">Ship</option>
-                                                    <option value="delivered">Delivered</option>
+                                                    <option value="delivered">Deliver</option>
                                                     {{/ifEquals}}
                                                     {{#ifEquals status "confirm"}}
-                                                    {{!-- <option value="confirm">Confirm</option> --}}
                                                     <option value="ship">Ship</option>
-                                                    <option value="delivered">Delivered</option>
+                                                    <option value="delivered">Deliver</option>
                                                     {{/ifEquals}}
                                                     {{#ifEquals status "Ship"}}
                                                     {{!-- <option value="confirm">Confirm</option>
                                                     <option value="ship">Ship</option> --}}
-                                                    <option value="delivered">Delivered</option>
+                                                    <option value="delivered">Deliver</option>
                                                     {{/ifEquals}}
-                                                     {{#ifEquals status "delivered"}}
-                                                    <option value="confirm">Confirm</option>
+                                                     {{#ifEquals status "Deliver"}}
+                                                    {{!-- <option value="confirm">Confirm</option>
                                                     <option value="ship">Ship</option>
-                                                    <option value="delivered">Delivered</option>
+                                                    <option value="delivered">Delivered</option> --}}
                                                     {{/ifEquals}}
                                                     
 
@@ -74,7 +86,7 @@
                                                 </select>
                                                 <div class="input-group-append">
                                                      <button class="btn btn-outline-secondary"
-                                                        type="button" onclick="status('{{_id}}')">Button</button>
+                                                        type="button" onclick="status('{{_id}}')">Submit</button>
                                                 </div>
                                             </div>
                                             {{!-- <button class="btn btn-success">Submit</button> --}}

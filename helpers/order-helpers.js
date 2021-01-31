@@ -65,13 +65,13 @@ module.exports={
         })
     },
     changeOrderStatus:(data)=>{
+        console.log("data",data);
         return new Promise(async(resolve,reject)=>{
-            db.get().collection('order').updateOne({_id:objectId(data.id),
-            $set:{
+          let result=  await db.get().collection('order').updateOne({_id:objectId(data.id)},
+           { $set:{
                 status:data.status
-            }}).then((data)=>{
-                resolve()
-            })
+            }})
+            resolve(result)
         })
     }
 }
