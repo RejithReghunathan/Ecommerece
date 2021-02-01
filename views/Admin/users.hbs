@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css">
+
 <div class="content-wrapper">
     <div class="content">
         <div class="info-box">
@@ -7,7 +9,7 @@
                     <br>
                     <div class="table-responsive">
                         <div class="container">
-                            <table class="table ">
+                            <table class="table " id="tab">
                                 <thead class="bg-inverse text-white">
                                     <tr>
                                         <th scope="col">#</th>
@@ -50,3 +52,8 @@
         </div>
     </div>
 </div>
+<script>
+     $(document).ready(function () {
+    $('#tab').DataTable();
+  });
+</script>

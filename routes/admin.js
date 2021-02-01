@@ -272,7 +272,6 @@ router.get('/viewOrders',(req,res)=>{
 router.post('/changeStatus',(req,res)=>{
    orderHelper.changeOrderStatus(req.body).then((response)=>{
      orderHelper.getOrderId(req.body.id).then((order)=>{
-      console.log(order);
       res.json({order})
     }).catch(()=>{
       console.log("err");

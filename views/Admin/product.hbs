@@ -7,7 +7,7 @@
                     <br>
                     <div class="table-responsive ">
                         <div class="container">
-                            <table class="table ">
+                            <table class="table " id="example">
                                 <thead class="bg-inverse text-white">
                                     <tr>
                                         <th scope="col">#</th>
@@ -49,3 +49,8 @@
         </div>
     </div>
 </div>
+<script>
+     $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>

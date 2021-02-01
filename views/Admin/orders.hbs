@@ -11,7 +11,7 @@
                     <br>
                     <div class="table-responsive ">
                         <div class="container">
-                            <table class="table" id="pro">
+                            <table class="table" id="example">
                                 <thead class="bg-inverse text-white">
                                     <tr>
                                         <th scope="col">#</th>
@@ -81,7 +81,7 @@
     </div>
 </div>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function status(id) {
         var e = document.getElementById('inputGroupSelect04')
@@ -104,4 +104,16 @@
         })
     }
 
+</script>
+
+
+
+{{!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script> --}}
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
 </script>
