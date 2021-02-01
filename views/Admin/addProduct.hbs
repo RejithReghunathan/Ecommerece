@@ -68,7 +68,8 @@
                                     <label for="exampleInputFile">Image</label>
                                     <input type="file" name="Image" id="exampleInputFile" accept="image/x-png,image/jpg,image/jpeg" required onchange="viewImage(event)">
                                 </div>
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <h5 style="color: red; display:none;" id="image-warning">Please upload only images</h5>
+                                <button type="submit" class="btn btn-success" id="add-product-button">Submit</button>
                             </form>
                         </div>
                     </div>
@@ -78,8 +79,20 @@
     </div>
 </div>
 <script>
-     function viewImage(event){
+ 
+    function viewImage(event){
         document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
-        $('#imgView').show()
+        let file=event.target.files[0].name
+        
+        let filename=file.split('.').pop()
+        if(filename=='jpeg' || filename =='png' || filename=='jpg'){
+            $('#add-product-button').show()
+            $('#image-warning').hide()
+            $('#imgView').show()
+        }else{
+            $('#image-warning').show()
+            $('#add-product-button').hide()
+            $('#imgView').hide()
+        }
     }
 </script>

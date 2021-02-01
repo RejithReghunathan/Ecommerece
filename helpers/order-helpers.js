@@ -23,7 +23,7 @@ module.exports={
             let graphData = await db.get().collection('order').aggregate([
                 {
                     $match:{
-                        status:'placed'
+                        status:'Deliver'
                     }
                 },
                 {
@@ -72,6 +72,17 @@ module.exports={
                 status:data.status
             }})
             resolve(result)
+        })
+    },
+    getOrderId:(id)=>{
+        return new Promise(async(resolve,reject)=>{
+            await db.get().collection('order').findOne({_id:objectId(id)}).then((data)=>{
+                if(data){
+                    resolve(data)
+                }else{
+                    reject()
+                }
+            })
         })
     }
 }

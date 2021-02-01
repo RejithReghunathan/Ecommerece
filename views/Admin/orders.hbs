@@ -36,22 +36,21 @@
                                         <td>{{date}}</td>
                                         <td>{{total}}</td>
 
-                                        <td>{{status}}
+                                        <td id="{{_id}}">
+
                                             {{#ifEquals status "placed"}}
                                             Order Placed
                                             {{/ifEquals}}
-                                           {{#ifEquals status "Confirm"}}
+                                            {{#ifEquals status "Confirm"}}
                                             Order Ready to be shipped
                                             {{/ifEquals}}
                                             {{#ifEquals status "Deliver"}}
-                                            Your order has been delivered
+                                            Order delivered
                                             {{/ifEquals}}
-                                            {{!-- {{#ifEquals status "placed"}}
-                                            Order Placed
+                                            {{#ifEquals status "Ship"}}
+                                            Order dispatched
                                             {{/ifEquals}}
-                                            {{#ifEquals status "placed"}}
-                                            Order Placed
-                                            {{/ifEquals}} --}}
+
                                         </td>
 
                                         <td>
@@ -59,34 +58,13 @@
                                             <div class="input-group">
                                                 <select class="custom-select" id="inputGroupSelect04"
                                                     aria-label="Example select with button addon">
-                                                    {{!-- <option selected>{{status}}</option> --}}
-                                                    {{#ifEquals status "placed"}}
                                                     <option value="confirm">Confirm</option>
                                                     <option value="ship">Ship</option>
                                                     <option value="delivered">Deliver</option>
-                                                    {{/ifEquals}}
-                                                    {{#ifEquals status "confirm"}}
-                                                    <option value="ship">Ship</option>
-                                                    <option value="delivered">Deliver</option>
-                                                    {{/ifEquals}}
-                                                    {{#ifEquals status "Ship"}}
-                                                    {{!-- <option value="confirm">Confirm</option>
-                                                    <option value="ship">Ship</option> --}}
-                                                    <option value="delivered">Deliver</option>
-                                                    {{/ifEquals}}
-                                                     {{#ifEquals status "Deliver"}}
-                                                    {{!-- <option value="confirm">Confirm</option>
-                                                    <option value="ship">Ship</option>
-                                                    <option value="delivered">Delivered</option> --}}
-                                                    {{/ifEquals}}
-                                                    
-
-
-
                                                 </select>
                                                 <div class="input-group-append">
-                                                     <button class="btn btn-outline-secondary"
-                                                        type="button" onclick="status('{{_id}}')">Submit</button>
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        onclick="status('{{_id}}')">Submit</button>
                                                 </div>
                                             </div>
                                             {{!-- <button class="btn btn-success">Submit</button> --}}
@@ -105,22 +83,25 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#pro').DataTable({
-            paging: true
-        });
-    });
-    function status(id){
- var e = document.getElementById('inputGroupSelect04')
- var status = e.options[e.selectedIndex].text;
- $.ajax({
-     method:'post',
-     url:'changeStatus',
-     data:{status,id},
-     success:(response)=>{
-         alert(response)
-     }
- })
+    function status(id) {
+        var e = document.getElementById('inputGroupSelect04')
+        var status = e.options[e.selectedIndex].text;
+        $.ajax({
+            method: 'post',
+            url: 'changeStatus',
+            data: { status, id },
+            success: (response) => {
+                if (response.order.status==='Confirm') {
+                    document.getElementById(id).innerHTML = "Order Ready to be shipped"
+                }
+                else if(response.order.status==='Deliver'){
+                    document.getElementById(id).innerHTML = "Order delivered"
+                }
+                else if(response.order.status==='Ship'){
+                    document.getElementById(id).innerHTML = " Order dispatched"
+                }
+            }
+        })
     }
-   
+
 </script>
