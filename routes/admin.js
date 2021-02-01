@@ -12,9 +12,6 @@ router.get("/admin", async(req, res) => {
     if (role == 0) {
       await orderHelper.getDashboardDetails().then((data)=>{
         orderHelper.graphSalesData().then((response)=>{
-          console.log("Kundan Ajmal",response);
-          // response.date=response.date.toString()
-        //  var array =json
           res.render("Admin/index", { admin: true,data,response});
        })
       })
@@ -31,9 +28,6 @@ router.get("/dashboard", async(req, res) => {
     if (role == 0) {
      await orderHelper.getDashboardDetails().then((data)=>{
         orderHelper.graphSalesData().then((response)=>{
-          console.log("Kundan Ajmal",response);
-          // response.date=response.date.toString()
-        //  var array =json
           res.render("Admin/index", { admin: true,data,response});
        })
       })

@@ -50,23 +50,81 @@
                                             {{#ifEquals status "Ship"}}
                                             Order dispatched
                                             {{/ifEquals}}
+                                             {{#ifEquals status "Cancel"}}
+                                            Order Cancelled
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "pending"}}
+                                            Order Pending
+                                            {{/ifEquals}}
 
                                         </td>
 
                                         <td>
-
+                                            {{#ifEquals status "placed"}}
                                             <div class="input-group">
                                                 <select class="custom-select" id="inputGroupSelect04"
                                                     aria-label="Example select with button addon">
+                                                    
                                                     <option value="confirm">Confirm</option>
                                                     <option value="ship">Ship</option>
                                                     <option value="delivered">Deliver</option>
+                                                    <option value="cancel">Cancel</option>
                                                 </select>
                                                 <div class="input-group-append">
                                                     <button class="btn btn-outline-secondary" type="button"
                                                         onclick="status('{{_id}}')">Submit</button>
                                                 </div>
                                             </div>
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "Confirm"}}
+                                            <div class="input-group">
+                                                <select class="custom-select" id="inputGroupSelect04"
+                                                    aria-label="Example select with button addon">
+                                                    <option value="ship">Ship</option>
+                                                    <option value="delivered">Deliver</option>
+                                                    <option value="cancel">Cancel</option>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        onclick="status('{{_id}}')">Submit</button>
+                                                </div>
+                                            </div>
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "Deliver"}}
+                                            <h4 class="text-white btn btn-primary">Delivered</h4>
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "Ship"}}
+                                            <div class="input-group">
+                                                <select class="custom-select" id="inputGroupSelect04"
+                                                    aria-label="Example select with button addon">
+                                                    <option value="delivered">Deliver</option>
+                                                    <option value="cancel">Cancel</option>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        onclick="status('{{_id}}')">Submit</button>
+                                                </div>
+                                            </div>
+                                            {{/ifEquals}}
+                                             {{#ifEquals status "Cancel"}}
+                                            <h4 class="text-white btn btn-danger">Cancelled</h4>
+                                            {{/ifEquals}}
+                                             {{#ifEquals status "pending"}}
+                                             <div class="input-group">
+                                                <select class="custom-select" id="inputGroupSelect04"
+                                                    aria-label="Example select with button addon">
+                                                    
+                                                    <option value="confirm">Confirm</option>
+                                                    <option value="ship">Ship</option>
+                                                    <option value="delivered">Deliver</option>
+                                                    <option value="cancel">Cancel</option>
+                                                </select>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button"
+                                                        onclick="status('{{_id}}')">Submit</button>
+                                                </div>
+                                            </div>
+                                            {{/ifEquals}}
                                             {{!-- <button class="btn btn-success">Submit</button> --}}
                                         </td>
                                     </tr>
@@ -99,6 +157,9 @@
                 }
                 else if(response.order.status==='Ship'){
                     document.getElementById(id).innerHTML = " Order dispatched"
+                }
+                 else if(response.order.status==='Cancel'){
+                    document.getElementById(id).innerHTML = "Order Cancelled"
                 }
             }
         })

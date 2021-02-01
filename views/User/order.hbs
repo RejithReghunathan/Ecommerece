@@ -72,7 +72,27 @@
                                                     <td>
                                                         {{this.sum}}
                                                     </td>
-                                                    <td>{{this.status}}</td>
+                                                    <td>
+                                                         {{#ifEquals status "placed"}}
+                                            Order Placed
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "Confirm"}}
+                                            Order Ready to be shipped
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "Deliver"}}
+                                            Order delivered
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "Ship"}}
+                                            Order dispatched
+                                            {{/ifEquals}}
+                                             {{#ifEquals status "Cancel"}}
+                                            Order Cancelled
+                                            {{/ifEquals}}
+                                            {{#ifEquals status "pending"}}
+                                            Order Pending
+                                            {{/ifEquals}}
+
+                                                    </td>
                                                     <td><a href="" class="text-white btn btn-secondary dark align-self-end">View Products</a></td>
                                                 </tr>
                                                {{/each}}

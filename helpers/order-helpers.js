@@ -15,6 +15,28 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
             response.allUsers=await db.get().collection('user').find().count()   
             response.totalOrders=await db.get().collection('order').find().count()
+            response.totalEarning=await db.get().collection('order').aggregate([
+                {
+                    $match:{
+                        status:'Deliver'
+                    }
+                },
+                {
+                    $project:{
+                        total:1
+                    }
+                },
+                {
+                    $group:{
+                        _id:null,
+                        total:{
+                            $sum:"$total"
+                        }
+                    }
+                }
+            ]).toArray()
+            response.completedOrders= await db.get().collection('order').find({status:'Deliver'}).count()
+            response.totalEarning=response.totalEarning[0].total
             resolve(response)       
         })
     },
@@ -51,8 +73,6 @@ module.exports={
                 },
                 
             ]).toArray()
-            console.log("The Data",graphData);
-            console.log(graphData.length);
            var response={
                 date:[],
                 total:[]
