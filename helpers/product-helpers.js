@@ -37,6 +37,11 @@ module.exports = {
     },
     addProduct:((product,data)=>{
         product.price=parseInt(product.price)
+        product.offer=parseInt(product.offer)
+        if(product.offer!=''){
+            product.oldPrice=product.price
+            product.price=product.price*(100-product.offer)/100
+        }
         db.get().collection('product').insertOne(product).then((result)=>{
             data(result.ops[0]._id)
         })
