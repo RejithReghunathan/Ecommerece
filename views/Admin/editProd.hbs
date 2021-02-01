@@ -60,10 +60,23 @@
                                     <img src="../product-images/{{product._id}}.jpg" alt="" id="imgView" style="height: 100px; width:100px;">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputFile">Image</label>
-                                    <input type="file" name="Image" id="exampleInputFile"  onchange="viewImage(event)">
+                               <div class="form-group">
+                                    <label for="exampleInputPassword1">Image</label>
+                                    <div class="form-group">
+                                        <img src="" alt="" style="width: 100px; height: 100px; display: none;"
+                                            id="imgView">
+
+                                    </div>
+                                    <input type="file" accept="image/x-png,image/gif,image/jpeg" class="form-control"
+                                        id="image" required name="Image" onchange="viewImage(event)">
                                 </div>
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <div>
+
+                                    <h5 style="color: red; display:none;" id="image-warning">Please upload only images
+                                    </h5>
+                                    <button type="submit" class="btn btn-primary" id="add-product-button">Edit
+                                        Product</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -73,7 +86,19 @@
     </div>
 </div>
 <script>
-    function viewImage(event){
-        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    function viewImage(event) {
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+        let file = event.target.files[0].name
+
+        let filename = file.split('.').pop()
+        if (filename == 'jpeg' || filename == 'png' || filename == 'jpg') {
+            $('#add-product-button').show()
+            $('#image-warning').hide()
+            $('#imgView').show()
+        } else {
+            $('#image-warning').show()
+            $('#add-product-button').hide()
+            $('#imgView').hide()
+        }
     }
 </script>
