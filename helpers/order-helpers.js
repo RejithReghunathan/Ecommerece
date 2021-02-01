@@ -104,5 +104,28 @@ module.exports={
                 }
             })
         })
+    },
+    salesReport:(start,end)=>{
+        return new Promise(async(resolve,reject)=>{
+            let report =await db.get().collection('order').aggregate([
+                {
+                    $match:{
+                        date:{
+                            $gte:start,$lte:end
+                        }
+                    }
+                },
+                {
+                    $project:{
+                        total:1,
+                        paymentMethod:1,
+                        status:1,
+                        date:1,
+                        deliveryAdrress:1
+                    }
+                }
+            ]).toArray()
+            resolve(report)
+        })
     }
 }

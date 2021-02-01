@@ -4,6 +4,7 @@ var product = require("../helpers/product-helpers");
 const orderHelper = require('../helpers/order-helpers')
 const userHelper = require("../helpers/user-helpers");
 const { json } = require("express");
+const moment = require('moment') 
 
 router.get("/admin", async(req, res) => {
   let user = req.session.user;
@@ -272,5 +273,27 @@ router.post('/changeStatus',(req,res)=>{
     })
    
   })
+})
+router.get('/viewReport',(req,res)=>{
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      res.render("Admin/viewReport", { admin: true});
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+})
+router.post('/salesReport',(req,res)=>{
+  console.log(req.body);
+  var start=moment(req.body.start).format('L')
+  var end=moment(req.body.end).format('L')
+  orderHelper.salesReport(start,end).then((response)=>{
+    console.log(response);
+    res.json(response)
+  })
+  
+
 })
 module.exports = router;
