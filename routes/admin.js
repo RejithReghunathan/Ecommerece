@@ -7,6 +7,7 @@ const { json } = require("express");
 const moment = require("moment");
 const { order } = require("paypal-rest-sdk");
 var voucher_codes = require("voucher-code-generator");
+const { localeData } = require("moment");
 
 router.get("/admin", async (req, res) => {
   let user = req.session.user;
@@ -342,4 +343,11 @@ router.post("/createCoupon", (req, res) => {
     console.log(data);
   });
 });
+
+router.post('/applyCouponCode',(req,res)=>{
+  orderHelper.applyCouponCode(req.body).then((data)=>{
+    console.log(data);
+    res.send(data)
+  })
+})
 module.exports = router;

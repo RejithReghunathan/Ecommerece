@@ -23,261 +23,265 @@
         <div class="row">
             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                 <main id="primary" class="site-main">
-
-
-                    <div class="checkout-area">
-                        <div class="row">
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-7">
-                                <div class="checkout-form">
-                                    <div class="section-title left-aligned">
-                                        <h3>Billing Details</h3>
+                    <div class="user-actions user-coupon">
+                        <h3>Have A Coupon? <span id="show_coupon">Click Here To Enter Your Code.</span></h3>
+                        <div id="checkout_coupon" class="display-content">
+                            <div class="coupon-info">
+                                <form id="applyCoupon">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-md-6">
+                                            <div class="input-group">
+                                                <input type="text" name="coupon" placeholder="Coupon Code"
+                                                    id="input-coupon" class="form-control mr-3">
+                                                <input type="submit" value="Apply Coupon" id="button-coupon"
+                                                    class="btn btn-secondary">
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <form  id="placeOrder" method="post">
-                                        
-                                        <div class="form-row mb-3">
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="first_name">First Name <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" name="fname" class="form-control" id="first_name"
-                                                    value="{{users.fname}}" required>
-                                            </div>
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="last_name">Last Name <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" name="lname" class="form-control"
-                                                    value="{{users.lname}}" id="last_name" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-3">
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="company_name">Phone Number</label>
-                                                <input type="tel" name="phone" class="form-control"
-                                                    value="{{users.phonenum}}" id="company_name">
-                                            </div>
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="email_address">Email Address <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="email" name="email" class="form-control"
-                                                    value="{{users.email}}" id="email_address" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-3">
-                                            <div class="form-group col-12 col-sm-12 col-md-12">
-                                                <label for="p_address">Address <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" name="address" class="form-control" id="p_address"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-3">
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="city_name">City <span class="text-danger">*</span></label>
-                                                <input type="text" name="city" class="form-control" id="city_name"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="province_name">State <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" name="state" class="form-control" id="province_name"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-3">
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="zip_code">Zip Code <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="number" name="pincode" class="form-control" id="zip_code"
-                                                    required>
-                                            </div>
-                                            <div class="form-group col-12 col-sm-12 col-md-6">
-                                                <label for="tel_number">Alternative Phone</label>
-                                                <input type="tel" name="alphone" class="form-control" id="tel_number">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-12 col-sm-12 col-md-12">
-                                                <div class="form-check mb-3">
-                                                    <div class="custom-checkbox">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="different_shipping">
-                                                        <span class="checkmark"></span>
-                                                        <label class="form-check-label" for="different_shipping"
-                                                            id="different_shipping_address">Ship to a different
-                                                            address?</label>
-                                                    </div>
-                                                </div>
-                                                <div class="ship-box-info mt-4">
-                                                    <div class="form-row mb-3">
-                                                        <div class="form-group col-12 col-sm-12 col-md-6">
-                                                            <label for="f_name">First Name <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="f_name"
-                                                                required>
-                                                        </div>
-                                                        <div class="form-group col-12 col-sm-12 col-md-6">
-                                                            <label for="l_name">Last Name <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="l_name"
-                                                                required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row mb-3">
-                                                        <div class="form-group col-12 col-sm-12 col-md-6">
-                                                            <label for="com_name">Phone Number</label>
-                                                            <input type="tel" class="form-control" id="com_name">
-                                                        </div>
-                                                        <div class="form-group col-12 col-sm-12 col-md-6">
-                                                            <label for="email_add">Email Address <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input type="email" class="form-control" id="email_add"
-                                                                required>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-row mb-3">
-                                                        <div class="form-group col-12 col-sm-12 col-md-12">
-                                                            <label for="street_add">Street Address</label>
-                                                            <input type="text" class="form-control" id="street_add">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row mb-3">
-                                                        <div class="form-group col-12 col-sm-12 col-md-12">
-                                                            <label for="ap_add">Apartment, suite, unit etc.
-                                                                (optional)</label>
-                                                            <input type="text" class="form-control" id="ap_add">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row mb-3">
-                                                        <div class="form-group col-12 col-sm-12 col-md-12">
-                                                            <label for="cit_name">City <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="cit_name"
-                                                                required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row mb-3">
-                                                        <div class="form-group col-12 col-sm-12 col-md-12">
-                                                            <label for="prov_name">Province <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control" id="prov_name"
-                                                                required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-12 col-sm-12 col-md-12">
-                                                            <label for="zp_code">Zip Code <span
-                                                                    class="text-danger">*</span></label>
-                                                            <input type="number" class="form-control" id="zp_code"
-                                                                required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                </div> <!-- end of checkout-form -->
+                                </form>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-6 col-lg-5">
-                                <div class="order-summary">
-                                    <div class="section-title left-aligned">
-                                        <h3>Your Order</h3>
-                                    </div>
-
-                                    <div class="product-container">
-                                        {{#each cartPro}}
-                                        <div class="product-list">
-                                            <div class="product-inner media align-items-center">
-                                                <div class="product-image mr-4 mr-sm-5 mr-md-4 mr-lg-5">
-                                                    <a href="#">
-                                                        <img src="../product-images/{{this.product._id}}.jpg"
-                                                            alt="Compete Track Tote" title="Compete Track Tote">
-                                                    </a>
-                                            {{!-- <input type="text" name="proId" id="" value="{{this.product_id}}" hidden> --}}
-
-                                                </div>
-                                                <div class="media-body">
-                                                    <h5>{{this.product.name}}</h5>
-                                                    <p class="product-quantity">Quantity: {{this.quantity}}</p>
-                                                    <p class="product-final-price">Rs.{{this.SingleProTotal}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{/each}}
-                                    </div> <!-- end of product-container -->
-                                    <div class="order-review">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <tbody>
-                                                    <tr class="cart-subtotal">
-                                                        <th>Subtotal</th>
-                                                        <td class="text-center">Rs.{{total}}</td>
-                                                    </tr>
-                                                    <tr class="order-total">
-                                                        <th>Total</th>
-                                                        <td class="text-center"><strong>Rs.{{total}}</strong></td>
-                                                        <input type="text" name="totalAmount" id="" value="{{total}}"
-                                                            hidden>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="checkout-payment">
-                                        <div class="form-row">
-
-                                            <div class="custom-radio">
-                                                <input class="form-check-input" type="radio" name="payment"
-                                                    id="cash_delivery_payment" value="cash">
-                                                <span class="checkmark"></span>
-                                                <label class="form-check-label" for="cash_delivery_payment">Cash on
-                                                    Delivery</label>
-
-                                                <div class="payment-info" id="cash_pay">
-                                                    <p>Pay with cash upon delivery.</p>
-                                                </div>
-                                            </div>
-                                            <div class="custom-radio">
-                                                <input class="form-check-input" type="radio" name="payment" `
-                                                    id="paypal_payment" value="paypal" required>
-                                                <span class="checkmark"></span>
-                                                <label class="form-check-label" for="paypal_payment">PayPal Express
-                                                    Checkout</label>
-
-                                                <div class="payment-info" id="paypal_pay">
-                                                    <p>Pay via PayPal. You can pay with your credit card if you
-                                                        don’t have a PayPal account.</p>
-                                                </div>
-                                            </div>
-                                            <div class="custom-radio">
-                                                <input class="form-check-input" type="radio" name="payment"
-                                                    id="paypal_payment" value="razorpay">
-                                                <span class="checkmark"></span>
-                                                <label class="form-check-label" for="razor_payment">RazorPay
-                                                    Checkout</label>
-
-                                                <div class="payment-info" id="paypal_pay">
-                                                    <p>Pay via RazorPay. You can pay with your credit card if you
-                                                        don’t have a Razorpay account.</p>
-                                                </div>
-                                            </div>
-                                            <input type="text" name="userId" id="" value="{{users._id}}" hidden>
-                                            {{!-- <input type="text" name="total" id="" value="{{total}}" hidden> --}}
-                                        </div>
-                                        <div class="form-row justify-content-end">
-                                            <input type="submit" class="btn btn-secondary dark"
-                                                value="Continue to Payment">
-                                        </div>
-                                        </form>
-                                    </div> <!-- end of checkout-payment -->
-                                </div> <!-- end of order-summary -->
-                            </div>
-                        </div> <!-- end of row -->
-                    </div> <!-- end of checkout-area -->
-                </main> <!-- end of #primary -->
+                        </div>
+                    </div> <!-- end of user-actions -->
             </div>
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
+
+            <div class="checkout-area">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-7">
+                        <div class="checkout-form">
+                            <div class="section-title left-aligned">
+                                <h3>Billing Details</h3>
+                            </div>
+
+                            <form id="placeOrder" method="post">
+
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="first_name">First Name <span class="text-danger">*</span></label>
+                                        <input type="text" name="fname" class="form-control" id="first_name"
+                                            value="{{users.fname}}" required>
+                                    </div>
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="last_name">Last Name <span class="text-danger">*</span></label>
+                                        <input type="text" name="lname" class="form-control" value="{{users.lname}}"
+                                            id="last_name" required>
+                                    </div>
+                                </div>
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="company_name">Phone Number</label>
+                                        <input type="tel" name="phone" class="form-control" value="{{users.phonenum}}"
+                                            id="company_name">
+                                    </div>
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="email_address">Email Address <span
+                                                class="text-danger">*</span></label>
+                                        <input type="email" name="email" class="form-control" value="{{users.email}}"
+                                            id="email_address" required>
+                                    </div>
+                                </div>
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-12 col-sm-12 col-md-12">
+                                        <label for="p_address">Address <span class="text-danger">*</span></label>
+                                        <input type="text" name="address" class="form-control" id="p_address" required>
+                                    </div>
+                                </div>
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="city_name">City <span class="text-danger">*</span></label>
+                                        <input type="text" name="city" class="form-control" id="city_name" required>
+                                    </div>
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="province_name">State <span class="text-danger">*</span></label>
+                                        <input type="text" name="state" class="form-control" id="province_name"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="form-row mb-3">
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="zip_code">Zip Code <span class="text-danger">*</span></label>
+                                        <input type="number" name="pincode" class="form-control" id="zip_code" required>
+                                    </div>
+                                    <div class="form-group col-12 col-sm-12 col-md-6">
+                                        <label for="tel_number">Alternative Phone</label>
+                                        <input type="tel" name="alphone" class="form-control" id="tel_number">
+                                    </div>
+                                </div>
+                                {{!-- <div class="form-row">
+                                    <div class="form-group col-12 col-sm-12 col-md-12">
+                                        <div class="form-check mb-3">
+                                            <div class="custom-checkbox">
+                                                <input class="form-check-input" type="checkbox" id="different_shipping">
+                                                <span class="checkmark"></span>
+                                                <label class="form-check-label" for="different_shipping"
+                                                    id="different_shipping_address">Ship to a different
+                                                    address?</label>
+                                            </div>
+                                        </div>
+                                        <div class="ship-box-info mt-4">
+                                            <div class="form-row mb-3">
+                                                <div class="form-group col-12 col-sm-12 col-md-6">
+                                                    <label for="f_name">First Name <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="f_name" required>
+                                                </div>
+                                                <div class="form-group col-12 col-sm-12 col-md-6">
+                                                    <label for="l_name">Last Name <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="l_name" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-3">
+                                                <div class="form-group col-12 col-sm-12 col-md-6">
+                                                    <label for="com_name">Phone Number</label>
+                                                    <input type="tel" class="form-control" id="com_name">
+                                                </div>
+                                                <div class="form-group col-12 col-sm-12 col-md-6">
+                                                    <label for="email_add">Email Address <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="email" class="form-control" id="email_add" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-row mb-3">
+                                                <div class="form-group col-12 col-sm-12 col-md-12">
+                                                    <label for="street_add">Street Address</label>
+                                                    <input type="text" class="form-control" id="street_add">
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-3">
+                                                <div class="form-group col-12 col-sm-12 col-md-12">
+                                                    <label for="ap_add">Apartment, suite, unit etc.
+                                                        (optional)</label>
+                                                    <input type="text" class="form-control" id="ap_add">
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-3">
+                                                <div class="form-group col-12 col-sm-12 col-md-12">
+                                                    <label for="cit_name">City <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="cit_name" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-row mb-3">
+                                                <div class="form-group col-12 col-sm-12 col-md-12">
+                                                    <label for="prov_name">Province <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" id="prov_name" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-12 col-sm-12 col-md-12">
+                                                    <label for="zp_code">Zip Code <span
+                                                            class="text-danger">*</span></label>
+                                                    <input type="number" class="form-control" id="zp_code" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+                        </div> <!-- end of checkout-form -->
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-5">
+                        <div class="order-summary">
+                            <div class="section-title left-aligned">
+                                <h3>Your Order</h3>
+                            </div>
+
+                            <div class="product-container">
+                                {{#each cartPro}}
+                                <div class="product-list">
+                                    <div class="product-inner media align-items-center">
+                                        <div class="product-image mr-4 mr-sm-5 mr-md-4 mr-lg-5">
+                                            <a href="#">
+                                                <img src="../product-images/{{this.product._id}}.jpg"
+                                                    alt="Compete Track Tote" title="Compete Track Tote">
+                                            </a>
+                                            {{!-- <input type="text" name="proId" id="" value="{{this.product_id}}"
+                                                hidden> --}}
+
+                                        </div>
+                                        <div class="media-body">
+                                            <h5>{{this.product.name}}</h5>
+                                            <p class="product-quantity">Quantity: {{this.quantity}}</p>
+                                            <p class="product-final-price">Rs.{{this.SingleProTotal}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div> <!-- end of product-container -->
+                            <div class="order-review">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                            <tr class="cart-subtotal">
+                                                <th>Subtotal</th>
+                                                <td class="text-center">Rs.{{total}}</td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th>Total</th>
+                                                <td class="text-center"><strong>Rs. <strong id="totalP">{{total}}</strong> </strong></td>
+                                                <p id="coupon" style="display: none;" class="text-danger text-center"><strong>Coupon applied</strong>    
+                                                    </p>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="checkout-payment">
+                                <div class="form-row">
+
+                                    <div class="custom-radio">
+                                        <input class="form-check-input" type="radio" name="payment"
+                                            id="cash_delivery_payment" value="cash">
+                                        <span class="checkmark"></span>
+                                        <label class="form-check-label" for="cash_delivery_payment">Cash on
+                                            Delivery</label>
+
+                                        <div class="payment-info" id="cash_pay">
+                                            <p>Pay with cash upon delivery.</p>
+                                        </div>
+                                    </div>
+                                    <div class="custom-radio">
+                                        <input class="form-check-input" type="radio" name="payment" `
+                                            id="paypal_payment" value="paypal" required>
+                                        <span class="checkmark"></span>
+                                        <label class="form-check-label" for="paypal_payment">PayPal Express
+                                            Checkout</label>
+
+                                        <div class="payment-info" id="paypal_pay">
+                                            <p>Pay via PayPal. You can pay with your credit card if you
+                                                don’t have a PayPal account.</p>
+                                        </div>
+                                    </div>
+                                    <div class="custom-radio">
+                                        <input class="form-check-input" type="radio" name="payment" id="paypal_payment"
+                                            value="razorpay">
+                                        <span class="checkmark"></span>
+                                        <label class="form-check-label" for="razor_payment">RazorPay
+                                            Checkout</label>
+
+                                        <div class="payment-info" id="paypal_pay">
+                                            <p>Pay via RazorPay. You can pay with your credit card if you
+                                                don’t have a Razorpay account.</p>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="userId" id="" value="{{users._id}}" hidden>
+                                    <input type="text" name="total" id="totalPrice" value="{{total}}" hidden>
+                                </div>
+                                <div class="form-row justify-content-end">
+                                    <input type="submit" class="btn btn-secondary dark" value="Continue to Payment">
+                                </div>
+                                </form>
+                            </div> <!-- end of checkout-payment -->
+                        </div> <!-- end of order-summary -->
+                    </div>
+                </div> <!-- end of row -->
+            </div> <!-- end of checkout-area -->
+            </main> <!-- end of #primary -->
+        </div>
+    </div> <!-- end of row -->
+</div> <!-- end of container -->
 </div>
 <!-- End of Checkout Wrapper -->
 
@@ -285,9 +289,43 @@
 <div class="scroll-top not-visible">
     <i class="fa fa-angle-up"></i>
 </div> <!-- /End Scroll to Top -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
 <script>
+    $('#applyCoupon').submit((e)=>{
+         e.preventDefault();
+        console.log("Clicked")
+        let coupon = $('#input-coupon').val()
+        let price = $('#totalPrice').val()
+        console.log('coupon',coupon,price)
+        $.ajax({
+            url:'/applyCouponCode',
+            method: "post",
+            data:{
+                coupon
+            },
+            success:(response)=>{
+                if(response.success==true){
+                    let tp = price*(100-20)/100
+                    alert('Coupon code applied',tp)
+                    document.getElementById('totalP').innerHTML=tp
+                    {{!-- document.getElementById('totalPrice').innerHTML=tp --}}
+                    $('#totalP').val(tp)
+                    $('#totalprice').val(tp)
+                    $('#coupon').show()
+                }
+                else{
+                    alert('Invalid code')
+                }
+
+            }
+        })
+    })
+    
+
     $('#placeOrder').submit((e) => {
         e.preventDefault();
         $.ajax({
@@ -295,16 +333,14 @@
             method: "post",
             data: $('#placeOrder').serialize(),
             success: (response) => {
-                if (response.codSuccess==='COD') {
+                if (response.codSuccess === 'COD') {
                     alert('Order Placed Successfullly')
-                    window.location.href='/orderSuccess'
-                } else if(response.codSuccess=='razorpay') {
-                    console.log("amount",response)
+                    window.location.href = '/orderSuccess'
+                } else if (response.codSuccess == 'razorpay') {
+                    console.log("amount", response)
                     razorpayPayment(response)
-                }else if(response.codSuccess=='paypal'){
-                    window.location.href='/paypalOrder'
-
-                    
+                } else if (response.codSuccess == 'paypal') {
+                    window.location.href = '/paypalOrder'
                 }
             }
         })
@@ -319,9 +355,13 @@
             "image": "https://example.com/your_logo",
             "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             "handler": function (response) {
-                {{!-- alert(response.razorpay_payment_id);
-                alert(response.razorpay_order_id);
-                alert(response.razorpay_signature) --}}
+                {
+                    {
+                        !--alert(response.razorpay_payment_id);
+                        alert(response.razorpay_order_id);
+                        alert(response.razorpay_signature)--
+                    }
+                }
                 verifyPayment(response, order)
             },
             "prefill": {
@@ -343,7 +383,7 @@
     }
 
 
-      function verifyPayment(payment, order) {
+    function verifyPayment(payment, order) {
         console.log('HAs')
 
         $.ajax({
@@ -353,14 +393,13 @@
                 payment,
                 order
             },
-            success:(response)=>{
-                if(response.status){
-                    window.location.href='/orderSuccess'
-                }else{
+            success: (response) => {
+                if (response.status) {
+                    window.location.href = '/orderSuccess'
+                } else {
                     alert('payment failed')
                 }
             }
         })
-    } 
-    
+    }
 </script>

@@ -152,5 +152,20 @@ module.exports={
                 reject()
             }
         })
+    },
+    applyCouponCode:(coupon)=>{
+        let response={}
+        return new Promise(async(resolve,reject)=>{
+            let data = await db.get().collection('coupon').findOne({coupon:coupon.coupon})
+            if(data){
+                response.data=data
+                response.success=true
+                resolve(response)
+            }
+            else{
+                response.success=false
+                resolve(response)
+            }
+        })
     }
 }

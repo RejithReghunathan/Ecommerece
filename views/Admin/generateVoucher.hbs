@@ -68,7 +68,9 @@
                 coupon, offer
             },
             success: (response) => {
-                window.location.href = "/voucherGenerate"
+                if (response) {
+                    window.location.href = "/voucherGenerate"
+                }
             }
         })
     })

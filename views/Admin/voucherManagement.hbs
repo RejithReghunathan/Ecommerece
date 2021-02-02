@@ -29,13 +29,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-{{#each data}}
+                                    {{#each data}}
                                     <tr>
-                                        <th scope="row" class="class=" create_index"">1</th>
+                                        <th scope="row" class="class=" create_index"">{{math @index "+" 1}}</th>
                                         <td>{{coupon}}</td>
                                         <td>{{offer}}</td>
-                                        {{!-- <td><button class="btn btn-primary">Edit</button></td>
-                                        --}}
                                         <td><a href="/editCoupon/{{_id}}" class="text-white"
                                                 style="text-decoration: none;"><button
                                                     class="btn btn-primary">Edit</button></td></a>
@@ -45,9 +43,10 @@
                                     </tr>
 
                                 </tbody>
-{{/each}}
+                                {{/each}}
                             </table>
-                          <a href="/generateCouponCode"><button class="btn btn-primary" style="float: right;">Generate Code</button>
+                            <a href="/generateCouponCode"><button class="btn btn-primary" style="float: right;">Generate
+                                    Code</button>
                             </a>
                         </div>
                     </div>
