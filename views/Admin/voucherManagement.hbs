@@ -1,0 +1,58 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header sty-one">
+        <h1 class="text-black">Create Voucher</h1>
+        <ol class="breadcrumb">
+            <li><a href="#">Home</a></li>
+            <li class="sub-bread"><i class="fa fa-angle-right"></i>Voucher</li>
+            <li><i class="fa fa-angle-right"></i>Add Voucher</li>
+        </ol>
+    </div>
+
+    <div class="content">
+        <div class="info-box">
+            <div class="row">
+                <div class="col-lg-12 m-b-3">
+                    <h4 class="text-black">Voucher</h4>
+                    <br>
+                    <div class="table-responsive">
+                        <div class="container">
+                            <table class="table" id="tab">
+                                <thead class="bg-inverse text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Voucher</th>
+                                        <th scope="col">Offer</th>
+                                        <th scope="col">Edit</th>
+                                        <th scope="col">Delete</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+{{#each data}}
+                                    <tr>
+                                        <th scope="row" class="class=" create_index"">1</th>
+                                        <td>{{coupon}}</td>
+                                        <td>{{offer}}</td>
+                                        {{!-- <td><button class="btn btn-primary">Edit</button></td>
+                                        --}}
+                                        <td><a href="/editCoupon/{{_id}}" class="text-white"
+                                                style="text-decoration: none;"><button
+                                                    class="btn btn-primary">Edit</button></td></a>
+                                        <td><button class="btn btn-danger"><a href="/deleteCoupon/{{_id}}"
+                                                    class="text-white"
+                                                    style="text-decoration: none;">Delete</a></button></td>
+                                    </tr>
+
+                                </tbody>
+{{/each}}
+                            </table>
+                          <a href="/generateCouponCode"><button class="btn btn-primary" style="float: right;">Generate Code</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

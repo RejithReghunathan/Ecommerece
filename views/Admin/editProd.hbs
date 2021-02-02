@@ -89,7 +89,6 @@
     function viewImage(event) {
         document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
         let file = event.target.files[0].name
-
         let filename = file.split('.').pop()
         if (filename == 'jpeg' || filename == 'png' || filename == 'jpg') {
             $('#add-product-button').show()

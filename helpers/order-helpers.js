@@ -127,5 +127,30 @@ module.exports={
             ]).toArray()
             resolve(report)
         })
+    },
+    createCoupon:(data)=>{
+        return new Promise(async(resolve,reject)=>{
+            await db.get().collection('coupon').insertOne(data).then((result)=>{
+                if(result){
+                    resolve(result.ops[0])
+                }
+                else{
+                    reject()
+                }
+            })
+        })
+    },
+    getCoupon:()=>{
+        return new Promise(async(resolve,reject)=>{
+            console.log("CALLED");
+            let coupon = await db.get().collection('coupon').find().toArray()
+            if(coupon){
+                console.log(coupon,"COupon");
+                resolve(coupon)
+            }
+            else{
+                reject()
+            }
+        })
     }
 }

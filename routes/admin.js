@@ -1,38 +1,38 @@
 const express = require("express");
 var router = express.Router();
 var product = require("../helpers/product-helpers");
-const orderHelper = require('../helpers/order-helpers')
+const orderHelper = require("../helpers/order-helpers");
 const userHelper = require("../helpers/user-helpers");
 const { json } = require("express");
-const moment = require('moment') 
+const moment = require("moment");
+const { order } = require("paypal-rest-sdk");
+var voucher_codes = require("voucher-code-generator");
 
-router.get("/admin", async(req, res) => {
+router.get("/admin", async (req, res) => {
   let user = req.session.user;
   let role = req.session.role;
   if (user) {
     if (role == 0) {
-      await orderHelper.getDashboardDetails().then((data)=>{
-        orderHelper.graphSalesData().then((response)=>{
-          res.render("Admin/index", { admin: true,data,response});
-       })
-      })
-     
+      await orderHelper.getDashboardDetails().then((data) => {
+        orderHelper.graphSalesData().then((response) => {
+          res.render("Admin/index", { admin: true, data, response });
+        });
+      });
     }
   } else {
     res.render("Admin/adminLogin");
   }
 });
-router.get("/dashboard", async(req, res) => {
+router.get("/dashboard", async (req, res) => {
   let user = req.session.user;
   let role = req.session.role;
   if (user) {
     if (role == 0) {
-     await orderHelper.getDashboardDetails().then((data)=>{
-        orderHelper.graphSalesData().then((response)=>{
-          res.render("Admin/index", { admin: true,data,response});
-       })
-      })
-     
+      await orderHelper.getDashboardDetails().then((data) => {
+        orderHelper.graphSalesData().then((response) => {
+          res.render("Admin/index", { admin: true, data, response });
+        });
+      });
     }
   } else {
     res.render("Admin/adminLogin");
@@ -251,7 +251,7 @@ router.get("/users", (req, res) => {
     res.render("Admin/adminLogin");
   }
 });
-router.get('/viewOrders',(req,res)=>{
+router.get("/viewOrders", (req, res) => {
   let user = req.session.user;
   let role = req.session.role;
   if (user) {
@@ -263,37 +263,83 @@ router.get('/viewOrders',(req,res)=>{
   } else {
     res.render("Admin/adminLogin");
   }
-})
-router.post('/changeStatus',(req,res)=>{
-   orderHelper.changeOrderStatus(req.body).then((response)=>{
-     orderHelper.getOrderId(req.body.id).then((order)=>{
-      res.json({order})
-    }).catch(()=>{
-      console.log("err");
-    })
-   
-  })
-})
-router.get('/viewReport',(req,res)=>{
+});
+router.post("/changeStatus", (req, res) => {
+  orderHelper.changeOrderStatus(req.body).then((response) => {
+    orderHelper
+      .getOrderId(req.body.id)
+      .then((order) => {
+        res.json({ order });
+      })
+      .catch(() => {
+        console.log("err");
+      });
+  });
+});
+router.get("/viewReport", (req, res) => {
   let user = req.session.user;
   let role = req.session.role;
   if (user) {
     if (role == 0) {
-      res.render("Admin/viewReport", { admin: true});
+      res.render("Admin/viewReport", { admin: true });
     }
   } else {
     res.render("Admin/adminLogin");
   }
-})
-router.post('/salesReport',(req,res)=>{
+});
+router.post("/salesReport", (req, res) => {
   console.log(req.body);
-  var start=moment(req.body.start).format('L')
-  var end=moment(req.body.end).format('L')
-  orderHelper.salesReport(start,end).then((response)=>{
+  var start = moment(req.body.start).format("L");
+  var end = moment(req.body.end).format("L");
+  orderHelper.salesReport(start, end).then((response) => {
     console.log(response);
-    res.json(response)
-  })
-  
+    res.json(response);
+  });
+});
+router.get("/voucherGenerate", (req, res) => {
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      orderHelper.getCoupon().then((data) => {
+        console.log("data", data);
+        // res.render("Admin/generateVoucher", { admin: true, data });
+      res.render("Admin/voucherManagement", { admin: true,data  });
+    });
 
-})
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+});
+
+router.get("/generateCouponCode", (req, res) => {
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      console.log("CALLED");
+      orderHelper.getCoupon().then((data) => {
+        console.log("data", data);
+        res.render("Admin/generateVoucher", { admin: true, data });
+      });
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+});
+router.get("/generateCoupon", (req, res) => {
+  let voucher = voucher_codes.generate({
+    length: 8,
+    count: 1,
+  });
+  let voucherCode = voucher[0];
+  res.send(voucherCode);
+});
+router.post("/createCoupon", (req, res) => {
+  console.log(req.body, "kjhlk");
+  orderHelper.createCoupon(req.body).then((data) => {
+    console.log(data);
+  });
+});
 module.exports = router;
