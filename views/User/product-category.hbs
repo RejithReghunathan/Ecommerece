@@ -1,39 +1,6 @@
-<!-- slider area start -->
+
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-<div class="slider-area">
-    <div class="hero-slider-active slick-dot-style slider-arrow-style">
-        <div class="single-slider d-flex align-items-center"
-            style="background-image: url(/img/slider/slider1-home1.jpg);">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6 col-sm-8">
-                        <div class="slider-text">
-                            <h1>New Range Of<br>sumsang Camera</h1>
-                            <p>sumsang EOS600D/Kiss X5</p>
-                            <a class="btn-1 home-btn" href="#">shop now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="single-slider d-flex align-items-center"
-            style="background-image: url(/img/slider/slider2-home1.jpg);">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-6 col-sm-8">
-                        <div class="slider-text">
-                            <h1>Game, Consoles &amp;<br>much more</h1>
-                            <p>Sega Saturn Disc Drive Replacement</p>
-                            <a class="btn-1 home-btn" href="#">shop now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="product-wrapper fix pb-70">
     <div class="container">
         <div class="section-title product-spacing hm-11">
@@ -41,7 +8,7 @@
             <div class="boxx-tab">
                 <ul class="nav my-tab">
                     <li>
-                        <a class="active" data-toggle="tab" href="#one">Camera, Moblies, Laptops & Phones</a>
+                        <a class="active" data-toggle="tab" href="#one">{{product.catName}}</a>
                     </li>
                 </ul>
             </div>
@@ -55,8 +22,10 @@
 
                         <div class="product-thumb d-flex justify-content-center mt-2">
                             <a href="/productDetails/{{this._id}}">
-                                <img src="./product-images/{{this._id}}.jpg" style="height: 250px;"
+                                <img src="/product-images/{{this._id}}.jpg" style="height: 250px;"
                                     class="pri-img d-flex justify-content-center" alt="">
+                            {{this.id}}
+
 
                             </a>
                             <div class="box-label">
@@ -104,17 +73,9 @@
     </div>
 </div>
 
-
-
-<!-- scroll to top -->
 <div class="scroll-top not-visible">
     <i class="fa fa-angle-up"></i>
-</div> <!-- /End Scroll to Top -->
-
-<!-- footer area start -->
-
-
-<!-- Quick view modal start -->
+</div>
 
 <script>
     function addToCart(proId) {

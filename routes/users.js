@@ -6,13 +6,15 @@ var productHelper = require("../helpers/product-helpers");
 const userHelpers = require("../helpers/user-helpers");
 var axios = require("axios");
 var FormData = require("form-data");
-const paypal = require('paypal-rest-sdk');
+const paypal = require("paypal-rest-sdk");
 var otpid;
 var phone;
 paypal.configure({
-  'mode': 'sandbox', //sandbox or live
-  'client_id': 'AZeT8PU69pAs5JxZ2Lc-ejNdzBdV9rXm6FJvhwckeLiYRgH0BaU4hWVGx4y1CU5unlnLgD7TqaKHRkUa',
-  'client_secret': 'EOAytA7Ig8F4gtSrRb0NUuWWc562MCVysbaxtXd9R4iIJCLsg3RhWNSdblH5FrsJzHGwxGsSAKzYImg7'
+  mode: "sandbox", //sandbox or live
+  client_id:
+    "AZeT8PU69pAs5JxZ2Lc-ejNdzBdV9rXm6FJvhwckeLiYRgH0BaU4hWVGx4y1CU5unlnLgD7TqaKHRkUa",
+  client_secret:
+    "EOAytA7Ig8F4gtSrRb0NUuWWc562MCVysbaxtXd9R4iIJCLsg3RhWNSdblH5FrsJzHGwxGsSAKzYImg7",
 });
 const moment = require("moment");
 
@@ -234,7 +236,7 @@ router.get("/cart", isSignedIn, categories, async (req, res) => {
     });
   }
 });
-router.get("/addToCart/:id",isSignedIn, async (req, res) => {
+router.get("/addToCart/:id", isSignedIn, async (req, res) => {
   let users = req.session.user;
   if (users) {
     await userHelpers.getCartCount(users._id).then((countNum) => {
@@ -390,24 +392,20 @@ router.post("/place-order", async (req, res) => {
     req.body.total = result;
   });
   userHelpers.placeOrder(req.body, products).then((orderId) => {
-    req.session.orderId=orderId
-    req.session.total=req.body.total
+    req.session.orderId = orderId;
+    req.session.total = req.body.total;
     if (req.body.payment == "cash") {
       res.json({
-        codSuccess: 'COD',
+        codSuccess: "COD",
       });
-    } else if(req.body.payment==='razorpay') {
+    } else if (req.body.payment === "razorpay") {
       userHelpers.generateRazorpay(orderId, req.body.total).then((response) => {
-        
-        response.codSuccess = 'razorpay';
+        response.codSuccess = "razorpay";
         res.json(response);
       });
-    }else if(req.body.payment==='paypal'){
-    
-     
-        response.codSuccess='paypal'
-        res.json(response)
-  
+    } else if (req.body.payment === "paypal") {
+      response.codSuccess = "paypal";
+      res.json(response);
     }
   });
 });
@@ -417,7 +415,6 @@ router.get("/order", isSignedIn, categories, async (req, res) => {
   let category = req.session.category;
   cartCount = await userHelpers.getCartCount(users._id);
   userHelpers.getOrderDetails(req.session.user._id).then((orders) => {
-    
     res.render("User/order", {
       user: true,
       users,
@@ -440,7 +437,7 @@ router.post("/verify-payment", (req, res) => {
     });
 });
 
-router.get('/orderSuccess', isSignedIn, categories,async(req,res)=>{
+router.get("/orderSuccess", isSignedIn, categories, async (req, res) => {
   let users = req.session.user;
   let category = req.session.category;
   cartCount = await userHelpers.getCartCount(users._id);
@@ -448,74 +445,108 @@ router.get('/orderSuccess', isSignedIn, categories,async(req,res)=>{
     user: true,
     users,
     category,
-    cartCount
+    cartCount,
   });
-})
-router.get('/cancel', (req, res) => res.send('Payment Failed'));
-router.get('/paypalOrder',(req,res)=>{
+});
+router.get("/cancel", (req, res) => res.send("Payment Failed"));
+router.get("/paypalOrder", (req, res) => {
   {
     const create_payment_json = {
-      "intent": "sale",
-      "payer": {
-          "payment_method": "paypal"
+      intent: "sale",
+      payer: {
+        payment_method: "paypal",
       },
-      "redirect_urls": {
-          "return_url": "http://localhost:3000/success",
-          "cancel_url": "http://localhost:3000/cancel"
+      redirect_urls: {
+        return_url: "http://localhost:3000/success",
+        cancel_url: "http://localhost:3000/cancel",
       },
-      "transactions": [{
-          "item_list": {
-              "items": [{
-                  "name": "Red Sox Hat",
-                  "sku": "001",
-                  "price": req.session.total,
-                  "currency": "INR",
-                  "quantity": 1
-              }]
+      transactions: [
+        {
+          item_list: {
+            items: [
+              {
+                name: "Red Sox Hat",
+                sku: "001",
+                price: req.session.total,
+                currency: "INR",
+                quantity: 1,
+              },
+            ],
           },
-          "amount": {
-              "currency": "INR",
-              "total": req.session.total
+          amount: {
+            currency: "INR",
+            total: req.session.total,
           },
-          "description": "Hat for the best team ever"
-      }]
-  };
-  
-  paypal.payment.create(create_payment_json, function (error, payment) {
-    if (error) {
+          description: "Hat for the best team ever",
+        },
+      ],
+    };
+
+    paypal.payment.create(create_payment_json, function (error, payment) {
+      if (error) {
         throw error;
-    } else {
-        for(let i = 0;i < payment.links.length;i++){
-          if(payment.links[i].rel === 'approval_url'){
-            console.log("LINK",);
-            res.redirect(payment.links[i].href)
+      } else {
+        for (let i = 0; i < payment.links.length; i++) {
+          if (payment.links[i].rel === "approval_url") {
+            console.log("LINK");
+            res.redirect(payment.links[i].href);
           }
         }
-    }
-  });
+      }
+    });
   }
-})
-router.get('/success', (req, res) => {
+});
+router.get("/success", (req, res) => {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
 
   const execute_payment_json = {
-    "payer_id": payerId,
-    "transactions": [{
-        "amount": {
-            "currency": "INR",
-            "total": req.session.total
-        }
-    }]
+    payer_id: payerId,
+    transactions: [
+      {
+        amount: {
+          currency: "INR",
+          total: req.session.total,
+        },
+      },
+    ],
   };
 
-  paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
+  paypal.payment.execute(paymentId, execute_payment_json, function (
+    error,
+    payment
+  ) {
     if (error) {
-        console.log(error.response);
-        throw error;
+      console.log(error.response);
+      throw error;
     } else {
-        res.render('/orderSuccess')
+      res.render("/orderSuccess");
     }
+  });
 });
-});
+router.get(
+  "/productBasedCategory/:catId",
+  isSignedIn,
+  categories,
+  async(req, res) => {
+    let category = req.session.category;
+    let users = req.session.user;
+    let catId = req.params.catId;
+    if (users) {
+      cartCount =await userHelpers.getCartCount(users._id);
+      productHelper.getAllProductByCategory(catId).then((product) => {
+        res.render("User/product-category", {
+          user: true,
+          product,
+          users,
+          cartCount,
+          category,
+        });
+      });
+    } else {
+      req.session.url = req.originalUrl;
+      res.redirect("/login");
+    }
+  }
+);
 module.exports = router;
