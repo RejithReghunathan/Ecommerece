@@ -51,9 +51,7 @@
                             <div class="section-title left-aligned">
                                 <h3>Billing Details</h3>
                             </div>
-
                             <form id="placeOrder" method="post">
-
                                 <div class="form-row mb-3">
                                     <div class="form-group col-12 col-sm-12 col-md-6">
                                         <label for="first_name">First Name <span class="text-danger">*</span></label>
@@ -106,82 +104,32 @@
                                         <input type="tel" name="alphone" class="form-control" id="tel_number">
                                     </div>
                                 </div>
-                                {{!-- <div class="form-row">
+                                <div class="form-row">
                                     <div class="form-group col-12 col-sm-12 col-md-12">
-                                        <div class="form-check mb-3">
-                                            <div class="custom-checkbox">
-                                                <input class="form-check-input" type="checkbox" id="different_shipping">
-                                                <span class="checkmark"></span>
-                                                <label class="form-check-label" for="different_shipping"
-                                                    id="different_shipping_address">Ship to a different
-                                                    address?</label>
-                                            </div>
+                                        <div class="form-check check mb-3" >
+                                            
+                                            <h3 id="a">Adress</h3>
+                                            <h4 id="ca">City</h4>
+                                            <h4 id="s">State</h4>
+                                            <h4 id="p">Pincode</h4>
+                                            <h4 id="an">Alternative Number</h4>
+                                            <button class="btn btn-success" onclick="hello()"> Use this Address</button>
                                         </div>
-                                        <div class="ship-box-info mt-4">
-                                            <div class="form-row mb-3">
-                                                <div class="form-group col-12 col-sm-12 col-md-6">
-                                                    <label for="f_name">First Name <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="f_name" required>
-                                                </div>
-                                                <div class="form-group col-12 col-sm-12 col-md-6">
-                                                    <label for="l_name">Last Name <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="l_name" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-3">
-                                                <div class="form-group col-12 col-sm-12 col-md-6">
-                                                    <label for="com_name">Phone Number</label>
-                                                    <input type="tel" class="form-control" id="com_name">
-                                                </div>
-                                                <div class="form-group col-12 col-sm-12 col-md-6">
-                                                    <label for="email_add">Email Address <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="email" class="form-control" id="email_add" required>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-row mb-3">
-                                                <div class="form-group col-12 col-sm-12 col-md-12">
-                                                    <label for="street_add">Street Address</label>
-                                                    <input type="text" class="form-control" id="street_add">
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-3">
-                                                <div class="form-group col-12 col-sm-12 col-md-12">
-                                                    <label for="ap_add">Apartment, suite, unit etc.
-                                                        (optional)</label>
-                                                    <input type="text" class="form-control" id="ap_add">
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-3">
-                                                <div class="form-group col-12 col-sm-12 col-md-12">
-                                                    <label for="cit_name">City <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="cit_name" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-row mb-3">
-                                                <div class="form-group col-12 col-sm-12 col-md-12">
-                                                    <label for="prov_name">Province <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" id="prov_name" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-12 col-sm-12 col-md-12">
-                                                    <label for="zp_code">Zip Code <span
-                                                            class="text-danger">*</span></label>
-                                                    <input type="number" class="form-control" id="zp_code" required>
-                                                </div>
-                                            </div>
+                                         <div class="form-check check mb-3" > 
+                                             {{!-- multiple --}}
+                                            
+                                            <h3>Adress</h3>
+                                            <h4>City</h4>
+                                            <h4>State</h4>
+                                            <h4>Pincode</h4>
+                                            <h4>Alternative Number</h4>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
 
                         </div> <!-- end of checkout-form -->
                     </div>
+                    
                     <div class="col-12 col-sm-12 col-md-6 col-lg-5">
                         <div class="order-summary">
                             <div class="section-title left-aligned">
@@ -220,9 +168,11 @@
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Total</th>
-                                                <td class="text-center"><strong>Rs. <strong id="totalP">{{total}}</strong> </strong></td>
-                                                <p id="coupon" style="display: none;" class="text-danger text-center"><strong>Coupon applied</strong>    
-                                                    </p>
+                                                <td class="text-center"><strong>Rs. <strong
+                                                            id="totalP">{{total}}</strong> </strong></td>
+                                                <p id="coupon" style="display: none;" class="text-danger text-center">
+                                                    <strong>Coupon applied</strong>
+                                                </p>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -296,7 +246,21 @@
 
 <script>
 
-    
+    function hello(){
+        console.log("It working Yaar")
+        let a = document.getElementById('a').innerHTML
+        let s = document.getElementById('s').innerHTML
+        let p = document.getElementById('p').innerHTML
+        let ca = document.getElementById('ca').innerHTML
+        let an = document.getElementById('an').innerHTML
+        $('#p_address').val(a)
+        $('#p_address').val(a)
+        $('#p_address').val(a)
+        $('#p_address').val(a)
+        document.getElementById('p_address').innerHTML = "hello world"
+      
+        console.log(a,ca,s,an,"ath enna varathe")
+    }
 
     $('#placeOrder').submit((e) => {
         e.preventDefault();
@@ -329,9 +293,12 @@
             "handler": function (response) {
                 {
                     {
-                        !--alert(response.razorpay_payment_id);
-                        alert(response.razorpay_order_id);
-                        alert(response.razorpay_signature)--
+                        {
+                           // {
+                             //   !--alert(response.razorpay_payment_id);
+                               // alert(response.razorpay_order_id);
+                                //alert(response.razorpay_signature); --}
+                        }
                     }
                 }
                 verifyPayment(response, order)
@@ -366,7 +333,7 @@
                 order
             },
             success: (response) => {
-                console.log(response,"response")
+                console.log(response, "response")
                 if (response.status) {
                     window.location.href = '/orderSuccess'
                 } else {

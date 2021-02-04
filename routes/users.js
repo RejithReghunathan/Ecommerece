@@ -386,7 +386,6 @@ router.get("/checkout", isSignedIn, categories, async (req, res) => {
 });
 router.post("/place-order", async (req, res) => {
   let products = await userHelpers.getCartProductList(req.body.userId);
-  console.log("placeorder datga", req.body);
   await user.getTotalAmount(req.session.user._id, products).then((result) => {
     console.log("req.body.total"), result;
     req.body.total = result;
