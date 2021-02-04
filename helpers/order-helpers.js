@@ -130,6 +130,7 @@ module.exports={
     },
     createCoupon:(data)=>{
         return new Promise(async(resolve,reject)=>{
+            data.status=true
             await db.get().collection('coupon').insertOne(data).then((result)=>{
                 if(result){
                     resolve(result.ops[0])

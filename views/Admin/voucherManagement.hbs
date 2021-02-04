@@ -23,9 +23,7 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Voucher</th>
                                         <th scope="col">Offer</th>
-                                        <th scope="col">Edit</th>
-                                        <th scope="col">Delete</th>
-
+                                        <th scope="col">status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -34,12 +32,12 @@
                                         <th scope="row" class="class=" create_index"">{{math @index "+" 1}}</th>
                                         <td>{{coupon}}</td>
                                         <td>{{offer}}</td>
-                                        <td><a href="/editCoupon/{{_id}}" class="text-white"
-                                                style="text-decoration: none;"><button
-                                                    class="btn btn-primary">Edit</button></td></a>
-                                        <td><button class="btn btn-danger"><a href="/deleteCoupon/{{_id}}"
-                                                    class="text-white"
-                                                    style="text-decoration: none;">Delete</a></button></td>
+                                        {{#if status}}
+                                        <td>Active</td>
+                                        {{else}}
+                                        <td>Expired</td>
+                                        {{/if}}
+                                        
                                     </tr>
 
                                 </tbody>

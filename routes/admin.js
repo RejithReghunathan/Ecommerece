@@ -341,6 +341,7 @@ router.post("/createCoupon", (req, res) => {
   console.log(req.body, "kjhlk");
   orderHelper.createCoupon(req.body).then((data) => {
     console.log(data);
+    res.json(data)
   });
 });
 router.post('/applyCouponCode',(req,res)=>{

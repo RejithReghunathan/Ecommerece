@@ -48,7 +48,6 @@
 
 <script>
     $('#button').click((e) => {
-        console.log('Hello')
         e.preventDefault()
         $.ajax({
             method: 'get',
@@ -59,8 +58,10 @@
         })
     })
     $('#submit').click((e) => {
+        console.log("eda its not working ")
         let coupon = $('#coupon').val()
         let offer = $('#offer').val()
+        if(offer!=""&&coupon!=""){
         $.ajax({
             method: 'post',
             url: '/createCoupon',
@@ -73,5 +74,9 @@
                 }
             }
         })
+        }
+        else{
+            $('#error').show()
+        }
     })
 </script>
