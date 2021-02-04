@@ -3,6 +3,7 @@ var router = express.Router();
 var product = require("../helpers/product-helpers");
 const orderHelper = require("../helpers/order-helpers");
 const userHelper = require("../helpers/user-helpers");
+const adminHelper = require('../helpers/admin-helpers')
 const { json } = require("express");
 const moment = require("moment");
 const { order } = require("paypal-rest-sdk");
@@ -360,5 +361,10 @@ router.get('/offer',(req,res)=>{
   } else {
     res.render("Admin/adminLogin");
   }
+})
+router.post('/offerByCategoryId',(req,res)=>{
+  adminHelper.setOfferBycategoryId(req.body).then((result)=>{
+    
+  })
 })
 module.exports = router;

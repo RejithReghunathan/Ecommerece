@@ -25,7 +25,7 @@
                                         <div class="form-group has-feedback">
                                             <label class="control-label">Category</label>
 
-                                            <select class="form-control" name="category">
+                                            <select class="form-control" name="category" id="category">
                                                 {{#each category}}
                                                 <option value="{{this._id}}">{{this.name}}</option>
                                                 {{/each}}
@@ -42,14 +42,14 @@
                                     <div class="col-md-6">
                                         <div class="form-group has-feedback">
                                             <label class="control-label">Expiry</label>
-                                            <input class="form-control" placeholder="E-mail" type="Date">
+                                            <input class="form-control" placeholder="E-mail" type="Date" id="end">
                                             
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group has-feedback">
                                             <label class="control-label">Offer</label>
-                                            <input class="form-control" placeholder="Offer(in %)" type="text">
+                                            <input class="form-control" placeholder="Offer(in %)" type="text" id="offer">
                                         </div>
                                     </div>
                                 
@@ -74,6 +74,18 @@
         e.preventDefault()
         console.log("Clicked")
         let start = $('#start').val()
-        console.log(start)
+        let end = $('#end').val()
+        let category = $('#category').val()
+        let offer = $('#offer').val()
+        $.ajax({
+            method:'post',
+            url:'/offerByCategoryId',
+            data:{
+                start,end,category,offer
+            },
+            success:(response)=>{
+                alert(response)
+            }
+        })
     })
 </script>
