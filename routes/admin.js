@@ -10,8 +10,6 @@ const { order } = require("paypal-rest-sdk");
 var voucher_codes = require("voucher-code-generator");
 const { localeData } = require("moment");
 
-
-
 router.get("/admin", async (req, res) => {
   let user = req.session.user;
   let role = req.session.role;

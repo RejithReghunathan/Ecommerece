@@ -201,7 +201,9 @@ router.get("/myaccount", categories, async (req, res) => {
     res.render("Admin/index", { admin: true });
   } else {
     cartCount = await userHelpers.getCartCount(users._id);
-    res.render("User/myaccount", { user: true, users, category, cartCount });
+    userHelpers.getAddressById(users._id).then((address)=>{
+    res.render("User/myaccount", { user: true, users, category, cartCount,address });
+    })
   }
 });
 router.get("/cart", isSignedIn, categories, async (req, res) => {

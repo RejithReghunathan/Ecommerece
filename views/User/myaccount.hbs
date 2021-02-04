@@ -28,8 +28,8 @@
                             <div class="row align-items-center no-gutters">
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
                                     <div class="single-info">
-                                        <p class="user-name">Hello <span>{{users.fname}}</span> <br>not {{users.fname}}? <a
-                                                class="log-out" href="/logout">Log Out</a></p>
+                                        <p class="user-name">Hello <span>{{users.fname}}</span> <br>not {{users.fname}}?
+                                            <a class="log-out" href="/logout">Log Out</a></p>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
@@ -56,11 +56,12 @@
                                     <ul class="nav flex-column dashboard-list" role="tablist">
                                         <li><a class="nav-link active" data-toggle="tab" href="#dashboard">Dashboard</a>
                                         </li>
-                                        <li> <a class="nav-link" data-toggle="tab" href="#orders">Orders</a></li>
-                                        {{!-- <li><a class="nav-link" data-toggle="tab" href="#downloads">Downloads</a></li> --}}
+                                        {{!-- <li> <a class="nav-link" data-toggle="tab" href="#orders">Orders</a></li> --}}
+                                        {{!-- <li><a class="nav-link" data-toggle="tab" href="#downloads">Downloads</a>
+                                        </li> --}}
                                         <li><a class="nav-link" data-toggle="tab" href="#address">Addresses</a></li>
-                                        <li><a class="nav-link" data-toggle="tab" href="#account-details">Account
-                                                details</a></li>
+                                        {{!-- <li><a class="nav-link" data-toggle="tab" href="#account-details">Account
+                                                details</a></li> --}}
                                         <li><a class="nav-link" href="/logout">logout</a></li>
                                     </ul> <!-- end of dashboard-list -->
                                 </div>
@@ -146,9 +147,19 @@
                                         <div id="address" class="tab-pane">
                                             <p>The following addresses will be used on the checkout page by default.</p>
                                             <h4 class="billing-address">Billing address</h4>
-                                            <a class="btn btn-secondary my-4" href="#">edit</a>
-                                            <p>HasTech</p>
-                                            <p>Bangladesh</p>
+                                            {{#each address}}
+
+                                            <h4 id="{{_id}}address">{{math @index "+" 1}} :  {{this.address}}</h4>
+                                            <h4 id="{{_id}}city">{{this.city}}</h4>
+                                            <h4 id="{{_id}}state">{{this.state}}</h4>
+                                            <h4 id="{{_id}}pincode">{{this.pincode}}</h4>
+                                            {{#if AlternativeNum}}
+                                            <h4 id="an">Alternative Number</h4>
+                                            {{else}}
+                                            {{/if}}
+<hr>
+                                            {{/each}}
+                                            
                                         </div> <!-- end of tab-pane -->
 
                                         {{!-- <div id="account-details" class="tab-pane fade">
