@@ -295,35 +295,7 @@
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
 <script>
-    $('#applyCoupon').submit((e)=>{
-         e.preventDefault();
-        console.log("Clicked")
-        let coupon = $('#input-coupon').val()
-        let price = $('#totalPrice').val()
-        console.log('coupon',coupon,price)
-        $.ajax({
-            url:'/applyCouponCode',
-            method: "post",
-            data:{
-                coupon
-            },
-            success:(response)=>{
-                if(response.success==true){
-                    let tp = price*(100-20)/100
-                    alert('Coupon code applied',tp)
-                    document.getElementById('totalP').innerHTML=tp
-                    {{!-- document.getElementById('totalPrice').innerHTML=tp --}}
-                    $('#totalP').val(tp)
-                    $('#totalprice').val(tp)
-                    $('#coupon').show()
-                }
-                else{
-                    alert('Invalid code')
-                }
 
-            }
-        })
-    })
     
 
     $('#placeOrder').submit((e) => {
@@ -394,6 +366,7 @@
                 order
             },
             success: (response) => {
+                console.log(response,"response")
                 if (response.status) {
                     window.location.href = '/orderSuccess'
                 } else {

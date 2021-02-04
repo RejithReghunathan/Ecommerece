@@ -313,7 +313,6 @@ router.get("/voucherGenerate", (req, res) => {
     res.render("Admin/adminLogin");
   }
 });
-
 router.get("/generateCouponCode", (req, res) => {
   let user = req.session.user;
   let role = req.session.role;
@@ -343,11 +342,23 @@ router.post("/createCoupon", (req, res) => {
     console.log(data);
   });
 });
-
 router.post('/applyCouponCode',(req,res)=>{
   orderHelper.applyCouponCode(req.body).then((data)=>{
     console.log(data);
     res.send(data)
   })
+})
+router.get('/offer',(req,res)=>{
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      product.getAllCategory().then((category) => {
+        res.render("Admin/offer", { category, admin: true });
+      });
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
 })
 module.exports = router;
