@@ -357,6 +357,9 @@ router.get("/checkout", isSignedIn, categories, async (req, res) => {
       total = result;
     });
     if (total) {
+      userHelpers.getAddressById(req.session.user._id).then((address)=>{
+
+     
       userHelpers.getCart(req.session.user._id).then(async (data) => {
         let cartPro = data;
         console.log("CART", cartPro);
@@ -368,8 +371,10 @@ router.get("/checkout", isSignedIn, categories, async (req, res) => {
           cartCount,
           cartPro,
           total,
+          address
         });
       });
+    })
     } else {
       productHelper.getAllCategory().then((category) => {
         productHelper

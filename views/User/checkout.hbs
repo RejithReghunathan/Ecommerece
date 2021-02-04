@@ -106,24 +106,21 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-12 col-sm-12 col-md-12">
+                                        {{#each address}}
                                         <div class="form-check check mb-3" >
                                             
-                                            <h3 id="a">Adress</h3>
-                                            <h4 id="ca">City</h4>
-                                            <h4 id="s">State</h4>
-                                            <h4 id="p">Pincode</h4>
+                                            <h3 id="{{_id}}address">{{this.address}}</h3>
+                                            <h4 id="{{_id}}city">{{this.city}}</h4>
+                                            <h4 id="{{_id}}state">{{this.state}}</h4>
+                                            <h4 id="{{_id}}pincode">{{this.pincode}}</h4>
+                                            {{#if AlternativeNum}}
                                             <h4 id="an">Alternative Number</h4>
-                                            <button class="btn btn-success" onclick="hello()"> Use this Address</button>
+                                            {{else}}
+                                            {{/if}}
+                                            <button class="btn btn-success" onclick="hello('{{this._id}}')"> Use this Address</button>
                                         </div>
-                                         <div class="form-check check mb-3" > 
-                                             {{!-- multiple --}}
-                                            
-                                            <h3>Adress</h3>
-                                            <h4>City</h4>
-                                            <h4>State</h4>
-                                            <h4>Pincode</h4>
-                                            <h4>Alternative Number</h4>
-                                        </div>
+                                        {{/each}}
+                                         
                                     </div>
                                 </div>
 
@@ -218,6 +215,7 @@
                                     </div>
                                     <input type="text" name="userId" id="" value="{{users._id}}" hidden>
                                     <input type="text" name="total" id="totalPrice" value="{{total}}" hidden>
+                                    <input type="text" name="address_id" id="address_id" hidden >
                                 </div>
                                 <div class="form-row justify-content-end">
                                     <input type="submit" class="btn btn-secondary dark" value="Continue to Payment">
@@ -246,20 +244,17 @@
 
 <script>
 
-    function hello(){
+    function hello(addId){
         console.log("It working Yaar")
-        let a = document.getElementById('a').innerHTML
-        let s = document.getElementById('s').innerHTML
-        let p = document.getElementById('p').innerHTML
-        let ca = document.getElementById('ca').innerHTML
-        let an = document.getElementById('an').innerHTML
-        $('#p_address').val(a)
-        $('#p_address').val(a)
-        $('#p_address').val(a)
-        $('#p_address').val(a)
-        document.getElementById('p_address').innerHTML = "hello world"
-      
-        console.log(a,ca,s,an,"ath enna varathe")
+        let address = document.getElementById(addId+'address').innerHTML
+        let state = document.getElementById(addId+'state').innerHTML
+        let city = document.getElementById(addId+'city').innerHTML
+        let pincode = document.getElementById(addId+'pincode').innerHTML
+        $('#p_address').val(address)
+        $('#city_name').val(city)
+        $('#province_name').val(state)
+        $('#zip_code').val(pincode)
+        $('#address_id').val(addId) 
     }
 
     $('#placeOrder').submit((e) => {

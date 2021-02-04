@@ -441,9 +441,26 @@ module.exports = {
         products:products,
         date:moment(new Date()).format('L')
       }
+      if(order.address_id!=''){
+
+      }else{
+        let address ={
+          fname:order.fname,
+          lname:order.lname,
+          mobile:order.phone,
+          address:order.address,
+          city:order.city,
+          state:order.state,
+          pincode:order.pincode,
+          userId:objectId(order.userId),
+          AlternativeNum:order.alphone
+        }
+        db.get().collection('address').insertOne(address).then((res)=>{
+          console.log(res);
+        })
+      }
      await db.get().collection('order').insertOne(orderObj).then((response)=>{
         db.get().collection('cart').removeOne({user:objectId(order.userId)})
-        console.log('response on manga2',response.ops[0]);
         resolve(response.ops[0]._id)
         
       }) 
@@ -543,4 +560,11 @@ module.exports = {
       })
     })
   },
+  getAddressById:(userId)=>{
+    return new Promise(async (resolve,reject)=>{
+     let data= await db.get().collection('address').find({userId:objectId(userId)}).toArray()
+     console.log("adreess",data);
+     resolve(data)
+    })
+  }
 };
