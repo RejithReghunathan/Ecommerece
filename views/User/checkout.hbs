@@ -25,20 +25,30 @@
                 <main id="primary" class="site-main">
                     <div class="user-actions user-coupon">
                         <h3>Have A Coupon? <span id="show_coupon">Click Here To Enter Your Code.</span></h3>
+
                         <div id="checkout_coupon" class="display-content">
+                            <p id="invalid" style="display: none;" class="text-danger ml-5">
+                                <strong>Invalid coupon!!!</strong>
+                            </p>
+                            <p id="expiry" style="display: none;" class="text-danger ml-5">
+                                <strong>Coupon expired!!!</strong>
+                            <p id="coupon" style="display: none;" class="text-success">
+                                <strong>Coupon applied</strong>
+                            </p>
                             <div class="coupon-info">
-                                <form id="applyCoupon">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-12 col-md-6">
-                                            <div class="input-group">
-                                                <input type="text" name="coupon" placeholder="Coupon Code"
-                                                    id="input-coupon" class="form-control mr-3">
-                                                <input type="submit" value="Apply Coupon" id="button-coupon"
-                                                    class="btn btn-secondary">
-                                            </div>
+
+                                <div class="row">
+
+                                    <div class="col-12 col-sm-12 col-md-6">
+                                        <div class="input-group">
+                                            <input type="text" name="coupon" placeholder="Coupon Code" id="input-coupon"
+                                                class="form-control mr-3">
+                                            <button class="btn btn-secondary" onclick="coupon()" value="Apply Coupon"
+                                                id="button-coupon">Apply Coupon</button>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
+
                             </div>
                         </div>
                     </div> <!-- end of user-actions -->
@@ -107,7 +117,7 @@
                                 <div class="form-row">
                                     <div class="form-group col-12 col-sm-12 col-md-12">
                                         {{#each address}}
-                                        <div class="form-check check mb-3" >
+                                        <div class="form-check check mb-3">
                                             <h3 id="{{_id}}address">{{this.address}}</h3>
                                             <h4 id="{{_id}}city">{{this.city}}</h4>
                                             <h4 id="{{_id}}state">{{this.state}}</h4>
@@ -116,16 +126,17 @@
                                             <h4 id="an">Alternative Number</h4>
                                             {{else}}
                                             {{/if}}
-                                            <button class="btn btn-success" onclick="hello('{{this._id}}')"> Use this Address</button>
+                                            <div class="btn btn-success" onclick="hello('{{this._id}}')"> Use this
+                                                Address</div>
                                         </div>
                                         {{/each}}
-                                         
+
                                     </div>
                                 </div>
 
                         </div> <!-- end of checkout-form -->
                     </div>
-                    
+
                     <div class="col-12 col-sm-12 col-md-6 col-lg-5">
                         <div class="order-summary">
                             <div class="section-title left-aligned">
@@ -160,14 +171,26 @@
                                         <tbody>
                                             <tr class="cart-subtotal">
                                                 <th>Subtotal</th>
-                                                <td class="text-center">Rs.{{total}}</td>
+                                                <td class="text-center" id="strike" style="display: none;">
+                                                    <strike >
+                                                        Rs.{{total}}</strike>
+                                                </td>
+                                                <td class="text-center" id="nostrike">
+
+                                                    Rs.{{total}}</td>
+
                                             </tr>
                                             <tr class="order-total">
                                                 <th>Total</th>
                                                 <td class="text-center"><strong>Rs. <strong
-                                                            id="totalP">{{total}}</strong> </strong></td>
-                                                <p id="coupon" style="display: none;" class="text-danger text-center">
-                                                    <strong>Coupon applied</strong>
+                                                            id="totalP">{{total}}</strong></strong>
+                                                    <div id="displayOffer" class="text text-success"
+                                                        style="display: none;"><strong><span>(
+                                                                <span id="offerId"></span>
+                                                                %off)</span></strong></div>
+                                                </td>
+
+
                                                 </p>
                                             </tr>
                                         </tbody>
@@ -201,7 +224,7 @@
                                         </div>
                                     </div>
                                     <div class="custom-radio">
-                                        <input class="form-check-input" type="radio" name="payment" id="paypal_payment"
+                                        <input class="form-check-input" type="radio" name="payment" id="razor_payment"
                                             value="razorpay">
                                         <span class="checkmark"></span>
                                         <label class="form-check-label" for="razor_payment">RazorPay
@@ -214,7 +237,8 @@
                                     </div>
                                     <input type="text" name="userId" id="" value="{{users._id}}" hidden>
                                     <input type="text" name="total" id="totalPrice" value="{{total}}" hidden>
-                                    <input type="text" name="address_id" id="address_id" hidden >
+                                    <input type="text" name="address_id" id="address_id" hidden>
+                                    <input type="text" name="offer" id="offer" hidden>
                                 </div>
                                 <div class="form-row justify-content-end">
                                     <input type="submit" class="btn btn-secondary dark" value="Continue to Payment">
@@ -243,17 +267,54 @@
 
 <script>
 
-    function hello(addId){
+    function hello(addId) {
         console.log("It working Yaar")
-        let address = document.getElementById(addId+'address').innerHTML
-        let state = document.getElementById(addId+'state').innerHTML
-        let city = document.getElementById(addId+'city').innerHTML
-        let pincode = document.getElementById(addId+'pincode').innerHTML
+        let address = document.getElementById(addId + 'address').innerHTML
+        let state = document.getElementById(addId + 'state').innerHTML
+        let city = document.getElementById(addId + 'city').innerHTML
+        let pincode = document.getElementById(addId + 'pincode').innerHTML
         $('#p_address').val(address)
         $('#city_name').val(city)
         $('#province_name').val(state)
         $('#zip_code').val(pincode)
-        $('#address_id').val(addId) 
+        $('#address_id').val(addId)
+    }
+
+    function coupon() {
+        let coupon = $('#input-coupon').val()
+        $.ajax({
+            method: 'post',
+            url: '/veriefyCoupon',
+            data: {
+                coupon
+            },
+            success: (response) => {
+                console.log(response, "RES")
+                if (response.status == 0) {
+                    $('#coupon').show() //coupon applied
+                    $('#invalid').hide()
+                    $('#expiry').hide()
+                    let total = document.getElementById('totalP').innerHTML
+                    let offerPrice = total * (100 - response.offer) / 100
+                    $('#offer').val(response.offer)
+                    document.getElementById('totalP').innerHTML = offerPrice
+                    document.getElementById('offerId').innerHTML = response.offer
+                    $('#offerId').val(response.offer)
+                    $('#displayOffer').show()
+                    $('#nostrike').hide()
+                    $('#strike').show()
+
+                } else if (response.status === 1) {
+                    $('#invalid').show()
+                    $('#expiry').hide()
+                    $('#coupon').hide()
+                } else {
+                    $('#expiry').show()
+                    $('#invalid').hide()
+                    $('#coupon').hide()
+                }
+            }
+        })
     }
 
     $('#placeOrder').submit((e) => {
@@ -288,10 +349,10 @@
                 {
                     {
                         {
-                           // {
-                             //   !--alert(response.razorpay_payment_id);
-                               // alert(response.razorpay_order_id);
-                                //alert(response.razorpay_signature); --}
+                            // {
+                            //   !--alert(response.razorpay_payment_id);
+                            // alert(response.razorpay_order_id);
+                            //alert(response.razorpay_signature); --}
                         }
                     }
                 }

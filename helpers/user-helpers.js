@@ -417,6 +417,11 @@ module.exports = {
     let status
     console.log("ORDER TOTAL",order);
     order.total=parseInt(order.total)
+    if(order.offer!=''){
+      order.offer=parseInt(order.offer)
+      console.log("offer Price",order.offer);
+      order.total=order.total*(100-order.offer)/100
+    }
     return new Promise(async(resolve,reject)=>{
       if(order.payment==='cash'){
         status='placed'
@@ -565,6 +570,30 @@ module.exports = {
      let data= await db.get().collection('address').find({userId:objectId(userId)}).toArray()
      console.log("adreess",data);
      resolve(data)
+    })
+  },
+  veriefyCoupon:(couponCode)=>{
+    console.log("voonedeea",couponCode);
+    return new Promise(async(resolve,reject)=>{
+      let response={}
+      let coupon = await db.get().collection('coupon').findOne({coupon:couponCode.coupon})
+      if(coupon){
+        if(coupon.status){
+          response.status=0 //valid coupon
+          // db.get().collection('coupon').updateOne({coupon:couponCode.coupon},
+          //   {$set:{
+          //     status:false
+          //   }})
+          response.offer = parseInt(coupon.offer)
+          resolve(response)
+        }else{
+          response.status=2 //coupon expired
+          resolve(response)
+        }
+      }else{
+        response.status=1  //invalid coupon
+        resolve(response)
+      }
     })
   }
 };

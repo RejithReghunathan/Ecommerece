@@ -555,4 +555,10 @@ router.get(
     }
   }
 );
+router.post('/veriefyCoupon',(req,res)=>{
+  userHelpers.veriefyCoupon(req.body).then((data)=>{
+    console.log("vannu",data);
+    res.json(data)
+  })
+})
 module.exports = router;
