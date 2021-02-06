@@ -580,10 +580,10 @@ module.exports = {
       if(coupon){
         if(coupon.status){
           response.status=0 //valid coupon
-          // db.get().collection('coupon').updateOne({coupon:couponCode.coupon},
-          //   {$set:{
-          //     status:false
-          //   }})
+          db.get().collection('coupon').updateOne({coupon:couponCode.coupon},
+            {$set:{
+              status:false
+            }})
           response.offer = parseInt(coupon.offer)
           resolve(response)
         }else{
