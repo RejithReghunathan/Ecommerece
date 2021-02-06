@@ -381,4 +381,17 @@ router.get('/cancelledOrders',(req,res)=>{
     res.render("Admin/adminLogin");
   }
 })
+router.get('/completedOrders',(req,res)=>{
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      orderHelper.getCompletedOrder().then((orders) => {
+        res.render("Admin/completed-orders", { admin: true, orders });
+      });
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+})
 module.exports = router;

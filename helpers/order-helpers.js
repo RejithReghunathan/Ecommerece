@@ -172,7 +172,13 @@ module.exports={
     getCancelledOrder:()=>{
         return new Promise(async(resolve,reject)=>{
             let orders = await db.get().collection('order').find({status:"Cancel"}).toArray()
-            console.log(orders,"hell");
+
+            resolve(orders)
+        })
+    },
+    getCompletedOrder:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let orders = await db.get().collection('order').find({status:'Deliver'}).toArray()
             resolve(orders)
         })
     }
