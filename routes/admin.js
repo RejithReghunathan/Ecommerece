@@ -368,4 +368,17 @@ router.post('/offerByCategoryId',(req,res)=>{
     
   })
 })
+router.get('/cancelledOrders',(req,res)=>{
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      orderHelper.getCancelledOrder().then((orders) => {
+        res.render("Admin/cancelled-orders", { admin: true, orders });
+      });
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+})
 module.exports = router;
