@@ -52,6 +52,10 @@ router.post("/addNewProduct", (req, res) => {
     if (role == 0) {
       product.addProduct(req.body, (id) => {
         let image = req.files.Image;
+        if(req.files.Image1!=''){
+          let image1 = req.files.Image1
+          image1.mv("./public/product-images/"+id+"1.jpg")
+        }
         image.mv("./public/product-images/" + id + ".jpg", (err, done) => {
           if (!err) {
             res.redirect("./addProduct");
