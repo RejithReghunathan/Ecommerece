@@ -5,10 +5,10 @@ const state = {
 }
 
 module.exports.connect = function(done){
-    // const url = 'mongodb://localhost:27017'
+    const url = 'mongodb://localhost:27017'
     const dbname = 'shopping'
    
-    mongoClient.connect(process.env.MONGODB_URI,(err,data)=>{
+    mongoClient.connect(url,{ useUnifiedTopology: true },(err,data)=>{
         
         if(err) return done(err)
         state.db=data.db(dbname) 
