@@ -368,6 +368,7 @@ router.get('/offer',(req,res)=>{
   }
 })
 router.post('/offerByCategoryId',(req,res)=>{
+  console.log("vannthite",req.body);
   adminHelper.setOfferBycategoryId(req.body).then((result)=>{
     
   })

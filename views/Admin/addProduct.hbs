@@ -67,17 +67,17 @@
                                         id="image" required name="Image" onchange="viewImage(event)">
                                 </div>
                                 <div>
-                                    <div class="form-group">
+                                    {{!-- <div class="form-group">
                                         <label for="exampleInputPassword1">Image</label>
                                         <div class="form-group">
                                             <img src="" alt="" style="width: 100px; height: 100px; display: none;"
-                                                id="imgView">
+                                                id="imgView1">
 
                                         </div>
                                         <input type="file" accept="image/x-png,image/gif,image/jpeg"
                                             class="form-control" id="image" required name="Image1"
-                                            onchange="viewImage(event)">
-                                    </div>
+                                            onchange="viewImage1(event)">
+                                    </div> --}}
                                     <div>
                                         <h5 style="color: red; display:none;" id="image-warning">Please upload only
                                             images
@@ -107,6 +107,21 @@
             $('#image-warning').show()
             $('#add-product-button').hide()
             $('#imgView').hide()
+        }
+    }
+    function viewImage1(event) {
+        document.getElementById('imgView1').src = URL.createObjectURL(event.target.files[0])
+        let file = event.target.files[0].name
+
+        let filename = file.split('.').pop()
+        if (filename == 'jpeg' || filename == 'png' || filename == 'jpg') {
+            $('#add-product-button').show()
+            $('#image-warning').hide()
+            $('#imgView1').show()
+        } else {
+            $('#image-warning').show()
+            $('#add-product-button').hide()
+            $('#imgView1').hide()
         }
     }
 </script>

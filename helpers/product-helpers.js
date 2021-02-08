@@ -1,5 +1,7 @@
 const db = require("../confiq/connection");
 var objectId = require("mongodb").ObjectID;
+const moment = require("moment");
+
 module.exports = {
   addCategory: (category) => {
     return new Promise(async (resolve, reject) => {
@@ -54,14 +56,75 @@ module.exports = {
       });
   },
   getAllProduct: () => {
-    return new Promise((resolve, reject) => {
-      let data = db.get().collection("product").find().toArray();
-      if (data) {
-        resolve(data);
-      } else {
-        reject();
-      }
+    return new Promise(async (resolve, reject) => {
+      let currentDate = moment(new Date()).format("L");
+      currentDate = Date.parse(currentDate);
+      console.log("current date", currentDate);
+      let fromDate;
+      let toDate;
+
+      let offerProducts = await db
+        .get()
+        .collection('product')
+        .aggregate([
+          {
+            $match: { offer: { $exists: true } },
+          },
+        ])
+        .toArray();
+      console.log("offer products", offerProducts);
+      offerProducts.forEach((element) => {
+        fromDate = Date.parse(element.startDate);
+        toDate = Date.parse(element.endDate);
+        console.log("number date is", fromDate);
+        if (fromDate >= currentDate && currentDate <= toDate) {
+          console.log("Date is ok for", element.name);
+        } else {
+          db.get()
+            .collection('product')
+            .updateOne(
+              { _id: objectId(element._id) },
+              {
+                $set: {
+                  price: element.oldPrice,
+                },
+                $unset: {
+                  oldPrice: 1,
+                  start: 1,
+                  end: 1,
+                  offer: 1,
+                },
+              }
+            );
+          db.get()
+            .collection('category')
+            .updateOne(
+              { _id: element.category },
+              {
+                $unset: {
+                  offer: 1,
+                  start: 1,
+                  end: 1,
+                },
+              }
+            );
+        }
+      });
+      let products = await db
+        .get()
+        .collection('product')
+        .find()
+        .toArray();
+      resolve(products);
     });
+  // }
+    //   let data = db.get().collection("product").find().toArray();
+    //   if (data) {
+    //     resolve(data);
+    //   } else {
+    //     reject();
+    //   }
+    // });
   },
   getSingleProduct: (proId) => {
     return new Promise(async (resolve, reject) => {
