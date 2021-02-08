@@ -8,6 +8,7 @@ const Handlebars = require("handlebars");
 const H = require("just-handlebars-helpers");
 const fileUpload = require("express-fileupload");
 const hbs = require("express-handlebars");
+const dotenv=require('dotenv').config()
 
 H.registerHelpers(Handlebars);
 
