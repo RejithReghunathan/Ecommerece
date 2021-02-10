@@ -288,7 +288,7 @@ router.post("/requestotp", (req, res) => {
         method: "post",
         url: "https://d7networks.com/api/verifier/send",
         headers: {
-          Authorization: "Token ffeaeab023b4bbd5c8348a74e33d2d788eeb3a52",
+          Authorization: "Token b3b6ad053db9909cf29b8946712eeb1388acec39",
           ...data.getHeaders(),
         },
         data: data,
@@ -321,7 +321,7 @@ router.post("/verifyotp", (req, res) => {
     method: "post",
     url: "https://d7networks.com/api/verifier/verify",
     headers: {
-      Authorization: "Token ffeaeab023b4bbd5c8348a74e33d2d788eeb3a52",
+      Authorization: "Token b3b6ad053db9909cf29b8946712eeb1388acec39",
       ...data.getHeaders(),
     },
     data: data,
