@@ -281,7 +281,7 @@ router.post("/requestotp", (req, res) => {
       var data = new FormData();
       data.append("mobile", "+91" + phone);
       data.append("sender_id", "SMSINFO");
-      data.append("message", "Your otp code for login is {code}");
+      data.append("message", "Your One Time Password code for login is {code}");
       data.append("expiry", "900");
 
       var config = {
