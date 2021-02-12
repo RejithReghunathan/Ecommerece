@@ -51,4 +51,36 @@ module.exports = {
   resolve();
     });
   },
+  getProductByOffer:()=>{
+    return new Promise(async(resolve,reject)=>{
+      let offerProducts = await db
+      .get()
+      .collection("product").find()
+      .toArray();
+      resolve(offerProducts)
+    })
+  },
+  getCategoryByOffer:()=>{
+    return new Promise(async(resolve,reject)=>{
+      let offerCategory = await db.get().collection('category').find().toArray()
+      resolve(offerCategory)
+    })
+  },
+  removeOfferById:(catId)=>{
+    return new Promise(async(resolve,reject)=>{
+      await  db.get()
+      .collection('category')
+      .updateOne(
+        { _id: objectId(catId) },
+        {
+          $unset: {
+            offer: 1,
+            startDate: 1,
+            endDate: 1,
+          },
+        }
+      );
+      resolve()
+    })  
+  }
 };

@@ -1,0 +1,83 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header sty-one">
+        <h1 class="text-black">Add Category</h1>
+        <ol class="breadcrumb">
+            <li><a href="#">Home</a></li>
+            <li class="sub-bread"><i class="fa fa-angle-right"></i>Category</li>
+            <li><i class="fa fa-angle-right"></i>Add Category</li>
+        </ol>
+    </div>
+    <div class="content">
+        <div class="info-box">
+            <div class="row">
+                <div class="col-lg-12 m-b-3">
+                    <h4 class="text-black">Category</h4>
+                    <br>
+                    <div class="table-responsive">
+                        <div class="container">
+                            <table class="table" id="tab">
+                                <thead class="bg-inverse text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Category Name</th>
+                                        <th scope="col">Offer</th>
+                                        <th scope="col">Offer Period</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each category}}
+                                    <tr>
+                                        <th scope="row" class="class=" create_index"">{{math @index "+" 1}}</th>
+                                        <td>{{this.name}}</td>
+                                        {{#if this.offer}}
+                                        <td>{{this.offer}}</td>
+                                        {{else}}
+                                        <td>No offer</td>
+                                        {{/if}}
+                                        {{#if this.startDate}}
+                                        <td>{{this.startDate}} - {{this.endDate}}</td>
+                                        {{else}}
+                                        <td>No Offer</td>
+                                        {{/if}}
+                                        {{#if this.startDate}}
+                                       
+                                        <td><button class="btn btn-danger" onclick="removeOffer('{{this._id}}')">Remove
+                                                    offer</button> </td>
+                                        {{else}}
+                                        <td>
+                                            <a href="/AddOffertoCategory/{{this._id}}" class="text-white"
+                                                style="text-decoration: none;"><button class="btn btn-primary">Add
+                                                    Offer</button></a>
+                                        </td>
+                                        {{/if}}
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script>
+    function removeOffer(catId){
+        console.log(catId)
+        $.ajax({
+            url:'/removeOfferById',
+            method:'get',
+            data:{catId},
+            success:(result)=>{
+                if(result){
+                    window.location.href="/offerCategory"
+                }
+            }
+        })
+    }
+</script>

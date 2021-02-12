@@ -366,7 +366,7 @@ router.get('/offer',(req,res)=>{
 router.post('/offerByCategoryId',(req,res)=>{
   console.log("vannthite",req.body);
   adminHelper.setOfferBycategoryId(req.body).then((result)=>{
-    
+    res.redirect('offerCategory')
   })
 })
 router.get('/cancelledOrders',(req,res)=>{
@@ -390,6 +390,57 @@ router.get('/completedOrders',(req,res)=>{
       orderHelper.getCompletedOrder().then((orders) => {
         res.render("Admin/completed-orders", { admin: true, orders });
       });
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+})
+router.get('/offersByproducts',(req,res)=>{
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      adminHelper.getProductByOffer().then((product)=>{
+        res.render('Admin/offersByproducts',{ admin: true,product })
+      })
+     
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+})
+router.get('/offerCategory',(req,res)=>{
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      adminHelper.getCategoryByOffer().then((category)=>{
+        res.render('Admin/offerCategory',{ admin: true,category })
+      })
+     
+    }
+  } else {
+    res.render("Admin/adminLogin");
+  }
+})
+router.get('/removeOfferById',(req,res)=>{
+  console.log("id is here",req.body);
+  console.log("id is here",);
+  var id=req.query.catId
+  adminHelper.removeOfferById(id).then(()=>{
+    res.json({result:true})
+  })
+})
+router.get('/AddOffertoCategory/:id',(req,res)=>{
+  console.log("id id here",req.params.id);
+  let user = req.session.user;
+  let role = req.session.role;
+  if (user) {
+    if (role == 0) {
+      console.log("here");
+      product.getCategoryById(req.params.id).then((category)=>{
+        res.render('Admin/offer',{ category, admin: true })
+      })
     }
   } else {
     res.render("Admin/adminLogin");

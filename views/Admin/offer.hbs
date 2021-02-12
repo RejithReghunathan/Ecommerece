@@ -26,9 +26,9 @@
                                             <label class="control-label">Category</label>
 
                                             <select class="form-control" name="category" id="category">
-                                                {{#each category}}
-                                                <option value="{{this._id}}">{{this.name}}</option>
-                                                {{/each}}
+                                                
+                                                <option value="{{category._id}}">{{category.name}}</option>
+                                                
                                             </select>
 
                                         </div>
@@ -84,7 +84,7 @@
                 start,end,category,offer
             },
             success:(response)=>{
-                alert(response)
+                window.location.href="/offerCategory"
             }
         })
     })

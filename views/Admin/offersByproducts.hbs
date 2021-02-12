@@ -1,0 +1,56 @@
+<div class="content-wrapper">
+    <div class="content">
+        <div class="info-box">
+            <div class="row">
+                <div class="col-lg-12 m-b-3">
+                    <h4 class="text-black">Product</h4>
+                    <br>
+                    <div class="table-responsive ">
+                        <div class="container">
+                            <table class="table " id="example">
+                                <thead class="bg-inverse text-white">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Brand</th>
+                                        <th scope="col">Offer</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each product}}
+                                    <tr>
+                                        <td scope="row" id="count">{{math @index "+" 1}}</td>
+                                        <td><img src="../product-images/{{this._id}}.jpg"
+                                                style="height: 100px; width:100px;" class="d-flex justify-content-center" alt=""></td>
+                                        <td>{{this.name}}</td>
+                                        <td>{{this.brand}}</td>
+                                        {{#if this.offer}}
+                                        <td>{{this.offer}}</td>
+                                        {{else}}
+                                        <td>No Offer</td>
+                                        {{/if}}
+                                        <td>{{this.price}}</td>
+                                         {{#if this.offer}}
+                                        <td>Remove Offer</td>
+                                        {{else}}
+                                        <td>Add Offer</td>
+                                        {{/if}}
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
