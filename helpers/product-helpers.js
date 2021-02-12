@@ -59,7 +59,6 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       let currentDate = moment(new Date()).format("L");
       currentDate = Date.parse(currentDate);
-      console.log("current date", currentDate);
       let fromDate;
       let toDate;
 
@@ -72,14 +71,11 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log("offer products", offerProducts);
       offerProducts.forEach((element) => {
-        console.log("elnneame",element.name);
         fromDate = Date.parse(element.startDate);
         toDate = Date.parse(element.endDate);
-        console.log("number date is", fromDate);
         if (currentDate >=fromDate && currentDate <= toDate) {
-          console.log("Date is ok for", element.name);
+
         } else {
           db.get()
             .collection("product")
@@ -115,14 +111,6 @@ module.exports = {
       console.log("PRod", products);
       resolve(products);
     });
-    // }
-    //   let data = db.get().collection("product").find().toArray();
-    //   if (data) {
-    //     resolve(data);
-    //   } else {
-    //     reject();
-    //   }
-    // });
   },
   getSingleProduct: (proId) => {
     return new Promise(async (resolve, reject) => {
