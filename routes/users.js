@@ -81,7 +81,7 @@ router.get("/signup", (req, res) => {
   if (req.session.isLoggedIn) {
     res.redirect("/home");
   } else {
-    res.render("user/register", { user: true });
+    res.render("User/register", { user: true });
   }
 });
 router.get("/login", isSignedIn, (req, res) => {
