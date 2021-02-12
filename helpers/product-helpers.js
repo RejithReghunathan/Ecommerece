@@ -46,8 +46,8 @@ module.exports = {
   },
   addProduct: (product, data) => {
     product.price = parseInt(product.price);
-    product.quantity=parseInt(product.quantity)
-    product.category=objectId(product.category)
+    product.quantity = parseInt(product.quantity);
+    product.category = objectId(product.category);
     db.get()
       .collection("product")
       .insertOne(product)
@@ -65,7 +65,7 @@ module.exports = {
 
       let offerProducts = await db
         .get()
-        .collection('product')
+        .collection("product")
         .aggregate([
           {
             $match: { offer: { $exists: true } },
@@ -74,14 +74,15 @@ module.exports = {
         .toArray();
       console.log("offer products", offerProducts);
       offerProducts.forEach((element) => {
+        console.log("elnneame",element.name);
         fromDate = Date.parse(element.startDate);
         toDate = Date.parse(element.endDate);
         console.log("number date is", fromDate);
-        if (fromDate >= currentDate && currentDate <= toDate) {
+        if (currentDate >=fromDate && currentDate <= toDate) {
           console.log("Date is ok for", element.name);
         } else {
           db.get()
-            .collection('product')
+            .collection("product")
             .updateOne(
               { _id: objectId(element._id) },
               {
@@ -90,14 +91,14 @@ module.exports = {
                 },
                 $unset: {
                   oldPrice: 1,
-                  start: 1,
-                  end: 1,
+                  startDate: 1,
+                  endDate: 1,
                   offer: 1,
                 },
               }
             );
           db.get()
-            .collection('category')
+            .collection("category")
             .updateOne(
               { _id: element.category },
               {
@@ -110,14 +111,11 @@ module.exports = {
             );
         }
       });
-      let products = await db
-        .get()
-        .collection('product')
-        .find()
-        .toArray();
+      let products = await db.get().collection("product").find().toArray();
+      console.log("PRod", products);
       resolve(products);
     });
-  // }
+    // }
     //   let data = db.get().collection("product").find().toArray();
     //   if (data) {
     //     resolve(data);
@@ -214,7 +212,7 @@ module.exports = {
     });
   },
   getAllProductByCategory: (catId) => {
-      console.log(catId,"cat id vanno");
+    console.log(catId, "cat id vanno");
     return new Promise(async (resolve, reject) => {
       let product = await db
         .get()
@@ -229,7 +227,7 @@ module.exports = {
             $project: {
               _id: 0,
               category: "$_id",
-              catName:"$name",
+              catName: "$name",
             },
           },
           {
@@ -253,7 +251,7 @@ module.exports = {
           },
           {
             $project: {
-                catName:1,
+              catName: 1,
               brand: 1,
               name: 1,
               quantity: 1,
@@ -263,7 +261,8 @@ module.exports = {
               oldPrice: 1,
             },
           },
-        ]).toArray()
+        ])
+        .toArray();
       console.log(":Prodyc", product);
       resolve(product);
     });
