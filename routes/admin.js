@@ -447,6 +447,17 @@ router.get('/AddOffertoCategory/:id',(req,res)=>{
   }
 })
 router.get('/removeOfferByProductId',(req,res)=>{
-  
+ console.log('reached',req.query.proId,"is the ID") 
+ let id = req.query.proId
+adminHelper.removeOfferByProductId(id).then(()=>{
+  res.json({status:true})
+ })
 })
+router.get('/addOfferByProductId',(req,res)=>{
+  console.log('reached',req.query.proId,"is the ID") 
+  let id = req.query.proId
+ adminHelper.addOfferByProductId(id).then(()=>{
+   res.json({status:true})
+  })
+ })
 module.exports = router;

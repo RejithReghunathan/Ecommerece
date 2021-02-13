@@ -82,5 +82,26 @@ module.exports = {
       );
       resolve()
     })  
+  },
+  removeOfferByProductId:(id)=>{
+    return new Promise((resolve,reject)=>{
+      db.get()
+            .collection("product")
+            .updateOne(
+              { _id: objectId(id) },
+              {
+                $set: {
+                  price: 'oldPrice',
+                },
+                $unset: {
+                  oldPrice: 1,
+                  startDate: 1,
+                  endDate: 1,
+                  offer: 1,
+                },
+              }
+            );
+            resolve()
+    })
   }
 };
