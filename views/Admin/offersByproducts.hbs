@@ -34,7 +34,7 @@
                                         {{/if}}
                                         <td>{{this.price}}</td>
                                          {{#if this.offer}}
-                                        <td>Remove Offer</td>
+                                        <td><button class="btn btn-danger" onclick="removeOfferByProductId('{{this._id}}')">Remove Offer</button></td>
                                         {{else}}
                                         <td>Add Offer</td>
                                         {{/if}}
@@ -50,6 +50,21 @@
     </div>
 </div>
 <script>
+    function removeOfferByProductId(proId){
+        $.ajax({
+            url:'/removeOfferByProductId',
+            method:'get',
+            data:{
+                proId
+            },
+            success:(response)=>{
+                if(response)
+                {
+                    window.location.href="/offersByproducts"
+                }
+            }
+        })
+    }
      $(document).ready(function () {
         $('#example').DataTable();
     });

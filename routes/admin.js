@@ -446,4 +446,7 @@ router.get('/AddOffertoCategory/:id',(req,res)=>{
     res.render("Admin/adminLogin");
   }
 })
+router.get('/removeOfferByProductId',(req,res)=>{
+  
+})
 module.exports = router;
