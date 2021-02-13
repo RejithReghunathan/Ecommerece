@@ -251,7 +251,6 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log(":Prodyc", product);
       resolve(product);
     });
   },

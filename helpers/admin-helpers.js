@@ -84,14 +84,20 @@ module.exports = {
     })  
   },
   removeOfferByProductId:(id)=>{
-    return new Promise((resolve,reject)=>{
+    return new Promise(async(resolve,reject)=>{
+      let oldPrice
+       db.get().collection('product').findOne({_id:objectId(id)}).then((product)=>{
+        console.log("Data",product.oldPrice)
+         oldPrice = product.oldPrice
+      })
+      console.log("hello");
       db.get()
             .collection("product")
             .updateOne(
               { _id: objectId(id) },
               {
                 $set: {
-                  price: 'oldPrice',
+                  price: oldPrice
                 },
                 $unset: {
                   oldPrice: 1,
@@ -102,6 +108,11 @@ module.exports = {
               }
             );
             resolve()
+    })
+  },
+  addOfferByProductId:(id)=>{
+    return new Promise((resolve,reject)=>{
+
     })
   }
 };

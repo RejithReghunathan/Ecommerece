@@ -36,7 +36,7 @@
                                          {{#if this.offer}}
                                         <td><button class="btn btn-danger" onclick="removeOfferByProductId('{{this._id}}')">Remove Offer</button></td>
                                         {{else}}
-                                        <td><button class="btn btn-danger" onclick="AddOfferByProductId('{{this._id}}')">Add Offer</button></td>
+                                        <td> <a href="addOfferByProId/{{this._id}}"> <button class="btn btn-danger" >Add Offer</button></a></td>
                                         {{/if}}
                                     </tr>
                                     {{/each}}
@@ -63,22 +63,6 @@
                     window.location.href="/offersByproducts"
                 }
             }
-        })
-    }
-    function AddOfferByProductId(proId){
-        $.ajax({
-             url:'/addOfferByProductId',
-            method:'get',
-            data:{
-                proId
-            },
-            success:(response)=>{
-                if(response.status)
-                {
-                    window.location.href="/offersByproducts"
-                }
-            }
-        })
         })
     }
      $(document).ready(function () {

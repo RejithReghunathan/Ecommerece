@@ -453,11 +453,17 @@ adminHelper.removeOfferByProductId(id).then(()=>{
   res.json({status:true})
  })
 })
-router.get('/addOfferByProductId',(req,res)=>{
-  console.log('reached',req.query.proId,"is the ID") 
-  let id = req.query.proId
- adminHelper.addOfferByProductId(id).then(()=>{
+router.post('/addOfferByProductId',(req,res)=>{
+product.getSingleProduct(req.body).then(()=>{
    res.json({status:true})
   })
+ })
+ router.get('/addOfferByProId/:id',(req,res)=>{
+   let id = req.params.id
+   console.log("id sis a id",id);
+   product.getSingleProduct(id).then((product)=>{
+     console.log("products",product);
+    res.render('Admin/offerByproid',{product,admin:true})
+   })
  })
 module.exports = router;
