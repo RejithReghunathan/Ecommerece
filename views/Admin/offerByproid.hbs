@@ -23,9 +23,9 @@
                                     <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group has-feedback">
-                                            <label class="control-label">Category</label>
+                                            <label class="control-label">Product</label>
 
-                                            <select class="form-control" name="category" id="category">
+                                            <select class="form-control" name="product" id="product">
                                                 
                                                 <option value="{{product._id}}">{{product.name}}</option>
                                                 
@@ -73,17 +73,18 @@
     $('#submit').click((e)=>{
         e.preventDefault()
         console.log("Clicked")
-        let start = $('#start').val()
-        let end = $('#end').val()
+        let startDate = $('#start').val()
+        let endDate = $('#end').val()
         let offer = $('#offer').val()
+        let proId = $('#product').val()
         $.ajax({
             method:'post',
-            url:'//addOfferByProductId',
+            url:'/addOfferByProductId',
             data:{
-                start,end,offer
+                startDate,endDate,offer,proId
             },
             success:(response)=>{
-                window.location.href="/offerCategory"
+                window.location.href="/offersByproducts"
             }
         })
     })

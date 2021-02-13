@@ -364,7 +364,6 @@ router.get('/offer',(req,res)=>{
   }
 })
 router.post('/offerByCategoryId',(req,res)=>{
-  console.log("vannthite",req.body);
   adminHelper.setOfferBycategoryId(req.body).then((result)=>{
     res.redirect('offerCategory')
   })
@@ -454,7 +453,8 @@ adminHelper.removeOfferByProductId(id).then(()=>{
  })
 })
 router.post('/addOfferByProductId',(req,res)=>{
-product.getSingleProduct(req.body).then(()=>{
+  console.log(req.body);
+adminHelper.addOfferByProductId(req.body).then(()=>{
    res.json({status:true})
   })
  })
