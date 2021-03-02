@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "server":"node ./bin/www",
-    "pickart":"cross-env NODE_ENV=pickart node_modules/webpack/bin/webpack.js --no-progress --hide-modules --confiq=node/laravel-mix/setup/webpack.confiq.js"
+    "server": "node ./bin/www",
+    "pickart": "cross-env NODE_ENV=pickart node_modules/webpack/bin/webpack.js --no-progress --hide-modules --confiq=node/laravel-mix/setup/webpack.confiq.js"
   },
   "dependencies": {
     "@handlebars/allow-prototype-access": "^1.0.3",
