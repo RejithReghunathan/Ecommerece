@@ -157,7 +157,7 @@ router.get("/home", isSignedIn, categories, async (req, res) => {
   }
 });
 router.get("/productDetails/:id", async (req, res) => {
-  console.log("URL:", req.originalUrl);
+  console.log("URL:",   );
   let users = req.session.user;
   let proId = req.params.id;
   if (users) {
